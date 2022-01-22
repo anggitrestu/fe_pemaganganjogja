@@ -19,6 +19,8 @@ module.exports = withPlugins(
   {
     env: {
       NEXT_PUBLIC_API_HOST: process.env.NEXT_PUBLIC_API_HOST,
+      SERVER_API: 'https://pemaganganjogja-rw3g4.ondigitalocean.app',
+      NEXT_PUBLIC_BASE_URL: 'https://pemaganganjogja-rw3g4.ondigitalocean.app',
     },
   }
 );
