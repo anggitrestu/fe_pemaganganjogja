@@ -35,7 +35,6 @@ const Index = ({ data }) => {
         ) : (
           <div className="w-full text-center py-12">No Item Found</div>
         )}
-        {/* <Renderitem item={data[0].data}></Renderitem> */}
       </div>
     </div>
   );
