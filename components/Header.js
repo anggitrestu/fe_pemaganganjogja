@@ -19,8 +19,6 @@ function Header() {
                   src="/images/logo.svg"
                   alt="Picture of the author"
                   width={129}
-                  automatically
-                  provided
                   height={50}
                 />
               </div>
@@ -38,6 +36,13 @@ function Header() {
                   </Link>
                 </div>
               </div>
+            </div>
+            <div className="hidden md:block ml-auto">
+              <Link href="/pendaftaran">
+                <a className=" bg-bermuda text-sm text-white rounded-3xl px-5 py-3 ">
+                  Daftar Sekarang
+                </a>
+              </Link>
             </div>
             <div className="-mr-2 flex md:hidden">
               <button

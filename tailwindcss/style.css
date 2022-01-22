@@ -8,3 +8,12 @@
   border-bottom: 3px solid #29b6f6;
   transition: border-bottom 0.5s ease-in-out;
 }
+
+ul li::before {
+  content: '\2022';
+  color: red;
+  font-weight: bold;
+  display: inline-block;
+  width: 1em;
+  margin-left: -1em;
+}
