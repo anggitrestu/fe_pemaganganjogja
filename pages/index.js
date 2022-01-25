@@ -14,7 +14,7 @@ function Home({ data }) {
         <meta name="description" content="pemagangan jogja" />
       </Head>
 
-      <main className="bg-white">
+      <main className="bg-[#F8F8F8]">
         <section className="container mx-auto px-20 pt-2">
           <Header></Header>
         </section>
@@ -25,7 +25,7 @@ function Home({ data }) {
             <Hero></Hero>
           </div>
         </section>
-        <section className="container mx-auto pt-24 px-20 bg-white">
+        <section className="container mx-auto pt-24 px-20 bg-[#F8F8F8]">
           <ListMagang data={data}></ListMagang>
         </section>
         <section className="container mx-auto pt-24 px-20">
@@ -39,22 +39,8 @@ function Home({ data }) {
   );
 }
 
-// Home.getServerSideProps = async () => {
-//   try {
-//     const data = await axios(
-//       `https://61ebb5507ec58900177cdd32.mockapi.io/internships`
-//     );
-//     // const data = await ApiCourses.all();
-//     return {
-//       props: { data: data }, // will be passed to the page component as props
-//     };
-//   } catch (error) {
-//     return error;
-//   }
-// };
 export async function getServerSideProps() {
   const data = await ApiInternship.all();
-
   return { props: { data: data } };
 }
 

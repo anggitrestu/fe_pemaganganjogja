@@ -2,8 +2,7 @@ import { ChevronDownIcon } from '@heroicons/react/solid';
 import Renderitem from './Renderitem';
 
 const Index = ({ data }) => {
-  // console.log(data[0].data.length);
-  // console.log(data[0].data);
+  console.log(data);
   return (
     <div>
       <div className="flex">
@@ -28,8 +27,8 @@ const Index = ({ data }) => {
         </div>
       </div>
       <div className="grid grid-cols-3 gap-3 mt-6">
-        {data[0].data?.length > 0 ? (
-          data[0].data.map((item, index) => {
+        {data?.length > 0 ? (
+          data.map((item, index) => {
             return <Renderitem item={item} key={index}></Renderitem>;
           })
         ) : (
