@@ -7,6 +7,7 @@ import Information from 'components/home/Information';
 import Footer from 'components/Footer';
 
 function Home({ data }) {
+  console.log(data)
   return (
     <>
       <Head>
@@ -19,8 +20,7 @@ function Home({ data }) {
           <Header></Header>
         </section>
         {/*   */}
-        <section className="header-clipping min-h-screen bg-cover bg-[url('/images/hero-image.jpg')]  ">
-          <div className="absolute bg-black opacity-70 min-h-screen min-w-full"></div>
+        <section className="bg-cover w-full bg-[url('/images/hero-image.jpg')]  ">
           <div className="container mx-auto px-20">
             <Hero></Hero>
           </div>
@@ -31,7 +31,7 @@ function Home({ data }) {
         <section className="container mx-auto pt-24 px-20">
           <Information></Information>
         </section>
-        <footer className="mt-24  bg-black mx-auto py-12 px-20">
+        <footer className="mt-24 bg-black mx-auto py-12 px-20">
           <Footer></Footer>
         </footer>
       </main>

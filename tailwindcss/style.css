@@ -21,3 +21,11 @@ ul li::before {
   width: 1em;
   margin-left: -1em;
 }
+
+.card-internship:hover .card-internship-hover\:text-white {
+  color: #fff;
+}
+.card-internship:hover .card-internship-h2-hover\:text-white-opacity {
+  color: #fff;
+  opacity: 60%;
+}

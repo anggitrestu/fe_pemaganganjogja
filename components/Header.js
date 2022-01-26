@@ -25,7 +25,7 @@ function Header() {
               <div className="hidden md:block">
                 <div className="ml-10 flex items-baseline space-x-4">
                   <Link href="/">
-                    <a className=" hover:text-red-500 text-primary px-3 py-2 rounded-md text-sm font-semibold">
+                    <a className="text-red-500 text-primary px-3 py-2 rounded-md text-sm font-semibold">
                       Beranda
                     </a>
                   </Link>
@@ -39,7 +39,7 @@ function Header() {
             </div>
             <div className="hidden md:block ml-auto">
               <Link href="/pendaftaran">
-                <a className=" bg-bermuda text-sm text-white rounded-3xl px-5 py-3 ">
+                <a className=" bg-bermuda hover:bg-[#c54933] transition-all text-sm text-white rounded-3xl px-5 py-3 ">
                   Daftar Sekarang
                 </a>
               </Link>

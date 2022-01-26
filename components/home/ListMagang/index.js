@@ -26,7 +26,7 @@ const Index = ({ data }) => {
           </p>
         </div>
       </div>
-      <div className="grid grid-cols-3 gap-3 mt-6">
+      <div className="grid grid-cols-3 gap-6 mt-6">
         {data?.length > 0 ? (
           data.map((item, index) => {
             return <Renderitem item={item} key={index}></Renderitem>;

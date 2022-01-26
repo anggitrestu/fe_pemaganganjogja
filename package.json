@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "dev": "npx next dev",
+    "api": "json-server --watch pages/api/dummy/internship.json --port 6060",
     "build": "npx next build",
     "start": "npx next start -H 0.0.0.0 -p ${PORT:-8080}",
     "lint": "npx next lint"

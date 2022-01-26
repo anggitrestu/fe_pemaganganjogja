@@ -1,10 +1,9 @@
 import Image from 'next/image';
-import React from 'react';
 
 const Information = () => {
   return (
     <div className="flex">
-      <div className="w-1/4">
+      <div className="w-1/3 pt-2">
         <Image
           width={'379'}
           height={'724'}
@@ -15,12 +14,12 @@ const Information = () => {
           responsive
         />
       </div>
-      <div className="w-3/4 ml-[32px]">
+      <div className="w-2/3 ml-[32px]">
         <div>
           <h1 className="text-black font-semibold  text-4xl">
             Pemagangan Dalam Negeri 2022 <br /> Daerah Istimewa Yogyakarta
           </h1>
-          <p className="text-[#8F8F8F] text-base font-normal">
+          <p className="text-[#8F8F8F] text-base font-normal pt-2">
             Informasi terkait program pemagangan dalam negeri Daerah Istimewa
             Yogyakarta.
           </p>
