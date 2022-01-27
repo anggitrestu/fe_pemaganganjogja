@@ -6,11 +6,11 @@ import Link from 'next/link';
 
 function Header() {
   const [isOpen, setIsOpen] = useState(false);
-  const router = useRouter();
-  console.log(router.pathname);
+  const { pathname } = useRouter();
+  console.log(pathname);
   return (
     <div>
-      <nav className="bg-background">
+      <nav className="bg-background ">
         <div className="">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center">
@@ -24,13 +24,31 @@ function Header() {
               </div>
               <div className="hidden md:block">
                 <div className="ml-10 flex items-baseline space-x-4">
+                  {/* className={
+                  'w-fit px-4 py-2 rounded-full ' +
+                  (company.instruktur
+                    ? 'text-[#36B752] bg-[#36b75242]'
+                    : 'text-[#b73636] bg-[#b7363642]')
+                } */}
                   <Link href="/">
-                    <a className="text-red-500 text-primary px-3 py-2 rounded-md text-sm font-semibold">
+                    <a
+                      className={
+                        ' px-3 py-2 rounded-md text-sm font-semibold ' +
+                        (pathname === '/' ? 'text-bermuda' : 'text-black')
+                      }
+                    >
                       Beranda
                     </a>
                   </Link>
                   <Link href="perusahaan">
-                    <a className="text-black  hover:text-red-500 px-3 py-2 rounded-md text-sm font-medium">
+                    <a
+                      className={
+                        ' px-3 py-2 rounded-md text-sm font-semibold ' +
+                        (pathname === '/perusahaan'
+                          ? 'text-bermuda'
+                          : 'text-black')
+                      }
+                    >
                       Perusahaan
                     </a>
                   </Link>

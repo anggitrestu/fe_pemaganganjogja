@@ -1,7 +1,6 @@
 import Modal from 'components/Modal';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
 
 function useFormSatu(defaultValue, key) {
   const [value, setValue] = useState(defaultValue);

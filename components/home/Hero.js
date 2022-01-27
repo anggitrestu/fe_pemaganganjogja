@@ -4,7 +4,7 @@ import { ExclamationIcon } from '@heroicons/react/solid';
 
 const Hero = () => {
   return (
-    <div className="pb-20 pt-20">
+    <div className="pb-16 pt-16">
       <div className="">
         <Link href="#">
           <a className="bg-[#FFE27A] flex-row bg-opacity-25 px-6 py-3 rounded-3xl text-yellow-300 font-normal text-sm mt-9 hover:bg-[#dfc462] hover:text-white transition-all">

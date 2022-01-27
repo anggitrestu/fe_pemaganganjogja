@@ -56,6 +56,5 @@ function Reducer(state, action) {
 
 export default function Provider(props) {
   const [state, dispatch] = useReducer(Reducer, initialState);
-  // console.log(state);
   return <Context.Provider value={[state, dispatch]} {...props} />;
 }

@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/alt-text */
 import Head from 'next/head';
 import Link from 'next/link';
 import Image from 'next/image';
