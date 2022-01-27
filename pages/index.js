@@ -8,10 +8,10 @@ import Footer from 'components/Footer';
 import Modal from 'components/Modal';
 
 function Home({ data }) {
-  console.log(data)
+  console.log(data);
   return (
     <>
-  {/* <Modal data={data}></Modal> */}
+      {/* <Modal data={data}></Modal> */}
       <Head>
         <title>Pemagangan Jogja</title>
         <meta name="description" content="pemagangan jogja" />

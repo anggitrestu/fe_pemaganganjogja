@@ -955,13 +955,8 @@ module.exports = {
   // config (optional)
   plugins: [require('daisyui')],
   daisyui: {
+    themes: false,
     styled: true,
-    themes: [
-      // 'synthwave',
-      // 'emerald', // first one will be the default theme
-      // 'dark',
-      // 'forest',
-    ],
     base: true,
     utils: true,
     logs: true,
