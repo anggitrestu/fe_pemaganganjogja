@@ -2,7 +2,6 @@ import { ChevronDownIcon } from '@heroicons/react/solid';
 import Renderitem from './Renderitem';
 
 const Index = ({ data }) => {
-  console.log(data);
   return (
     <div>
       <div className="flex">

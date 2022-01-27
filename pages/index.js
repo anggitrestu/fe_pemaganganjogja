@@ -5,11 +5,13 @@ import Head from 'next/head';
 import ListMagang from 'components/home/ListMagang';
 import Information from 'components/home/Information';
 import Footer from 'components/Footer';
+import Modal from 'components/Modal';
 
 function Home({ data }) {
   console.log(data)
   return (
     <>
+  {/* <Modal data={data}></Modal> */}
       <Head>
         <title>Pemagangan Jogja</title>
         <meta name="description" content="pemagangan jogja" />
@@ -19,7 +21,6 @@ function Home({ data }) {
         <section className="container mx-auto px-20 pt-2">
           <Header></Header>
         </section>
-        {/*   */}
         <section className="bg-cover w-full bg-[url('/images/hero-image.jpg')]  ">
           <div className="container mx-auto px-20">
             <Hero></Hero>

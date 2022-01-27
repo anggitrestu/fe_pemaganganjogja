@@ -1,7 +1,6 @@
 import { UserIcon } from '@heroicons/react/solid';
 
 const Renderitem = ({ item }) => {
-  console.log(item);
   return (
       <div className="card card-internship border-[1px] border-[#DFDFDF] border-solid hover:bg-bermuda hover:border-0 hover:scale-[1.008] transition-all cursor-pointer">
         <div className="card-body">
