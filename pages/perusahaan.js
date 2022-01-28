@@ -34,7 +34,7 @@ function Perusahaan({ data }) {
         <section className="container mx-auto px-20 pt-2 sticky top-0 bg-[#F8F8F8] z-50">
           <Header></Header>
         </section>
-        <section className="bg-cover w-full bg-[url('/images/title-perusahan-image.jpg')] py-20">
+        <section className="bg-cover w-full bg-[url('/images/title-perusahan-image.jpg')] py-16">
           <div className="container mx-auto px-20">
             <h1 className="text-white font-semibold text-4xl">
               Daftar Perusahaan

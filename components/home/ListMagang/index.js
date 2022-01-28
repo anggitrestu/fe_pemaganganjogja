@@ -1,14 +1,27 @@
-import { ChevronDownIcon } from '@heroicons/react/solid';
-import { useState } from 'react';
+import ApiInternship from 'pages/api/ApiInternship';
+import { useState, useEffect } from 'react';
 import Renderitem from './Renderitem';
 
 const Index = ({ data }) => {
+  const [params, setParams] = useState(null);
   const [postNum, setPostNum] = useState(15); // Default number of posts dislplayed
+  const [dataMagang, setDataMagang] = useState(data);
+  const fetchInterhips = async (query) => {
+    if (params === 'null') {
+      setDataMagang(data);
+    } else {
+      const filter = await ApiInternship.all(query);
+      setDataMagang(filter);
+    }
+  };
 
-  function handleClick(e) {
-    // e.PreventDefault();
-    setPostNum((prevPostNum) => prevPostNum + 6); // 3 is the number of posts you want to load per click
+  function handleClick() {
+    setPostNum((prevPostNum) => prevPostNum + 6); // 6 is the number of internships you want to load per click
   }
+  useEffect(() => {
+    fetchInterhips(params);
+    return () => {};
+  }, [params]);
 
   return (
     <div>
@@ -17,7 +30,7 @@ const Index = ({ data }) => {
           <h1 className="font-semibold text-black text-4xl">
             Daftar Program Magang
           </h1>
-          <p className="font-normal text-[#8F8F8F] text-base inline-block mt-1">
+          <p className="font-normal text-[#8F8F8F] text-base inline-block mt-1 mb-5">
             Temukan program magang yang cocok dengan diri kamu.
           </p>
         </div>
@@ -25,21 +38,31 @@ const Index = ({ data }) => {
           <h4 className="text-[#8F8F8F] font-normal text-sm">
             Filter Perusahaan :
           </h4>
-          <select className="bg-[#F8F8F8] w-full max-w-xs text-black text-right text-base">
-            <option selected="selected">Pilih Perusahaan</option>
+          <select
+            // onClick={() => console.log('asdasd')}
+            onChange={(e) => setParams(e.target.value)}
+            className="bg-[#F8F8F8] w-full max-w-xs text-bermuda text-right text-base hover:text-red-700 hover:cursor-pointer"
+          >
+            <option value="null">Pilih Perusahaan</option>
             {data?.length > 0
               ? data.slice(0, postNum).map((item, index) => {
-                  return <option key={index}>{item.perusahaan}</option>;
+                  return (
+                    <option
+                      value={item.perusahaan}
+                      key={index}
+                      className="text-bermuda"
+                    >
+                      {item.perusahaan}
+                    </option>
+                  );
                 })
               : null}
           </select>
         </div>
       </div>
       <div className="grid grid-cols-3 gap-6 mt-6">
-        {/*  {props.posts.slice(0, postNum).map(post => (
-         */}
-        {data?.length > 0 ? (
-          data.slice(0, postNum).map((item, index) => {
+        {dataMagang?.length > 0 ? (
+          dataMagang.slice(0, postNum).map((item, index) => {
             return <Renderitem item={item} key={index}></Renderitem>;
           })
         ) : (
