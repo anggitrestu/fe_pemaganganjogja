@@ -31,7 +31,7 @@ function Perusahaan({ data }) {
       </Head>
 
       <main className="bg-[#F8F8F8]">
-        <section className="mx-auto px-8 lg:px-20 pt-2 sticky top-0 bg-[#F8F8F8] z-50">
+        <section className="mx-auto px-8 lg:px-20 sticky top-0 bg-[#F8F8F8] z-50">
           <Header></Header>
         </section>
         <section className="bg-cover w-full bg-[url('/images/title-perusahan-image.jpg')] py-16">

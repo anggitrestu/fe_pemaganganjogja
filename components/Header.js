@@ -11,16 +11,19 @@ function Header() {
   return (
     <div>
       <nav className="bg-background ">
-        <div className="">
+        <div className="py-2">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center">
               <div className="flex-shrink-0">
+              <Link href="/">
                 <Image
                   src="/images/logo.svg"
                   alt="Picture of the author"
                   width={129}
                   height={50}
+                  className='cursor-pointer'
                 />
+              </Link>
               </div>
               <div className="hidden md:block">
                 <div className="ml-10 flex items-baseline space-x-4">
@@ -141,6 +144,11 @@ function Header() {
                     Perusahaan
                   </a>
                 </Link>
+                <Link href="/pendaftaran">
+                <a className=" bg-bermuda hover:bg-[#c54933] transition-all text-center text-sm text-white rounded-3xl px-5 py-3 ">
+                  Daftar Sekarang
+                </a>
+              </Link>
               </div>
             </div>
           )}
