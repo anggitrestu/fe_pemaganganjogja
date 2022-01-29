@@ -1,8 +1,22 @@
+import { useState } from 'react';
 import Renderitem from 'components/home/ListMagang/Renderitem';
+import ModalDetailMagang from 'components/ModalDetailMagang';
 
 function DetailPerusahaan({ data }) {
+  const [onClickModal, setOnClickModal] = useState(false);
+  const [modalData, setModalData] = useState({});
+  function handleClickModal(item) {
+    setModalData(item);
+    setOnClickModal(true);
+  }
   return (
-    <>
+    <div>
+      {onClickModal && (
+        <ModalDetailMagang
+          setOnClick={setOnClickModal}
+          data={modalData}
+        ></ModalDetailMagang>
+      )}
       <div className="card border-[1px] border-[#DFDFDF] border-solid text-[#404040]">
         <div className="card-body">
           <h2 className="font-semibold text-2xl lg:text-4xl text-bermuda mb-10">
@@ -66,14 +80,18 @@ function DetailPerusahaan({ data }) {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
           {data?.internships?.length > 0 ? (
             data.internships.map((item, index) => {
-              return <Renderitem item={item} key={index}></Renderitem>;
+              return (
+                <div key={index} onClick={()=>handleClickModal(item)}>
+                  <Renderitem item={item}></Renderitem>
+                </div>
+              );
             })
           ) : (
             <div className="w-full text-center py-12">No Item Found</div>
           )}
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

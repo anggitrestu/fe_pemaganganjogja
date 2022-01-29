@@ -13,8 +13,9 @@ function Home({ data }) {
         <title>Pemagangan Jogja</title>
         <meta name="description" content="pemagangan jogja" />
       </Head>
-
+    
       <main className="bg-[#F8F8F8]">
+      
         <section className="mx-auto px-8 lg:px-20 sticky top-0 bg-[#F8F8F8] z-50 shadow-sm">
           <Header></Header>
         </section>
