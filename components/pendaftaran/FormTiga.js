@@ -4,7 +4,7 @@ function FormTiga({ setStepper }) {
       <h1 className="text-[#404040] font-semibold text-2xl mt-14">
         Lengkapi Profil
       </h1>
-      <p className="text-[#8F8F8F] w-[793px] font-normal text-base mt-2">
+      <p className="text-[#8F8F8F]  font-normal text-base mt-2">
         Masukan informasi detail tentang dirimu.
       </p>
       <form className="mt-8">

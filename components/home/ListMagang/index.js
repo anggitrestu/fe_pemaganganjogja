@@ -66,7 +66,8 @@ const Index = ({ data }) => {
         {dataMagang?.length > 0 ? (
           dataMagang.slice(0, postNum).map((item, index) => {
             return (
-              <Fade key={index} bottom delay={100 * index}>
+              // {index <= 15 ? null : null}
+              <Fade key={index}>
                 <Renderitem item={item}></Renderitem>
               </Fade>
             );
