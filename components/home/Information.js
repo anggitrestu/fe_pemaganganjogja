@@ -2,8 +2,8 @@ import Image from 'next/image';
 
 const Information = () => {
   return (
-    <div className="flex flex-col lg:flex-row">
-      <div className="w-full lg:w-1/3 pt-2">
+    <div className=" flex flex-col lg:flex-row">
+      <div className=" w-full lg:w-1/3 pt-2">
         <Image
           width={'379'}
           height={'724'}

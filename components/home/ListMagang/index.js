@@ -1,6 +1,7 @@
 import ApiInternship from 'pages/api/ApiInternship';
 import { useState, useEffect } from 'react';
 import Renderitem from './Renderitem';
+import Fade from 'react-reveal/Fade';
 
 const Index = ({ data }) => {
   const [params, setParams] = useState(null);
@@ -41,7 +42,7 @@ const Index = ({ data }) => {
           <select
             // onClick={() => console.log('asdasd')}
             onChange={(e) => setParams(e.target.value)}
-            className=" bg-[#F8F8F8] border-none px-3 py-2 text-bermuda text-left lg:text-right text-base hover:text-red-700 hover:cursor-pointer"
+            className=" bg-[#F8F8F8] w-[200px]  border-none px-3 py-2 text-bermuda text-left lg:text-right text-base hover:text-red-700 hover:cursor-pointer"
           >
             <option value="null">Pilih Perusahaan</option>
             {data?.length > 0
@@ -60,15 +61,21 @@ const Index = ({ data }) => {
           </select>
         </div>
       </div>
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
         {dataMagang?.length > 0 ? (
           dataMagang.slice(0, postNum).map((item, index) => {
-            return <Renderitem item={item} key={index}></Renderitem>;
+            return (
+              <Fade key={index} bottom delay={100 * index}>
+                <Renderitem item={item}></Renderitem>
+              </Fade>
+            );
           })
         ) : (
           <div className="w-full text-center py-12">No Item Found</div>
         )}
       </div>
+
       <button
         onClick={handleClick}
         className="bg-bermuda hover:bg-red-700 flex mt-10 mx-auto text-white px-5 py-3 rounded-3xl"
