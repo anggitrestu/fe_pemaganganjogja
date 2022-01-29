@@ -20,7 +20,7 @@ function useFormDua(defaultValue, key) {
 
 function FormDua({ setStepper }) {
   return (
-    <div className="w-8/12 mx-auto">
+    <div className="w-full md:w-8/12 mx-auto">
       <h1 className="text-[#404040] font-semibold text-2xl mt-14">Buat Akun</h1>
       <p className="text-[#8F8F8F] w-[793px] font-normal text-base mt-2">
         Akun yang dibuat akan terhubung dengan Hacklab.

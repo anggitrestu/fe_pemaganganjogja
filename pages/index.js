@@ -15,21 +15,21 @@ function Home({ data }) {
       </Head>
 
       <main className="bg-[#F8F8F8]">
-        <section className="container mx-auto px-20 sticky top-0 bg-[#F8F8F8] z-50 shadow-sm">
+        <section className="mx-auto px-8 lg:px-20 sticky top-0 bg-[#F8F8F8] z-50 shadow-sm">
           <Header></Header>
         </section>
-        <section className="bg-cover w-full bg-[url('/images/hero-image.jpg')]  ">
-          <div className="container mx-auto px-20">
+        <section className="bg-cover bg-center w-full bg-[url('/images/hero-image.jpg')]  ">
+          <div className="container mx-auto px-8 lg:px-20">
             <Hero></Hero>
           </div>
         </section>
-        <section className="container mx-auto pt-16 px-20 bg-[#F8F8F8]">
+        <section className="container mx-auto pt-16 px-8 lg:px-20 bg-[#F8F8F8]">
           <ListMagang data={data}></ListMagang>
         </section>
-        <section className="container mx-auto pt-20 px-20">
+        <section className="container mx-auto pt-20 px-8 lg:px-20">
           <Information></Information>
         </section>
-        <footer className="mt-24 bg-black mx-auto py-12 px-20">
+        <footer className="mt-24 bg-black mx-auto py-12 px-8 lg:px-20">
           <Footer></Footer>
         </footer>
       </main>

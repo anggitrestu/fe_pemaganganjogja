@@ -11,16 +11,19 @@ function Header() {
   return (
     <div>
       <nav className="bg-background ">
-        <div className="">
+        <div className="py-2">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center">
               <div className="flex-shrink-0">
+              <Link href="/">
                 <Image
                   src="/images/logo.svg"
                   alt="Picture of the author"
                   width={129}
                   height={50}
+                  className='cursor-pointer'
                 />
+              </Link>
               </div>
               <div className="hidden md:block">
                 <div className="ml-10 flex items-baseline space-x-4">
@@ -66,7 +69,7 @@ function Header() {
               <button
                 onClick={() => setIsOpen(!isOpen)}
                 type="button"
-                className="bg-gray-900 inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-700 hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
+                className="bg-[#DFDFDF] inline-flex items-center justify-center p-[10px] rounded-md text-gray-400 hover:text-gray-600 hover:bg-[#d4d4d4] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-400 focus:ring-[#F8F8F8]"
                 aria-controls="mobile-menu"
                 aria-expanded="false"
               >
@@ -120,20 +123,32 @@ function Header() {
         >
           {(ref) => (
             <div className="md:hidden" id="mobile-menu">
-              <div ref={ref} className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                <a
-                  href="#"
-                  className="hover:bg-gray-700 text-black block px-3 py-2 rounded-md text-base font-medium"
-                >
-                  Beranda
+              <div ref={ref} className="px-2 pt-2 pb-3 space-y-1 sm:px-3 flex flex-col">
+                <Link href="/">
+                  <a
+                    className={
+                      ' px-3 py-4 text-sm font-semibold hover:text-bermuda ' +
+                      (pathname === '/' ? 'text-bermuda' : 'text-black')
+                    }
+                  >
+                    Beranda
+                  </a>
+                </Link>
+                <Link href="perusahaan">
+                  <a
+                    className={
+                      ' px-3 py-4 text-sm font-semibold hover:text-bermuda ' +
+                      (pathname === '/perusahaan' ? 'text-bermuda' : 'text-black')
+                    }
+                  >
+                    Perusahaan
+                  </a>
+                </Link>
+                <Link href="/pendaftaran">
+                <a className=" bg-bermuda hover:bg-[#c54933] transition-all text-center text-sm text-white rounded-3xl px-5 py-3 ">
+                  Daftar Sekarang
                 </a>
-
-                <a
-                  href="#"
-                  className="text-black hover:bg-gray-700 hover:text-gray-700 block px-3 py-2 rounded-md text-base font-medium"
-                >
-                  Perusahaan
-                </a>
+              </Link>
               </div>
             </div>
           )}
