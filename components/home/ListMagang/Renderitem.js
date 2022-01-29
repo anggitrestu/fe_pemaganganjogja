@@ -1,14 +1,16 @@
-import { UserIcon } from '@heroicons/react/solid';
+import { UsersIcon } from '@heroicons/react/solid';
 
 const Renderitem = ({ item, setOnClick, setValue }) => {
   const onClickc = (e) => {
+    setValue ?
     setValue({
       id: item.id,
       name: item.name,
-    });
+    }) : {}
 
-    setOnClick(e);
-  };
+    setOnClick ?
+    setOnClick(e) : {}
+  }
 
   return (
     <div
@@ -24,7 +26,7 @@ const Renderitem = ({ item, setOnClick, setValue }) => {
         </p>
         <div className="flex items-center">
           <span className="inline-block p-[6px] border-[1px] border-[#DFDFDF] rounded-full">
-            <UserIcon className="w-[15px] text-bermuda card-internship-hover:text-white"></UserIcon>
+            <UsersIcon className="w-[15px] text-bermuda card-internship-hover:text-white"></UsersIcon>
           </span>
           <p className="ml-2 text-sm lg:text-sm card-internship-hover:text-white">
             {item.kuota} Orang
