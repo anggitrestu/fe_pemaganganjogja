@@ -90,7 +90,12 @@ function FormSatu({ data, setStepper }) {
             <p className="mr-auto text-base">
               {lowongan1.name ? lowongan1.name : 'pilih lowongan'}
             </p>
-            <Image src="/images/search.svg" height={24} width={24} />
+            <Image
+              src="/images/search.svg"
+              height={24}
+              width={24}
+              alt="icon serach"
+            />
           </div>
           <input value={lowongan2} name="lowongan-2" type="hidden" required />
           <div
@@ -100,7 +105,12 @@ function FormSatu({ data, setStepper }) {
             <p className="mr-auto text-base">
               {lowongan2.name ? lowongan2.name : 'pilih lowongan'}
             </p>
-            <Image src="/images/search.svg" height={24} width={24} />
+            <Image
+              src="/images/search.svg"
+              height={24}
+              width={24}
+              alt="icon search"
+            />
           </div>
           <input value={lowongan3} name="lowongan-3" type="hidden" required />
           <div
@@ -110,7 +120,12 @@ function FormSatu({ data, setStepper }) {
             <p className="mr-auto text-base">
               {lowongan3.name ? lowongan3.name : 'pilih lowongan'}
             </p>
-            <Image src="/images/search.svg" height={24} width={24} />
+            <Image
+              src="/images/search.svg"
+              height={24}
+              width={24}
+              alt="icon search"
+            />
           </div>
           <div className="flex flex-row justify-end">
             <button

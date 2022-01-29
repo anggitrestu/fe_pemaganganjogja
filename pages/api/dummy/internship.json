@@ -394,5 +394,38 @@
             "internships": [],
             "id": "12"
         }
+    ],
+    "kuisioners": [
+        {
+            "createdAt": "2022-01-28T00:01:44.460Z",
+            "question": "Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged?",
+            "type": "radio-button",
+            "answers": {
+                "a" : "Lorem ipsum is simply dummy text of the printing and typesetting",
+                "b" : "Lorem ipsum is simply dummy text of the printing and typesetting",
+                "c" : "Lorem ipsum is simply dummy text of the printing and typesetting",
+                "d" : "Lorem ipsum is simply dummy text of the printing and typesetting"
+            },
+            "id": "1"
+        },
+        {
+            "createdAt": "2022-01-27T14:59:51.826Z",
+            "question": "question 2",
+            "type": "checkbox",
+            "answers": {
+                "a" : "Lorem ipsum is simply dummy text of the printing and typesetting",
+                "b" : "Lorem ipsum is simply dummy text of the printing and typesetting",
+                "c" : "Lorem ipsum is simply dummy text of the printing and typesetting",
+                "d" : "Lorem ipsum is simply dummy text of the printing and typesetting"
+            },
+            "id": "2"
+        },
+        {
+            "createdAt": "2022-01-27T14:59:51.826Z",
+            "question": "Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged?",
+            "type": "text-area",
+            "answers": {},
+            "id": "3"
+        }
     ]
 }
