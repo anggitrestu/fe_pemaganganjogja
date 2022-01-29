@@ -24,8 +24,8 @@ function Modal({ setOnClick, data, setValue }) {
   }, []);
 
   return (
-    <div className="absolute left-0 top-0">
-      <div className="flex justify-center items-center antialiased z-50 fixed w-full h-full bg-black bg-opacity-90">
+    <div className="fixed z-50 left-0 top-0">
+      <div className="flex justify-center items-center antialiased fixed w-full h-full bg-black bg-opacity-90">
         <div
           ref={node}
           className="flex flex-col w-11/12 sm:w-5/6 lg:w-9/12 max-w-6xl mx-auto shadow-xl text-[#404040]"

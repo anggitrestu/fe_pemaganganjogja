@@ -42,6 +42,15 @@ function FormSatu({ data, setStepper }) {
     },
     'lowongan-3'
   );
+
+  const checkInput = () => {
+    if (lowongan1.id === 0 && lowongan2.id === 0 && lowongan3.id === 0) {
+      alert('silahkan pilih lowongan magang terlebih dahulu !');
+    } else {
+      setStepper(2);
+    }
+  };
+
   const [onClickModal1, setOnClickModal1] = useState(false);
   const [onClickModal2, setOnClickModal2] = useState(false);
   const [onClickModal3, setOnClickModal3] = useState(false);
@@ -87,7 +96,7 @@ function FormSatu({ data, setStepper }) {
             onClick={() => setOnClickModal1(true)}
             className="flex border-[1px] bg-[#DFDFDF] hover:scale-[1.008] cursor-pointer transition-all text-sm text-[#8F8F8F] rounded-3xl py-5 px-8 mb-6"
           >
-            <p className="mr-auto text-base">
+            <p className="mr-auto text-base text-black">
               {lowongan1.name ? lowongan1.name : 'pilih lowongan'}
             </p>
             <Image
@@ -102,7 +111,7 @@ function FormSatu({ data, setStepper }) {
             onClick={() => setOnClickModal2(true)}
             className="flex border-[1px] bg-[#DFDFDF] hover:scale-[1.008] cursor-pointer transition-all text-sm text-[#8F8F8F] rounded-3xl py-5 px-8 mb-6"
           >
-            <p className="mr-auto text-base">
+            <p className="mr-auto text-base text-black">
               {lowongan2.name ? lowongan2.name : 'pilih lowongan'}
             </p>
             <Image
@@ -117,7 +126,7 @@ function FormSatu({ data, setStepper }) {
             onClick={() => setOnClickModal3(true)}
             className="flex border-[1px] bg-[#DFDFDF] hover:scale-[1.008] cursor-pointer transition-all text-sm text-[#8F8F8F] rounded-3xl py-5 px-8 mb-14"
           >
-            <p className="mr-auto text-base">
+            <p className="mr-auto text-base text-black">
               {lowongan3.name ? lowongan3.name : 'pilih lowongan'}
             </p>
             <Image
@@ -129,8 +138,8 @@ function FormSatu({ data, setStepper }) {
           </div>
           <div className="flex flex-row justify-end">
             <button
-              onClick={() => setStepper(2)}
-              className="bg-bermuda hover:bg-[#c54933] transition-all text-sm text-white rounded-3xl px-5 py-3 "
+              onClick={() => checkInput()}
+              className="bg-bermuda hover:bg-[#c54933] transition-all text-sm text-white rounded-3xl px-5 py-3"
             >
               Lanjut
             </button>

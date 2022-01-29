@@ -2,8 +2,12 @@ import ApiInternship from 'pages/api/ApiInternship';
 import { useState, useEffect } from 'react';
 import Renderitem from './Renderitem';
 import Fade from 'react-reveal/Fade';
+import ModalDetailMagang from 'components/ModalDetailMagang';
+
 
 const Index = ({ data }) => {
+  const [onClickModal, setOnClickModal] = useState(false);
+  const [modalData, setModalData] = useState({});
   const [params, setParams] = useState(null);
   const [postNum, setPostNum] = useState(15); // Default number of posts dislplayed
   const [dataMagang, setDataMagang] = useState(data);
@@ -19,6 +23,11 @@ const Index = ({ data }) => {
   function handleClick() {
     setPostNum((prevPostNum) => prevPostNum + 6); // 6 is the number of internships you want to load per click
   }
+  function handleClickModal(item) {
+    setModalData(item);
+    setOnClickModal(true);
+  }
+
   useEffect(() => {
     fetchInterhips(params);
     return () => {};
@@ -26,6 +35,12 @@ const Index = ({ data }) => {
 
   return (
     <div>
+      {onClickModal && (
+        <ModalDetailMagang
+          setOnClick={setOnClickModal}
+          data={modalData}
+        ></ModalDetailMagang>
+      )}
       <div className="flex flex-col lg:flex-row">
         <div className="flex-col">
           <h1 className="font-semibold text-black text-2xl lg:text-4xl">
@@ -66,8 +81,12 @@ const Index = ({ data }) => {
         {dataMagang?.length > 0 ? (
           dataMagang.slice(0, postNum).map((item, index) => {
             return (
+
               <Fade key={index} bottom delay={100 * index}>
-                <Renderitem item={item}></Renderitem>
+                <div onClick={()=>handleClickModal(item)}>
+                  <Renderitem item={item}></Renderitem>
+                </div>
+
               </Fade>
             );
           })

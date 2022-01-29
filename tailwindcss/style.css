@@ -8,6 +8,16 @@
   margin: 0;
   font-family: 'Poppins', sans-serif;
 }
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type='number'] {
+  -moz-appearance: textfield;
+}
 
 .navbar__link--active {
   border-bottom: 3px solid #29b6f6;
