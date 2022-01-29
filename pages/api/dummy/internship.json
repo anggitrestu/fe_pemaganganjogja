@@ -23,6 +23,12 @@
       "phone_number": "0814152131321",
       "password": "pass123",
       "id": 4
+    },
+    {
+      "email": "admin@gmail.com",
+      "phone_number": "0814152131321",
+      "password": "pass123",
+      "id": 5
     }
   ],
   "internships": [

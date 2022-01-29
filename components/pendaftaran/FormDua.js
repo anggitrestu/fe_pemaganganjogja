@@ -12,8 +12,9 @@ function FormDua({ setStepper }) {
   };
 
   const usersRegister = async (payload) => {
-    const data = await ApiUsers.register(payload);
-    console.log(data);
+    try {
+      await ApiUsers.register(payload);
+    } catch (error) {}
   };
 
   const {
@@ -23,10 +24,11 @@ function FormDua({ setStepper }) {
   } = useForm();
 
   const onSubmit = (data) => {
-    console.log(data);
-    usersRegister(data);
-    alert('akun berhasil dibuat, silahkan cek email anda');
-    setStepper(3);
+    try {
+      usersRegister(data);
+      alert('akun berhasil dibuat, silahkan cek email anda');
+      setStepper(3);
+    } catch (error) {}
   };
 
   return (
