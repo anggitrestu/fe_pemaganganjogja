@@ -16,10 +16,10 @@ const FormEnam = () => {
       </div>
       <div className="flex justify-center mt-8 mb-4">
         <div className="flex flex-col justify-center text-center">
-          <h1 className="inline-block text-bermuda font-semibold text-5xl w-full">
+          <h1 className="inline-block text-bermuda font-semibold text-5xl w-full mb-2">
             Pendaftaran Selesai
           </h1>
-          <p className="text-black  text-base font-normal w-[635px] ">
+          <p className="text-black  text-base font-normal w-full  md:w-[635px] ">
             Data kamu telah tersimpan untuk keperluan seleksi peserta
             pemagangan. Semoga kamu yang terpilih sebagai peserta yaa...😉 Kamu
             bisa lanjut mengambil tes psikologi dengan klik tombol di bawah.
@@ -28,7 +28,7 @@ const FormEnam = () => {
       </div>
       <div className=" flex justify-center">
         <Link href="/psikotes">
-          <a className=" px-4 py-3 rounded-3xl text-bermuda border-2 border-bermuda">
+          <a className=" px-4 py-3 rounded-3xl text-white  bg-bermuda">
             Lanjut Ke Psikotes
           </a>
         </Link>

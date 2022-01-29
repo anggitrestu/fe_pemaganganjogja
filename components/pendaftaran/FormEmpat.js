@@ -1,6 +1,6 @@
 const FormEmpat = ({ setStepper }) => {
   return (
-    <div className="w-full">
+    <div className="w-full mx-auto">
       <h3 className="text-black font-semibold text-2xl mb-3">Kuisioner</h3>
       <form>
         <div className="flex">
