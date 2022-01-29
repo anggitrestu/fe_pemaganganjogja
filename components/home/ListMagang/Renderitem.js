@@ -19,14 +19,14 @@ const Renderitem = ({ item, setOnClick, setValue }) => {
         <h2 className="truncate hover:text-clip text-sm text-bermuda font-normal card-internship-h2-hover:text-white-opacity">
           {item.perusahaan}
         </h2>
-        <p className="font-semibold text-xl text-black card-internship-hover:text-white mt-1 mb-6">
+        <p className="font-semibold text-lg lg:text-xl text-black card-internship-hover:text-white mt-1 mb-6">
           {item.name}
         </p>
         <div className="flex items-center">
           <span className="inline-block p-[6px] border-[1px] border-[#DFDFDF] rounded-full">
             <UserIcon className="w-[15px] text-bermuda card-internship-hover:text-white"></UserIcon>
           </span>
-          <p className="ml-2 card-internship-hover:text-white">
+          <p className="ml-2 text-sm lg:text-sm card-internship-hover:text-white">
             {item.kuota} Orang
           </p>
         </div>

@@ -31,25 +31,25 @@ function Perusahaan({ data }) {
       </Head>
 
       <main className="bg-[#F8F8F8]">
-        <section className="container mx-auto px-20 pt-2 sticky top-0 bg-[#F8F8F8] z-50">
+        <section className="mx-auto px-8 lg:px-20 sticky top-0 bg-[#F8F8F8] z-50">
           <Header></Header>
         </section>
         <section className="bg-cover w-full bg-[url('/images/title-perusahan-image.jpg')] py-16">
-          <div className="container mx-auto px-20">
-            <h1 className="text-white font-semibold text-4xl">
+          <div className="container mx-auto px-8 lg:px-20">
+            <h1 className="text-white font-semibold text-2xl lg:text-4xl">
               Daftar Perusahaan
             </h1>
-            <p className="text-[#C5C5C5] w-[793px] font-normal text-base mt-2">
+            <p className="text-[#C5C5C5] font-normal text-sm lg:text-base mt-2">
               Lihat informasi perusahaan yang menjadi mitra kami.
             </p>
           </div>
         </section>
 
-        <section className="flex container mx-auto pt-24 px-20 ">
+        <section className="flex flex-col lg:flex-row container mx-auto pt-16 px-8 lg:px-20 ">
           <div
             //  max-h-[' + height + 'px]
             className={
-              'overflow-y-auto w-1/3 mr-4 max-h-screen sticky top-0 pr-5'
+              'overflow-y-auto w-full lg:w-1/3 mr-4 max-h-80 lg:max-h-screen lg:sticky lg:top-0 pr-2 lg:pr-4 mb-8 lg:mb-0'
             }
           >
             {data?.length > 0 ? (
@@ -68,7 +68,7 @@ function Perusahaan({ data }) {
             )}
             {/* </PerfectScrollbar> */}
           </div>
-          <div className="relative w-2/3">
+          <div className="relative w-full lg:w-2/3">
             {detailCompany !== null && (
               <DetailPerusahaan data={detailCompany}></DetailPerusahaan>
             )}

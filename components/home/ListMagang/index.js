@@ -25,23 +25,23 @@ const Index = ({ data }) => {
 
   return (
     <div>
-      <div className="flex">
+      <div className="flex flex-col lg:flex-row">
         <div className="flex-col">
-          <h1 className="font-semibold text-black text-4xl">
+          <h1 className="font-semibold text-black text-2xl lg:text-4xl">
             Daftar Program Magang
           </h1>
           <p className="font-normal text-[#8F8F8F] text-base inline-block mt-1 mb-5">
             Temukan program magang yang cocok dengan diri kamu.
           </p>
         </div>
-        <div className="ml-auto text-right">
+        <div className="lg:ml-auto text-left lg:text-right">
           <h4 className="text-[#8F8F8F] font-normal text-sm">
             Filter Perusahaan :
           </h4>
           <select
             // onClick={() => console.log('asdasd')}
             onChange={(e) => setParams(e.target.value)}
-            className="bg-[#F8F8F8] w-full max-w-xs text-bermuda text-right text-base hover:text-red-700 hover:cursor-pointer"
+            className=" bg-[#F8F8F8] border-none px-3 py-2 text-bermuda text-left lg:text-right text-base hover:text-red-700 hover:cursor-pointer"
           >
             <option value="null">Pilih Perusahaan</option>
             {data?.length > 0
@@ -60,7 +60,7 @@ const Index = ({ data }) => {
           </select>
         </div>
       </div>
-      <div className="grid grid-cols-3 gap-6 mt-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
         {dataMagang?.length > 0 ? (
           dataMagang.slice(0, postNum).map((item, index) => {
             return <Renderitem item={item} key={index}></Renderitem>;
