@@ -81,10 +81,12 @@ const Index = ({ data }) => {
         {dataMagang?.length > 0 ? (
           dataMagang.slice(0, postNum).map((item, index) => {
             return (
+
               <Fade key={index} bottom delay={100 * index}>
                 <div onClick={()=>handleClickModal(item)}>
                   <Renderitem item={item}></Renderitem>
                 </div>
+
               </Fade>
             );
           })
