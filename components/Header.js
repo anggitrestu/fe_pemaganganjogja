@@ -7,7 +7,7 @@ import Link from 'next/link';
 function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const { pathname } = useRouter();
-  console.log(pathname);
+  
   return (
     <div>
       <nav className="bg-background ">
@@ -15,15 +15,17 @@ function Header() {
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center">
               <div className="flex-shrink-0">
-              <Link href="/">
-                <Image
-                  src="/images/logo.svg"
-                  alt="Picture of the author"
-                  width={129}
-                  height={50}
-                  className='cursor-pointer'
-                />
-              </Link>
+                <Link href="/">
+                  <a>
+                    <Image
+                      src="/images/logo.svg"
+                      alt="Picture of the author"
+                      width={129}
+                      height={50}
+                      className="cursor-pointer"
+                    />
+                  </a>
+                </Link>
               </div>
               <div className="hidden md:block">
                 <div className="ml-10 flex items-baseline space-x-4">
@@ -123,7 +125,10 @@ function Header() {
         >
           {(ref) => (
             <div className="md:hidden" id="mobile-menu">
-              <div ref={ref} className="px-2 pt-2 pb-3 space-y-1 sm:px-3 flex flex-col">
+              <div
+                ref={ref}
+                className="px-2 pt-2 pb-3 space-y-1 sm:px-3 flex flex-col"
+              >
                 <Link href="/">
                   <a
                     className={
@@ -138,17 +143,19 @@ function Header() {
                   <a
                     className={
                       ' px-3 py-4 text-sm font-semibold hover:text-bermuda ' +
-                      (pathname === '/perusahaan' ? 'text-bermuda' : 'text-black')
+                      (pathname === '/perusahaan'
+                        ? 'text-bermuda'
+                        : 'text-black')
                     }
                   >
                     Perusahaan
                   </a>
                 </Link>
                 <Link href="/pendaftaran">
-                <a className=" bg-bermuda hover:bg-[#c54933] transition-all text-center text-sm text-white rounded-3xl px-5 py-3 ">
-                  Daftar Sekarang
-                </a>
-              </Link>
+                  <a className=" bg-bermuda hover:bg-[#c54933] transition-all text-center text-sm text-white rounded-3xl px-5 py-3 ">
+                    Daftar Sekarang
+                  </a>
+                </Link>
               </div>
             </div>
           )}

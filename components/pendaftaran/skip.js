@@ -18,7 +18,6 @@ const FormEmpat = () => {
       {kuisioner?.length > 0 ? (
         <div>
           {kuisioner.map((item, index) => {
-            console.log(item.answers);
             return (
               <div key={index} className="">
                 <div className="flex">

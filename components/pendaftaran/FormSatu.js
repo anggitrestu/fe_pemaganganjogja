@@ -24,21 +24,21 @@ function FormSatu({ data, setStepper }) {
   const [lowongan1, setLowongan1] = useFormSatu(
     {
       id: 0,
-      name: '',
+      name_program: '',
     },
     'lowongan-1'
   );
   const [lowongan2, setLowongan2] = useFormSatu(
     {
       id: 0,
-      name: '',
+      name_program: '',
     },
     'lowongan-2'
   );
   const [lowongan3, setLowongan3] = useFormSatu(
     {
       id: 0,
-      name: '',
+      name_program: '',
     },
     'lowongan-3'
   );
@@ -59,21 +59,21 @@ function FormSatu({ data, setStepper }) {
     <>
       {onClickModal1 && (
         <Modal
-          data={data}
+          data={data.data}
           setOnClick={setOnClickModal1}
           setValue={setLowongan1}
         ></Modal>
       )}
       {onClickModal2 && (
         <Modal
-          data={data}
+          data={data.data}
           setOnClick={setOnClickModal2}
           setValue={setLowongan2}
         ></Modal>
       )}
       {onClickModal3 && (
         <Modal
-          data={data}
+          data={data.data}
           setOnClick={setOnClickModal3}
           setValue={setLowongan3}
         ></Modal>
@@ -97,7 +97,9 @@ function FormSatu({ data, setStepper }) {
             className="flex border-[1px] bg-[#DFDFDF] hover:scale-[1.008] cursor-pointer transition-all text-sm text-[#8F8F8F] rounded-3xl py-5 px-8 mb-6"
           >
             <p className="mr-auto text-base text-black">
-              {lowongan1.name ? lowongan1.name : 'pilih lowongan'}
+              {lowongan1.name_program
+                ? lowongan1.name_program
+                : 'pilih lowongan'}
             </p>
             <Image
               src="/images/search.svg"
@@ -112,7 +114,9 @@ function FormSatu({ data, setStepper }) {
             className="flex border-[1px] bg-[#DFDFDF] hover:scale-[1.008] cursor-pointer transition-all text-sm text-[#8F8F8F] rounded-3xl py-5 px-8 mb-6"
           >
             <p className="mr-auto text-base text-black">
-              {lowongan2.name ? lowongan2.name : 'pilih lowongan'}
+              {lowongan2.name_program
+                ? lowongan2.name_program
+                : 'pilih lowongan'}
             </p>
             <Image
               src="/images/search.svg"
@@ -127,7 +131,9 @@ function FormSatu({ data, setStepper }) {
             className="flex border-[1px] bg-[#DFDFDF] hover:scale-[1.008] cursor-pointer transition-all text-sm text-[#8F8F8F] rounded-3xl py-5 px-8 mb-14"
           >
             <p className="mr-auto text-base text-black">
-              {lowongan3.name ? lowongan3.name : 'pilih lowongan'}
+              {lowongan3.name_program
+                ? lowongan3.name_program
+                : 'pilih lowongan'}
             </p>
             <Image
               src="/images/search.svg"

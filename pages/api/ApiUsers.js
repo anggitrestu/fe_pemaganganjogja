@@ -1,14 +1,13 @@
-import axios from 'configs/axios';
+import axios_hacklab from 'configs/axios';
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
-  all: (query) =>
-    axios
-      .get(`/users`, {
-        params: {
-          perusahaan_like: query,
-        },
-      })
+  fetch: () => axios_hacklab.get(`/v1/auth/user`).then((res) => res),
+  login: (payload) =>
+    axios_hacklab.post(`/auth/login`, payload).then((res) => res),
+  register: (payload) =>
+    axios_hacklab.post(`/auth/register`, payload).then((res) => res),
+  test: () =>
+    axios_hacklab
+      .get(`/my-application?page=1&perpage=10&field=created_at&state=desc`)
       .then((res) => res),
-  details: (id) => axios.get(`/users/${id}`).then((res) => res),
-  register: (payload) => axios.post(`users`, payload).then((res) => res),
 };

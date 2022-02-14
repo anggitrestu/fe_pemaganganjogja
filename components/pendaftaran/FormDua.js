@@ -1,4 +1,6 @@
 import { EyeIcon, EyeOffIcon } from '@heroicons/react/solid';
+import axios from 'axios';
+import { setAuthorHeader } from 'configs/axios_hacklab';
 import ApiUsers from 'pages/api/ApiUsers';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -7,14 +9,7 @@ import Error from 'utils/errorMessage/error';
 function FormDua({ setStepper }) {
   const [showPassword, setShowPassword] = useState(false);
   const handlePassowrd = () => {
-    console.log(showPassword);
     setShowPassword(!showPassword);
-  };
-
-  const usersRegister = async (payload) => {
-    try {
-      await ApiUsers.register(payload);
-    } catch (error) {}
   };
 
   const {
@@ -23,11 +18,29 @@ function FormDua({ setStepper }) {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     try {
-      usersRegister(data);
-      alert('akun berhasil dibuat, silahkan cek email anda');
-      setStepper(3);
+      data.name = 'user';
+      data.password_confirmation = data.password;
+
+      await ApiUsers.register(data)
+        .then((res) => {
+          console.log(res);
+          ApiUsers.login(data)
+            .then((res) => {
+              console.log(res);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        })
+        .catch((err, data) => {
+          console.log(err);
+        });
+
+      // usersRegister(data);
+      // alert('akun berhasil dibuat, silahkan cek email anda');
+      // setStepper(2);
     } catch (error) {}
   };
 
@@ -38,6 +51,13 @@ function FormDua({ setStepper }) {
         Akun yang dibuat akan terhubung dengan Hacklab.
       </p>
       <form className="mt-8" onSubmit={handleSubmit(onSubmit)}>
+        <input
+          type="hidden"
+          {...register('name', {
+            required: true,
+          })}
+          value="user"
+        />
         <input
           type="email"
           {...register('email', {
@@ -65,6 +85,16 @@ function FormDua({ setStepper }) {
             placeholder="Passsword"
             className="flex w-full border-[1px] bg-[#DFDFDF] cursor-pointer text-base text-black focus:outline-none focus:border-bermuda rounded-[50px] py-5 px-8 mt-6"
           />
+          <input
+            type="hidden"
+            {...register('password_confirmation', {
+              required: true,
+            })}
+            value="password"
+            placeholder="Passsword"
+            className="flex w-full border-[1px] bg-[#DFDFDF] cursor-pointer text-base text-black focus:outline-none focus:border-bermuda rounded-[50px] py-5 px-8 mt-6"
+          />
+
           <i className="mt-11 -ml-11">
             {showPassword ? (
               <EyeIcon

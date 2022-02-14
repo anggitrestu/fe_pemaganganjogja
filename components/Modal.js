@@ -35,7 +35,12 @@ function Modal({ setOnClick, data, setValue }) {
               className="pt-3 px-[11px] pb-1 rounded-full border-[1px] border-[#DFDFDF] cursor-pointer hover:border-bermuda"
               onClick={exitModal}
             >
-              <Image src="/images/cross.svg" height={18} width={18} />
+              <Image
+                alt="images"
+                src="/images/cross.svg"
+                height={18}
+                width={18}
+              />
             </div>
           </div>
           <div className="flex flex-col px-6 bg-[#F8F8F8] rounded-bl-2xl rounded-br-2xl">

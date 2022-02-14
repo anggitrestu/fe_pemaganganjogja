@@ -13,9 +13,10 @@ import { useState } from 'react';
 import FormEmpat from 'components/pendaftaran/FormEmpat';
 import FormLima from 'components/pendaftaran/FormLima';
 import FormEnam from 'components/pendaftaran/FormEnam';
+import ApiKuisioners from './api/ApiKuisioners';
 
-function Pendaftaran({ data }) {
-  const [stepper, setStepper] = useState(1);
+function Pendaftaran({ data, kuisioner }) {
+  const [stepper, setStepper] = useState(4);
 
   return (
     <>
@@ -113,7 +114,9 @@ function Pendaftaran({ data }) {
           )}
           {stepper == 2 && <FormDua setStepper={setStepper}></FormDua>}
           {stepper == 3 && <FormTiga setStepper={setStepper}></FormTiga>}
-          {stepper == 4 && <FormEmpat setStepper={setStepper}></FormEmpat>}
+          {stepper == 4 && (
+            <FormEmpat setStepper={setStepper} data={kuisioner}></FormEmpat>
+          )}
           {stepper == 5 && <FormLima setStepper={setStepper}></FormLima>}
           {stepper == 6 && <FormEnam setStepper={setStepper}></FormEnam>}
         </section>
@@ -126,8 +129,13 @@ function Pendaftaran({ data }) {
 }
 
 export async function getServerSideProps() {
-  const data = await ApiInternship.all();
-  return { props: { data: data } };
+  try {
+    const data = await ApiInternship.all();
+    const kuisioner = await ApiKuisioners.all();
+    return { props: { data: data, kuisioner: kuisioner.data } };
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 export default Pendaftaran;

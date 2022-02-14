@@ -2,15 +2,15 @@ import { UsersIcon } from '@heroicons/react/solid';
 
 const Renderitem = ({ item, setOnClick, setValue }) => {
   const onClickc = (e) => {
-    setValue ?
-    setValue({
-      id: item.id,
-      name: item.name,
-    }) : {}
+    setValue
+      ? setValue({
+          id: item.id,
+          name_program: item.name_program,
+        })
+      : {};
 
-    setOnClick ?
-    setOnClick(e) : {}
-  }
+    setOnClick ? setOnClick(e) : {};
+  };
 
   return (
     <div
@@ -19,17 +19,17 @@ const Renderitem = ({ item, setOnClick, setValue }) => {
     >
       <div className="card-body">
         <h2 className="truncate hover:text-clip text-sm text-bermuda font-normal card-internship-h2-hover:text-white-opacity">
-          {item.perusahaan}
+          {item?.company?.name}
         </h2>
         <p className="font-semibold text-lg lg:text-xl text-black card-internship-hover:text-white mt-1 mb-6">
-          {item.name}
+          {item?.name_program}
         </p>
         <div className="flex items-center">
           <span className="inline-block p-[6px] border-[1px] border-[#DFDFDF] rounded-full">
             <UsersIcon className="w-[15px] text-bermuda card-internship-hover:text-white"></UsersIcon>
           </span>
           <p className="ml-2 text-sm lg:text-sm card-internship-hover:text-white">
-            {item.kuota} Orang
+            {item?.quota} Orang
           </p>
         </div>
       </div>

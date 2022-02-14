@@ -8,18 +8,22 @@ import ApiCompanies from './api/ApiCompanies';
 import { useEffect, useState } from 'react';
 
 function Perusahaan({ data }) {
-  const [id, setId] = useState(1);
+  let defaultData = null;
+  if (data.length > 0) {
+    defaultData = data[0].id;
+  }
+  const [id, setId] = useState(defaultData);
   const [detailCompany, setDetailCompany] = useState(null);
   const fetchDetailCompanies = async (id) => {
     try {
       const data = await ApiCompanies.details(id);
-      setDetailCompany(data);
+      setDetailCompany(data.data);
     } catch (error) {}
   };
 
   useEffect(() => {
     fetchDetailCompanies(id);
-    window.scrollTo(0, 300);
+    window.scrollTo(0, 250);
     return () => {};
   }, [id]);
 
@@ -84,7 +88,7 @@ function Perusahaan({ data }) {
 
 export async function getServerSideProps() {
   const data = await ApiCompanies.all();
-  return { props: { data: data } };
+  return { props: { data: data.data } };
 }
 
 export default Perusahaan;
