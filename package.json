@@ -6,6 +6,7 @@
     "api": "json-server --watch pages/api/dummy/internship.json --port 6060",
     "build": "npx next build",
     "start": "npx next start -H 0.0.0.0 -p ${PORT:-8080}",
+    "export": "yarn run build && npx next export -o _static",
     "lint": "npx next lint"
   },
   "dependencies": {
