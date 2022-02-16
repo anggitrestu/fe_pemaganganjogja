@@ -1,41 +1,31 @@
 import Modal from 'components/Modal';
+import { useLocalStorage } from 'helpers/useLocalStorage';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 
-function useFormSatu(defaultValue, key) {
-  const [value, setValue] = useState(defaultValue);
-
-  useEffect(() => {
-    const stickyValue = window.localStorage.getItem(key);
-
-    if (stickyValue !== null) {
-      setValue(JSON.parse(stickyValue));
-    }
-  }, [key]);
-
-  useEffect(() => {
-    window.localStorage.setItem(key, JSON.stringify(value));
-  }, [key, value]);
-
-  return [value, setValue];
-}
-
 function FormSatu({ data, setStepper }) {
-  const [lowongan1, setLowongan1] = useFormSatu(
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    return () => {};
+  }, []);
+
+  const [lowongan1, setLowongan1] = useLocalStorage(
     {
       id: 0,
       name_program: '',
     },
     'lowongan-1'
   );
-  const [lowongan2, setLowongan2] = useFormSatu(
+
+  const [lowongan2, setLowongan2] = useLocalStorage(
     {
       id: 0,
       name_program: '',
     },
     'lowongan-2'
   );
-  const [lowongan3, setLowongan3] = useFormSatu(
+
+  const [lowongan3, setLowongan3] = useLocalStorage(
     {
       id: 0,
       name_program: '',

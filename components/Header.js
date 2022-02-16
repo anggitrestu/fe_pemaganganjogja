@@ -7,7 +7,7 @@ import Link from 'next/link';
 function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const { pathname } = useRouter();
-  
+
   return (
     <div>
       <nav className="bg-background ">
@@ -61,8 +61,12 @@ function Header() {
               </div>
             </div>
             <div className="hidden md:block ml-auto">
-              <Link href="/pendaftaran">
-                <a className=" bg-bermuda hover:bg-[#c54933] transition-all text-sm text-white rounded-3xl px-5 py-3 ">
+              <Link href="/pendaftaran" passHref>
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className=" bg-bermuda hover:bg-[#c54933] transition-all text-sm text-white rounded-3xl px-5 py-3 "
+                >
                   Daftar Sekarang
                 </a>
               </Link>
@@ -151,8 +155,12 @@ function Header() {
                     Perusahaan
                   </a>
                 </Link>
-                <Link href="/pendaftaran">
-                  <a className=" bg-bermuda hover:bg-[#c54933] transition-all text-center text-sm text-white rounded-3xl px-5 py-3 ">
+                <Link href="/pendaftaran" passHref>
+                  <a
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className=" bg-bermuda hover:bg-[#c54933] transition-all text-center text-sm text-white rounded-3xl px-5 py-3 "
+                  >
                     Daftar Sekarang
                   </a>
                 </Link>

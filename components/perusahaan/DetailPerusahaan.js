@@ -34,52 +34,8 @@ function DetailPerusahaan({ data }) {
           </div>
           <div className="mt-8 flex">
             <div className="w-1/2">
-              <h4 className="font-medium text-base lg:text-lg">Website</h4>
-              <p className="text-sm lg:text-base">{data?.website}</p>
-            </div>
-            <div className="w-1/2">
               <h4 className="font-medium text-base lg:text-lg">Jenis Usaha</h4>
               <p className="text-sm lg:text-base">{data?.type_of_business}</p>
-            </div>
-          </div>
-          <div className="mt-8 flex">
-            <div className="w-1/2">
-              <h4 className="font-medium text-base lg:text-lg">
-                Jumlah Karyawan
-              </h4>
-              <p className="text-sm lg:text-base">{data?.number_of_employee}</p>
-            </div>
-            <div className="w-1/2">
-              <h4 className="font-medium text-base lg:text-lg">
-                Ruang Pelatihan
-              </h4>
-              <p
-                className={
-                  'text-sm lg:text-base w-fit px-4 py-2 rounded-full mt-2 ' +
-                  (data?.room_available
-                    ? 'text-[#36B752] bg-[#36b75242]'
-                    : 'text-[#b73636] bg-[#b7363642]')
-                }
-              >
-                {data?.room_available ? 'Tersedia' : 'Tidak Tersedia'}
-              </p>
-            </div>
-          </div>
-          <div className="mt-4 flex">
-            <div className="w-1/2">
-              <h4 className="font-medium text-base lg:text-lg">
-                Instruktur yang bersertifikat metodologi pelatihan
-              </h4>
-              <p
-                className={
-                  'text-sm lg:text-base w-fit px-4 py-2 rounded-full mt-2 ' +
-                  (data?.instructor_available
-                    ? 'text-[#36B752] bg-[#36b75242]'
-                    : 'text-[#b73636] bg-[#b7363642]')
-                }
-              >
-                {data?.instructor_available ? 'Tersedia' : 'Tidak Tersedia'}
-              </p>
             </div>
           </div>
         </div>

@@ -2,26 +2,25 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import Image from 'next/image';
-
 import Footer from 'components/Footer';
-
 import FormSatu from 'components/pendaftaran/FormSatu';
 import FormDua from 'components/pendaftaran/FormDua';
 import FormTiga from 'components/pendaftaran/FormTiga';
 import ApiInternship from './api/ApiInternship';
-import { useState } from 'react';
 import FormEmpat from 'components/pendaftaran/FormEmpat';
 import FormLima from 'components/pendaftaran/FormLima';
 import FormEnam from 'components/pendaftaran/FormEnam';
 import ApiKuisioners from './api/ApiKuisioners';
+import ApiSurvey from './api/ApiSurvey';
+import { useLocalStorage } from 'helpers/useLocalStorage';
 
-function Pendaftaran({ data, kuisioner }) {
-  const [stepper, setStepper] = useState(4);
+function Pendaftaran({ data, kuisioner, survey }) {
+  const [stepper, setStepper] = useLocalStorage(1, 'stepper');
 
   return (
     <>
       <Head>
-        <title>Pemagangan Jogja</title>
+        <title>Pendaftaran | Pemagangan Jogja</title>
         <meta name="description" content="pemagangan jogja" />
       </Head>
       <main className="bg-[#F8F8F8]">
@@ -117,7 +116,9 @@ function Pendaftaran({ data, kuisioner }) {
           {stepper == 4 && (
             <FormEmpat setStepper={setStepper} data={kuisioner}></FormEmpat>
           )}
-          {stepper == 5 && <FormLima setStepper={setStepper}></FormLima>}
+          {stepper == 5 && (
+            <FormLima setStepper={setStepper} data={survey}></FormLima>
+          )}
           {stepper == 6 && <FormEnam setStepper={setStepper}></FormEnam>}
         </section>
         <footer className="mt-24 bg-black mx-auto py-12 px-8 md:px-20">
@@ -128,11 +129,26 @@ function Pendaftaran({ data, kuisioner }) {
   );
 }
 
+// const Stepper = () => {
+//   const [stepper, setStepper] = useLocalStorage(1, 'stepper');
+//   return [stepper, setStepper];
+// };
+
 export async function getServerSideProps() {
   try {
     const data = await ApiInternship.all();
     const kuisioner = await ApiKuisioners.all();
-    return { props: { data: data, kuisioner: kuisioner.data } };
+    const survey = await ApiSurvey.all();
+    // const [stepper, setStepper] = Stepper();
+    return {
+      props: {
+        data: data,
+        kuisioner: kuisioner.data,
+        survey: survey.data,
+        // stepper: stepper,
+        // setStepper: setStepper,
+      },
+    };
   } catch (error) {
     console.log(error);
   }

@@ -1,4 +1,4 @@
-import { UsersIcon } from '@heroicons/react/solid';
+import { LocationMarkerIcon } from '@heroicons/react/solid';
 
 const Renderitem = ({ item, setOnClick, setValue }) => {
   const onClickc = (e) => {
@@ -24,12 +24,12 @@ const Renderitem = ({ item, setOnClick, setValue }) => {
         <p className="font-semibold text-lg lg:text-xl text-black card-internship-hover:text-white mt-1 mb-6">
           {item?.name_program}
         </p>
-        <div className="flex items-center">
-          <span className="inline-block p-[6px] border-[1px] border-[#DFDFDF] rounded-full">
-            <UsersIcon className="w-[15px] text-bermuda card-internship-hover:text-white"></UsersIcon>
+        <div className="flex ">
+          <span className="text-bermuda text-sm card-internship-hover:text-white ">
+            <LocationMarkerIcon className="w-[15px] text-bermuda card-internship-hover:text-white"></LocationMarkerIcon>
           </span>
           <p className="ml-2 text-sm lg:text-sm card-internship-hover:text-white">
-            {item?.quota} Orang
+            {`${item?.location}`}
           </p>
         </div>
       </div>

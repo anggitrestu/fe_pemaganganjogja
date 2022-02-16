@@ -30,7 +30,7 @@ function Perusahaan({ data }) {
   return (
     <>
       <Head>
-        <title>Pemagangan Jogja</title>
+        <title>Perusahaan | Pemagangan Jogja</title>
         <meta name="description" content="pemagangan jogja" />
       </Head>
 

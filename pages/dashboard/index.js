@@ -1,12 +1,14 @@
 import Company from 'components/dashboard/Company';
 import Sidebar from 'components/dashboard/Sidebar';
-import withPrivateRoute from 'components/withPrivateRoute';
-
-import { useForm } from 'react-hook-form';
+import Head from 'next/head';
 
 const Index = () => {
   return (
-    <div>
+    <>
+      <Head>
+        <title>Dashboard | Pemagangan Jogja</title>
+        <meta name="description" content="pemagangan jogja" />
+      </Head>
       <div className="md:flex flex-col md:flex-row md:min-h-screen w-full">
         {/* sidebar */}
         <Sidebar></Sidebar>
@@ -15,7 +17,7 @@ const Index = () => {
         <Company></Company>
         {/* content */}
       </div>
-    </div>
+    </>
   );
 };
 

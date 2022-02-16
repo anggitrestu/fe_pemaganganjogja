@@ -10,7 +10,6 @@ const Index = () => {
         {/* sidebar */}
         {/* content */}
         <Lowongan></Lowongan>
-
         {/* content */}
       </div>
     </div>
