@@ -10,7 +10,10 @@ const Hero = () => {
             <span>
               <ExclamationIcon className="w-[20px] inline-block mr-2"></ExclamationIcon>
             </span>
-            BACA: Permenaker No 6 Tahun 2020 <span className=' hidden lg:inline'>tentang Penyelenggaraan Pemagangan di Dalam Negeri.</span>
+            BACA: Permenaker No 6 Tahun 2020{' '}
+            <span className=" hidden lg:inline">
+              tentang Penyelenggaraan Pemagangan di Dalam Negeri.
+            </span>
           </a>
         </Link>
       </div>

@@ -1,14 +1,17 @@
 import axios from 'configs/axios';
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
-  all: (query) =>
+  details: (id) => axios.get(`/internship/${id}`).then((res) => res),
+  create: (payload) => axios.post(`/internship`, payload).then((res) => res),
+  delete: (id) => axios.delete(`/internship/${id}`).then((res) => res),
+  all: (query, name) =>
     axios
-      .get(`/internships`, {
+      .get(`/internship`, {
         params: {
-          perusahaan_like: query,
+          company: query,
+          name: name,
         },
       })
       .then((res) => res),
-  details: (id) => axios.get(`/internships/${id}`).then((res) => res),
+  getNameCompany: () => axios.patch(`/company/name`).then((res) => res),
 };
-// ?perusahaan_like=HOTEL

@@ -6,16 +6,15 @@ import ListMagang from 'components/home/ListMagang';
 import Information from 'components/home/Information';
 import Footer from 'components/Footer';
 
-function Home({ data }) {
+function Home({ data, nameCompany }) {
   return (
     <>
       <Head>
         <title>Pemagangan Jogja</title>
         <meta name="description" content="pemagangan jogja" />
       </Head>
-    
+
       <main className="bg-[#F8F8F8]">
-      
         <section className="mx-auto px-8 lg:px-20 sticky top-0 bg-[#F8F8F8] z-50 shadow-sm">
           <Header></Header>
         </section>
@@ -25,7 +24,7 @@ function Home({ data }) {
           </div>
         </section>
         <section className="container mx-auto pt-16 px-8 lg:px-20 bg-[#F8F8F8]">
-          <ListMagang data={data}></ListMagang>
+          <ListMagang data={data} nameCompany={nameCompany}></ListMagang>
         </section>
         <section className="container mx-auto pt-20 px-8 lg:px-20">
           <Information></Information>
@@ -39,8 +38,13 @@ function Home({ data }) {
 }
 
 export async function getServerSideProps() {
-  const data = await ApiInternship.all();
-  return { props: { data: data } };
+  try {
+    const data = await ApiInternship.all();
+    const nameCompany = await ApiInternship.getNameCompany();
+    return { props: { data: data.data, nameCompany: nameCompany.data } };
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 export default Home;

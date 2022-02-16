@@ -1,11 +1,28 @@
 import Image from 'next/image';
 import Renderitem from './home/ListMagang/Renderitem';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import ApiInternship from '../pages/api/ApiInternship';
+
 function Modal({ setOnClick, data, setValue }) {
   const exitModal = (e) => {
     e.preventDefault();
     setOnClick(false);
   };
+  const [internships, setInternships] = useState(data);
+  const [nameProgram, setNameProgram] = useState(null);
+
+  const fetchInterhips = async (query) => {
+    if (nameProgram === 'null') {
+      setInternships(data);
+    } else {
+      const filter = await ApiInternship.all('', nameProgram);
+      setInternships(filter.data);
+    }
+  };
+  useEffect(() => {
+    fetchInterhips(nameProgram);
+    return () => {};
+  }, [nameProgram]);
 
   const outsideClick = (e) => {
     if (node.current.contains(e.target)) {
@@ -35,7 +52,12 @@ function Modal({ setOnClick, data, setValue }) {
               className="pt-3 px-[11px] pb-1 rounded-full border-[1px] border-[#DFDFDF] cursor-pointer hover:border-bermuda"
               onClick={exitModal}
             >
-              <Image src="/images/cross.svg" height={18} width={18} />
+              <Image
+                alt="images"
+                src="/images/cross.svg"
+                height={18}
+                width={18}
+              />
             </div>
           </div>
           <div className="flex flex-col px-6 bg-[#F8F8F8] rounded-bl-2xl rounded-br-2xl">
@@ -55,6 +77,7 @@ function Modal({ setOnClick, data, setValue }) {
                   />
                 </svg>
                 <input
+                  onChange={(e) => setNameProgram(e.target.value)}
                   type="text"
                   name="search"
                   id="email"
@@ -65,8 +88,8 @@ function Modal({ setOnClick, data, setValue }) {
             </form>
             <div className="mt-6 mb-6 overflow-x-hidden overflow-y-auto h-[380px] pr-2">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                {data?.length > 0 ? (
-                  data.map((item, index) => {
+                {internships?.length > 0 ? (
+                  internships.map((item, index) => {
                     return (
                       <div key={index}>
                         <Renderitem
