@@ -7,6 +7,7 @@ const Index = () => {
     <>
       <Head>
         <title>Dashboard | Pemagangan Jogja</title>
+        <link rel="shortcut icon" href="/icon.png" />
         <meta name="description" content="pemagangan jogja" />
       </Head>
       <div className="md:flex flex-col md:flex-row md:min-h-screen w-full">

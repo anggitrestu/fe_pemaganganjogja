@@ -21,6 +21,7 @@ function Pendaftaran({ data, kuisioner, survey }) {
     <>
       <Head>
         <title>Pendaftaran | Pemagangan Jogja</title>
+        <link rel="shortcut icon" href="/icon.png" />
         <meta name="description" content="pemagangan jogja" />
       </Head>
       <main className="bg-[#F8F8F8]">

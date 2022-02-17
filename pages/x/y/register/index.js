@@ -60,6 +60,7 @@ const Index = () => {
     <>
       <Head>
         <title>Register | Pemagangan Jogja</title>
+        <link rel="shortcut icon" href="/icon.png" />
         <meta name="description" content="pemagangan jogja" />
       </Head>
       <div className="flex items-center min-h-screen p-6 bg-gray-50 :bg-gray-900">

@@ -31,6 +31,7 @@ function Perusahaan({ data }) {
     <>
       <Head>
         <title>Perusahaan | Pemagangan Jogja</title>
+        <link rel="shortcut icon" href="/icon.png" />
         <meta name="description" content="pemagangan jogja" />
       </Head>
 
