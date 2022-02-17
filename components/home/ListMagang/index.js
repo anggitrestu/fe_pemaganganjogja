@@ -81,7 +81,7 @@ const Index = ({ data, nameCompany }) => {
         {dataMagang?.length > 0 ? (
           dataMagang.slice(0, postNum).map((item, index) => {
             return (
-              <Fade key={index} bottom delay={20 * index}>
+              <Fade key={index} bottom delay={15 * index}>
                 <div onClick={() => handleClickModal(item)}>
                   <Renderitem item={item}></Renderitem>
                 </div>

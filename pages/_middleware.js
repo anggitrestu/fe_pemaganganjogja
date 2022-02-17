@@ -10,8 +10,7 @@ export default function middleware(req) {
 
   if (
     valid !== false &&
-    (url === `${process.env.NEXT_PUBLIC_BASE_URL}/login` ||
-      url === `${process.env.NEXT_PUBLIC_BASE_URL}/x/y/register`)
+    (url.includes('/login') || url.includes('/x/y/register'))
   ) {
     return NextResponse.redirect('/dashboard');
   }

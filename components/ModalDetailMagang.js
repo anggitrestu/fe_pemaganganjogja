@@ -62,8 +62,8 @@ function ModalDetailMagang({ setOnClick, data }) {
                 Informasi Program Magang
               </h3>
               <div className="flex flex-col lg:flex-row mt-6">
-                <div className="lg:w-1/2 mb-4 lg:mb-0">
-                  <h4 className="text-lg font-medium">Penempatan Magang</h4>
+                <div className="lg:w-1/2 lg:mb-0">
+                  <h4 className="text-lg font-medium">Lokasi Magang</h4>
                   <div className="flex items mt-2">
                     <span className="inline-block p-[6px] ">
                       <LocationMarkerIcon className="w-[15px] text-bermuda"></LocationMarkerIcon>
@@ -72,22 +72,16 @@ function ModalDetailMagang({ setOnClick, data }) {
                     <p className="ml-2 text-sm lg:text-base">{data.location}</p>
                   </div>
 
-                  <div className="ml-3 flex items-center mt-2">
-                    <div className="w-2 h-2 mr-2 rounded-full bg-bermuda"></div>
-                    <p className="ml-2 font-medium text-sm lg:text-base">
-                      Persyaratan Magang
-                    </p>
+                  <div className="mt-4 flex items-center">
+                    <h4 className="text-lg font-medium">Persyaratan Peserta</h4>
                   </div>
 
                   <div className="pl-4 mt-1 text-sm lg:text-base">
                     {Parser(data?.condition)}
                   </div>
 
-                  <div className="ml-3 flex items-center mt-2">
-                    <div className="w-2 h-2 mr-2 rounded-full bg-bermuda"></div>
-                    <p className="font-medium text-sm lg:text-base">
-                      Deksripsi Magang
-                    </p>
+                  <div className="mt-4 flex items-center">
+                  <h4 className="text-lg font-medium">Deskripsi Magang</h4>
                   </div>
                   <div className="pl-4 mt-1 text-sm lg:text-base">
                     {Parser(data?.job_desc)}

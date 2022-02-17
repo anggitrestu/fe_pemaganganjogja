@@ -80,7 +80,7 @@ const FormLima = ({ setStepper, data }) => {
                     {index + 1}
                   </p>
                 </div>
-                <div className="form-control w-full  md:w-full lg:w-1/2 -mt-2">
+                <div className="form-control w-full  md:w-full lg:w-2/3 -mt-2">
                   <label className="label">
                     <span className="text-base font-normal">
                       {item.question}

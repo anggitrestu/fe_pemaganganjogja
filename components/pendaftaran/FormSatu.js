@@ -72,7 +72,7 @@ function FormSatu({ data, setStepper }) {
         <h1 className="text-[#404040] font-semibold text-2xl mt-14">
           Pilih Lowongan Magang
         </h1>
-        <p className="text-[#8F8F8F] w-[793px] font-normal text-base mt-2">
+        <p className="text-[#8F8F8F] font-normal text-base mt-2">
           Pilih minimal 1 lowongan dan maksimal 3 lowongan.
         </p>
         <form className="mt-8">
