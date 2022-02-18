@@ -123,54 +123,53 @@ const FormLima = ({ setStepper, data }) => {
                     </>
                   )}
 
-                  {item.type === 'radio-button' ||
-                    (item.type === 'select' && (
-                      <div className="flex items-center">
-                        <input
-                          {...register(`answers.${index}.user_id`, {
-                            setValueAs: (v) => parseInt(v),
-                            required: true,
+                  {(item.type === 'radio-button' || item.type === 'select') && (
+                    <div className="flex items-center">
+                      <input
+                        {...register(`answers.${index}.user_id`, {
+                          setValueAs: (v) => parseInt(v),
+                          required: true,
+                        })}
+                        value={profile.id}
+                        type="hidden"
+                      />
+                      <input
+                        {...register(`answers.${index}.user_id_hl`, {
+                          setValueAs: (v) => parseInt(v),
+                          required: true,
+                        })}
+                        value={profile.user_id_hl}
+                        type="hidden"
+                      />
+                      <input
+                        {...register(`answers.${index}.survey_id`, {
+                          setValueAs: (v) => parseInt(v),
+                          required: true,
+                        })}
+                        value={item.id}
+                        type="hidden"
+                      />
+                      {item.answers.length > 0 ? (
+                        <>
+                          {item.answers.map((v, i) => {
+                            return (
+                              <div key={i} className="mr-3 flex items-center">
+                                <span className="mr-2">{v.answer}</span>
+                                <input
+                                  type="radio"
+                                  {...register(`answers.${index}.answer`, {
+                                    required: true,
+                                  })}
+                                  value={v.answer}
+                                  className="radio radio-sm radio-secondary"
+                                />
+                              </div>
+                            );
                           })}
-                          value={profile.id}
-                          type="hidden"
-                        />
-                        <input
-                          {...register(`answers.${index}.user_id_hl`, {
-                            setValueAs: (v) => parseInt(v),
-                            required: true,
-                          })}
-                          value={profile.user_id_hl}
-                          type="hidden"
-                        />
-                        <input
-                          {...register(`answers.${index}.survey_id`, {
-                            setValueAs: (v) => parseInt(v),
-                            required: true,
-                          })}
-                          value={item.id}
-                          type="hidden"
-                        />
-                        {item.answers.length > 0 ? (
-                          <>
-                            {item.answers.map((v, i) => {
-                              return (
-                                <div key={i} className="mr-3 flex items-center">
-                                  <span className="mr-2">{v.answer}</span>
-                                  <input
-                                    type="radio"
-                                    {...register(`answers.${index}.answer`, {
-                                      required: true,
-                                    })}
-                                    value={v.answer}
-                                    className="radio radio-sm radio-secondary"
-                                  />
-                                </div>
-                              );
-                            })}
-                          </>
-                        ) : null}
-                      </div>
-                    ))}
+                        </>
+                      ) : null}
+                    </div>
+                  )}
                   {item.type === 'checkbox' && (
                     <div>
                       <input
