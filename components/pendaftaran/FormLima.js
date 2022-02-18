@@ -131,7 +131,7 @@ const FormLima = ({ setStepper, data }) => {
                             setValueAs: (v) => parseInt(v),
                             required: true,
                           })}
-                          value={1}
+                          value={profile.id}
                           type="hidden"
                         />
                         <input
