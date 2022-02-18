@@ -8,11 +8,14 @@ import Swal from 'sweetalert2';
 function FormTiga({ setStepper }) {
   const user = getLocalStorage('user');
   const [userIDHL, setUserIDHL] = useState(0);
+  const [isLoading, setLoading] = useState(false);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
+
   const lowongan1 = getLocalStorage('lowongan-1');
   const lowongan2 = getLocalStorage('lowongan-2');
   const lowongan3 = getLocalStorage('lowongan-3');
@@ -24,6 +27,7 @@ function FormTiga({ setStepper }) {
 
   const createUserInternships = (data, lowongan) => {
     try {
+      setLoading(true);
       const payload = {
         user_id: 0,
         user_id_hl: 0,
@@ -34,8 +38,9 @@ function FormTiga({ setStepper }) {
         payload.user_id_hl = data.user_id_hl;
         payload.internship_id = lowongan.id;
         ApiUserInternship.create(payload)
-          .then((res) => console.log('success user internship'))
+          .then((res) => setLoading(false))
           .catch((err) => {
+            setLoading(false);
             console.log(err);
           });
       }
@@ -44,10 +49,9 @@ function FormTiga({ setStepper }) {
     }
   };
 
-
-
   const onSubmit = (data) => {
     try {
+      setLoading(true);
       ApiUsers.updateProfile(data)
         .then((res) => {
           const data = {
@@ -255,11 +259,14 @@ function FormTiga({ setStepper }) {
                 </p>
               )}
               <textarea
-                {...register('work_experience', {})}
+                {...register('work_experience', { required: true })}
                 placeholder="Deskripsikan pengalaman kerja jika ada..."
                 className="w-full border-[1px] bg-[#DFDFDF] cursor-pointer appearance-none text-base text-[#8F8F8F] focus:text-bermuda focus:outline-none focus:border-bermuda rounded-3xl py-8 px-8 mt-6 mb-6"
                 rows="6"
               ></textarea>
+              {errors.work_experience && (
+                <p className="text-xs text-bermuda mt-1">*harap di isi </p>
+              )}
 
               {/* 
               <div className="mb-6 flex justify-between">
@@ -296,7 +303,10 @@ function FormTiga({ setStepper }) {
             <div className="flex flex-row justify-end">
               <button
                 type="submit"
-                className="bg-bermuda hover:bg-[#c54933] transition-all text-sm text-white rounded-3xl px-5 py-3 "
+                className={
+                  'bg-bermuda hover:bg-[#c54933] transition-all text-sm text-white rounded-3xl px-5 py-3 ' +
+                  (isLoading ? 'cursor-wait' : '')
+                }
               >
                 Lanjut
               </button>

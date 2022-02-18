@@ -1,6 +1,5 @@
 import { EyeIcon, EyeOffIcon } from '@heroicons/react/solid';
 import { getLocalStorage, useLocalStorage } from 'helpers/useLocalStorage';
-import ApiUserInternship from 'pages/api/ApiUserInternship';
 import ApiUsers from 'pages/api/ApiUsers';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -11,7 +10,7 @@ function FormDua({ setStepper }) {
   const lowongan1 = getLocalStorage('lowongan-1');
   const lowongan2 = getLocalStorage('lowongan-2');
   const lowongan3 = getLocalStorage('lowongan-3');
-
+  const [isLoading, setLoading] = useState(false);
   const [user, setUser] = useLocalStorage('null', 'user');
 
   const [showPassword, setShowPassword] = useState(false);
@@ -43,12 +42,13 @@ function FormDua({ setStepper }) {
 
   const onSubmit = (data) => {
     try {
+      setLoading(true);
       data.name = 'user';
       data.password_confirmation = data.password;
-
       ApiUsers.register(data)
         .then((res) => {
           setUser(res);
+          setLoading(false);
           Swal.fire({
             icon: 'success',
             title: `success`,
@@ -58,6 +58,7 @@ function FormDua({ setStepper }) {
           });
         })
         .catch((err) => {
+          setLoading(false);
           Swal.fire({
             icon: 'error',
             title: `error`,
@@ -143,7 +144,10 @@ function FormDua({ setStepper }) {
         <div className="flex flex-row justify-end mt-6">
           <button
             type="submit"
-            className="bg-bermuda hover:bg-[#c54933] transition-all text-sm text-white rounded-3xl px-5 py-3 "
+            className={
+              'bg-bermuda hover:bg-[#c54933] transition-all text-sm text-white rounded-3xl px-5 py-3 ' +
+              (isLoading ? 'cursor-wait' : '')
+            }
           >
             Lanjut
           </button>

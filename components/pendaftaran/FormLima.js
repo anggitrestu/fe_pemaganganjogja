@@ -1,7 +1,7 @@
 import { getLocalStorage, useLocalStorage } from 'helpers/useLocalStorage';
 import ApiSurvey from 'pages/api/ApiSurvey';
 import { useEffect } from 'react';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import Swal from 'sweetalert2';
 
 const FormLima = ({ setStepper, data }) => {
