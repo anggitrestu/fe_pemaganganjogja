@@ -12,7 +12,7 @@ const FormLima = ({ setStepper, data }) => {
     'null',
     'surveyIsDone'
   );
-  console.log(profile);
+
   const onSubmit = (data) => {
     try {
       data.answers.map((item, index) => {

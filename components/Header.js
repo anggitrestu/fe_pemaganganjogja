@@ -17,13 +17,24 @@ function Header() {
               <div className="flex-shrink-0">
                 <Link href="/">
                   <a>
-                    <Image
-                      src="/images/logo.svg"
-                      alt="Picture of the author"
-                      width={129}
-                      height={50}
-                      className="cursor-pointer"
-                    />
+                    <span className="hidden md:block">
+                      <Image
+                        src="/images/logo.svg"
+                        alt="Picture of the author"
+                        width={129}
+                        height={50}
+                        className="cursor-pointer"
+                      />
+                    </span>
+                    <span className="md:hidden">
+                      <Image
+                        src="/icon.png"
+                        alt="Picture of the author"
+                        width={40}
+                        height={40}
+                        className="cursor-pointer"
+                      />
+                    </span>
                   </a>
                 </Link>
               </div>
@@ -72,6 +83,17 @@ function Header() {
               </Link>
             </div>
             <div className="-mr-2 flex md:hidden">
+              <Link href="/pendaftaran" passHref>
+                <span className=" inline-flex items-center justify-center mr-3">
+                  <a
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className=" bg-bermuda hover:bg-[#c54933] transition-all text-center text-sm text-white rounded-3xl px-5 py-3 "
+                  >
+                    Daftar
+                  </a>
+                </span>
+              </Link>
               <button
                 onClick={() => setIsOpen(!isOpen)}
                 type="button"
@@ -153,15 +175,6 @@ function Header() {
                     }
                   >
                     Perusahaan
-                  </a>
-                </Link>
-                <Link href="/pendaftaran" passHref>
-                  <a
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className=" bg-bermuda hover:bg-[#c54933] transition-all text-center text-sm text-white rounded-3xl px-5 py-3 "
-                  >
-                    Daftar Sekarang
                   </a>
                 </Link>
               </div>

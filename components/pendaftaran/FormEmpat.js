@@ -149,7 +149,7 @@ const FormEmpat = ({ setStepper, data }) => {
                         })}
                         type="date"
                         placeholder={item.question}
-                        className="input  bg-[#DFDFDF] w-1/2"
+                        className="input  bg-[#DFDFDF] w-full md:w-1/2"
                       />
                     </>
                   )}
@@ -179,6 +179,7 @@ const FormEmpat = ({ setStepper, data }) => {
                         value={item.id}
                         type="hidden"
                       />
+
                       {item.answers.length > 0 ? (
                         <>
                           {item.answers.map((v, i) => {

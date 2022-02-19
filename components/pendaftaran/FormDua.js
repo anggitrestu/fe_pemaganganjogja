@@ -43,28 +43,42 @@ function FormDua({ setStepper }) {
   const onSubmit = (data) => {
     try {
       setLoading(true);
-      data.name = 'user';
+      data.name = 'user pj';
       data.password_confirmation = data.password;
-      ApiUsers.register(data)
-        .then((res) => {
-          setUser(res);
-          setLoading(false);
-          Swal.fire({
-            icon: 'success',
-            title: `success`,
-            text: `account created successfully`,
-          }).then(() => {
-            setStepper(3);
-          });
-        })
-        .catch((err) => {
-          setLoading(false);
-          Swal.fire({
-            icon: 'error',
-            title: `error`,
-            text: `data yang anda input sudah di daftarkan`,
-          });
-        });
+      let timerInterval;
+      Swal.fire({
+        title: 'Proses Pembuatan Akun',
+        timer: 5000,
+        timerProgressBar: true,
+        didOpen: async () => {
+          Swal.showLoading();
+          timerInterval = setInterval(() => {}, 100);
+          await ApiUsers.register(data)
+            .then((res) => {
+              setUser(res);
+              setLoading(false);
+              Swal.fire({
+                icon: 'success',
+                title: `success`,
+                text: `account created successfully`,
+              }).then(() => {
+                setStepper(3);
+              });
+            })
+            .catch((err) => {
+              console.log(err);
+              setLoading(false);
+              Swal.fire({
+                icon: 'error',
+                title: `error`,
+                text: `data yang anda input sudah di daftarkan`,
+              });
+            });
+        },
+        willClose: () => {
+          clearInterval(timerInterval);
+        },
+      });
     } catch (error) {
       console.log(err);
     }
