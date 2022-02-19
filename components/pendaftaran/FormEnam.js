@@ -39,8 +39,6 @@ const FormEnam = () => {
             Data kamu telah tersimpan untuk keperluan seleksi peserta
             pemagangan. Semoga kamu yang terpilih sebagai peserta yaa...😉{' '}
             <br />
-            Kamu bisa lanjut mengambil tes psikologi dengan klik tombol di
-            bawah.
           </p>
         </div>
       </div>

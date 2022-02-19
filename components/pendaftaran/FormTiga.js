@@ -25,9 +25,8 @@ function FormTiga({ setStepper }) {
   console.log(lowongan2);
   console.log(lowongan3);
 
-  const createUserInternships = (data, lowongan) => {
+  const createUserInternships = async (data, lowongan) => {
     try {
-      setLoading(true);
       const payload = {
         user_id: 0,
         user_id_hl: 0,
@@ -37,7 +36,7 @@ function FormTiga({ setStepper }) {
         payload.user_id = data.id;
         payload.user_id_hl = data.user_id_hl;
         payload.internship_id = lowongan.id;
-        ApiUserInternship.create(payload)
+        await ApiUserInternship.create(payload)
           .then((res) => setLoading(false))
           .catch((err) => {
             setLoading(false);
@@ -49,42 +48,54 @@ function FormTiga({ setStepper }) {
     }
   };
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     try {
-      setLoading(true);
-      ApiUsers.updateProfile(data)
-        .then((res) => {
-          const data = {
-            id: res.data.id,
-            user_id_hl: res.data.user_id_hl,
-          };
-          setProfile(data);
-          try {
-            createUserInternships(data, lowongan1);
-            createUserInternships(data, lowongan2);
-            createUserInternships(data, lowongan3);
-          } catch (error) {
-            console.log(error);
-          }
-          Swal.fire({
-            icon: 'success',
-            title: `${res.meta.status}`,
-            text: `${res.meta.message}`,
-          }).then(() => {
-            setStepper(4);
-          });
-        })
-        .catch((err) => {
-          if (err.response) {
-            Swal.fire({
-              icon: 'error',
-              title: `error`,
-              text: `pastikan data yang anda input benar`,
+      Swal.fire({
+        title: 'Yakin data profil anda sudah benar?',
+        text: 'Setelah membuat profil, data tidak bisa di ubah kembali',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes!',
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          setLoading(true);
+          await ApiUsers.updateProfile(data)
+            .then((res) => {
+              const data = {
+                id: res.data.id,
+                user_id_hl: res.data.user_id_hl,
+              };
+              setProfile(data);
+              try {
+                createUserInternships(data, lowongan1);
+                createUserInternships(data, lowongan2);
+                createUserInternships(data, lowongan3);
+              } catch (error) {
+                console.log(error);
+              }
+              Swal.fire({
+                icon: 'success',
+                title: `${res.meta.status}`,
+                text: `${res.meta.message}`,
+              }).then(() => {
+                setStepper(4);
+              });
+            })
+            .catch((err) => {
+              if (err.response) {
+                Swal.fire({
+                  icon: 'error',
+                  title: `error`,
+                  text: `pastikan data yang anda input benar`,
+                });
+              } else {
+                console.log(err);
+              }
             });
-          } else {
-            console.log(err);
-          }
-        });
+        }
+      });
     } catch (error) {
       console.log(error);
     }
