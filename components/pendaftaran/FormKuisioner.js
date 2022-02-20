@@ -7,63 +7,8 @@ import {
   useSessionStorage,
 } from 'helpers/useSessionStorage';
 
-const FormEmpat = ({ setStepper, data }) => {
+const FormKuisioner = () => {
   const { register, handleSubmit } = useForm({});
-  const profile = getSessionStorage('profile');
-
-  const [kuisionerIsDone, setKuisionerIsDone] = useSessionStorage(
-    'null',
-    'kuisionerIsDone'
-  );
-
-  useEffect(() => {
-    if (kuisionerIsDone !== 'null') {
-      Swal.fire({
-        icon: 'success',
-        title: `success`,
-        text: `Successfully answered the questionnaire `,
-      }).then(() => {
-        setStepper(5);
-      });
-    }
-    if (profile === 'null') {
-      setStepper(3);
-    }
-    window.scrollTo(0, 0);
-
-    return () => {};
-  }, [kuisionerIsDone, profile, setStepper]);
-
-  const onSubmit = (data) => {
-    try {
-      data.answers.map((item, index) => {
-        {
-          if (Array.isArray(item.answer)) {
-            const answer = item.answer.toString();
-            item.answer = answer;
-            ApiKuisioners.user_kuisioner(item).then((res) => {
-              console.log('success');
-            });
-          } else {
-            ApiKuisioners.user_kuisioner(item).then((res) => {
-              console.log('success');
-            });
-          }
-        }
-      });
-
-      Swal.fire({
-        icon: 'success',
-        title: `success`,
-        text: `Successfully answered the questionnaire `,
-      }).then(() => {
-        setKuisionerIsDone(true);
-        setStepper(5);
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   return (
     <div className="w-full mx-auto">
@@ -276,4 +221,4 @@ const FormEmpat = ({ setStepper, data }) => {
   );
 };
 
-export default FormEmpat;
+export default FormKuisioner;

@@ -12,12 +12,15 @@ import FormLima from 'components/pendaftaran/FormLima';
 import FormEnam from 'components/pendaftaran/FormEnam';
 import ApiKuisioners from './api/ApiKuisioners';
 import ApiSurvey from './api/ApiSurvey';
-import { useLocalStorage } from 'helpers/useLocalStorage';
+import { useSessionStorage } from 'helpers/useSessionStorage';
 import Swal from 'sweetalert2';
 import { useRouter } from 'next/router';
+import FormBuatAkun from 'components/pendaftaran/FormBuatAkun';
+import FormPilihLowongan from 'components/pendaftaran/FormPilihLowongan';
+import FormLengkapiProfile from 'components/pendaftaran/FormLengkapiProfile';
 
 function Pendaftaran({ data, kuisioner, survey }) {
-  const [stepper, setStepper] = useLocalStorage(1, 'stepper');
+  const [stepper, setStepper] = useSessionStorage(1, 'stepper');
   const router = useRouter();
 
   const handleBeranda = () => {
@@ -128,18 +131,20 @@ function Pendaftaran({ data, kuisioner, survey }) {
         </section>
 
         <section className="container mx-auto px-8 md:px-20">
-          {stepper == 1 && (
+          {stepper === 1 && (
             <FormSatu data={data} setStepper={setStepper}></FormSatu>
           )}
-          {stepper == 2 && <FormDua setStepper={setStepper}></FormDua>}
-          {stepper == 3 && <FormTiga setStepper={setStepper}></FormTiga>}
-          {stepper == 4 && (
+          {stepper === 2 && <FormDua setStepper={setStepper}></FormDua>}
+
+          {/* {stepper === 2 && <FormDua setStepper={setStepper}></FormDua>} */}
+          {stepper === 3 && <FormTiga setStepper={setStepper}></FormTiga>}
+          {stepper === 4 && (
             <FormEmpat setStepper={setStepper} data={kuisioner}></FormEmpat>
           )}
-          {stepper == 5 && (
+          {stepper === 5 && (
             <FormLima setStepper={setStepper} data={survey}></FormLima>
           )}
-          {stepper == 6 && <FormEnam setStepper={setStepper}></FormEnam>}
+          {stepper === 6 && <FormEnam setStepper={setStepper}></FormEnam>}
         </section>
         <footer className="mt-24 bg-black mx-auto py-12 px-8 md:px-20">
           <Footer></Footer>
@@ -150,7 +155,7 @@ function Pendaftaran({ data, kuisioner, survey }) {
 }
 
 // const Stepper = () => {
-//   const [stepper, setStepper] = useLocalStorage(1, 'stepper');
+//   const [stepper, setStepper] = useSessionStorage(1, 'stepper');
 //   return [stepper, setStepper];
 // };
 

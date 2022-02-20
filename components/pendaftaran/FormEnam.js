@@ -1,10 +1,10 @@
-import { deleteLocalStorage } from 'helpers/useLocalStorage';
+import { deleteLocalStorage } from 'helpers/useSessionStorage';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React from 'react';
 import Swal from 'sweetalert2';
 
-const FormEnam = () => {
+const FormEnam = ({ setStepper }) => {
   const router = useRouter();
   const handleClick = () => {
     Swal.fire({

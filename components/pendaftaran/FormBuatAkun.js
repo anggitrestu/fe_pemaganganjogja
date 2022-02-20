@@ -1,40 +1,29 @@
 import { EyeIcon, EyeOffIcon } from '@heroicons/react/solid';
+import { data } from 'autoprefixer';
 import {
-  createSessionStorage,
   getSessionStorage,
+  useSessionStorage,
 } from 'helpers/useSessionStorage';
 import ApiUsers from 'pages/api/ApiUsers';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Swal from 'sweetalert2';
 import Error from 'utils/errorMessage/error';
-import { alertIsiLowongan } from './alert';
+import { alertBuatAkun, alertIsiLowongan } from './alert';
+import Checklowongan from './validasi/checkLowongan';
+import ValidasiForm from './ValidasiForm';
 
-function FormDua({ setStepper }) {
+const FormBuatAkun = ({ setStepper }) => {
+  // alur pembuatan akun
+  // 1. user harus memilih lowongan terlebih dahulu, cek jika lowngan kosong kembalikan ke form pilih lowongan
+  // 2.
+
   const [isLoading, setLoading] = useState(false);
-  const [lowongan, setlowongan] = useState(null);
-  console.log(lowongan);
+  const [dataAkun, setDataAkun] = useSessionStorage('null', 'dataAkun');
   const [showPassword, setShowPassword] = useState(false);
   const handlePassowrd = () => {
     setShowPassword(!showPassword);
   };
-
-  useEffect(() => {
-    const user = getSessionStorage('user');
-    const profile = getSessionStorage('profile');
-    const dataLowongan = getSessionStorage('dataLowongan');
-    setlowongan(dataLowongan);
-    if (user.user_id_hl > 0) {
-      if (profile.user_id_hl > 0) {
-        setStepper(4);
-      }
-      setStepper(3);
-    }
-
-    window.scrollTo(0, 0);
-    return () => {};
-  }, [setStepper]);
-
   const {
     register,
     handleSubmit,
@@ -43,70 +32,18 @@ function FormDua({ setStepper }) {
 
   const onSubmit = (data) => {
     try {
-      Swal.fire({
-        title: 'Cek kembali informasi akun anda!',
-        text: 'Setelah lanjut, anda tidak bisa mengubah data akun',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes!',
-      }).then((result) => {
-        if (result.isConfirmed) {
-          setLoading(true);
-          data.name = 'user pj';
-          data.password_confirmation = data.password;
-          let timerInterval;
-          Swal.fire({
-            title: 'Proses Pembuatan Akun',
-            html: 'Sabar, tunggu hingga selesai, jangan klik apapun',
-            timer: 5000,
-            timerProgressBar: true,
-            didOpen: async () => {
-              Swal.showLoading();
-              timerInterval = setInterval(() => {}, 100);
-              await ApiUsers.register(data)
-                .then((res) => {
-                  const user = {
-                    user_id_hl: res[0].id,
-                    lowongan1: lowongan.lowongan1,
-                    lowongan2: lowongan.lowongan2,
-                    lowongan3: lowongan.lowongan3,
-                  };
-                  console.log(res);
-                  createSessionStorage('user', user);
-                  Swal.fire({
-                    icon: 'success',
-                    title: `success`,
-                    text: `account created successfully`,
-                  }).then(() => {
-                    setLoading(false);
-                    setStepper(3);
-                  });
-                })
-                .catch((err) => {
-                  if (err.response) {
-                    setLoading(false);
-                    Swal.fire({
-                      icon: 'error',
-                      title: `error`,
-                      text: `${err.response.data.error.message}`,
-                    });
-                  } else {
-                    console.log(err);
-                  }
-                });
-            },
-            willClose: () => {
-              clearInterval(timerInterval);
-            },
-          });
-        }
-      });
-    } catch (error) {
-      console.log(err);
-    }
+      setDataAkun(data);
+      setStepper(3);
+    } catch (error) {}
   };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    const valid = ValidasiForm({ setStepper, lowongan: true });
+    if (valid === true) {
+      console.log('valid');
+    }
+  }, [setStepper]);
 
   return (
     <div className="w-full md:w-8/12 md:mx-auto">
@@ -128,6 +65,7 @@ function FormDua({ setStepper }) {
             required: true,
           })}
           placeholder="Email"
+          defaultValue={dataAkun !== 'null' ? `${dataAkun.email}` : null}
           className="w-full select-auto border-[1px] bg-[#DFDFDF] after:bg-fuchsia-500 cursor-pointer text-base text-black focus:outline-none focus:border-bermuda rounded-[50px] py-5 px-8 mt-6"
         />
         {errors.email && <Error message={'*email is required'} />}
@@ -136,6 +74,7 @@ function FormDua({ setStepper }) {
           {...register('phone_number', {
             required: true,
           })}
+          defaultValue={dataAkun !== 'null' ? `${dataAkun.phone_number}` : null}
           placeholder="Nomor Handphone/Whatsapp (+62)"
           className="w-full border-[1px] bg-[#DFDFDF] cursor-pointer text-base text-black focus:outline-none focus:border-bermuda rounded-[50px] py-5 px-8 mt-6"
         />
@@ -147,6 +86,7 @@ function FormDua({ setStepper }) {
               minLength: 8,
               required: true,
             })}
+            defaultValue={dataAkun !== 'null' ? `${dataAkun.password}` : null}
             placeholder="Passsword"
             className="flex w-full border-[1px] bg-[#DFDFDF] cursor-pointer text-base text-black focus:outline-none focus:border-bermuda rounded-[50px] py-5 px-8 mt-6"
           />
@@ -193,6 +133,6 @@ function FormDua({ setStepper }) {
       </form>
     </div>
   );
-}
+};
 
-export default FormDua;
+export default FormBuatAkun;
