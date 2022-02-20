@@ -1,4 +1,8 @@
-import { getLocalStorage, useLocalStorage } from 'helpers/useLocalStorage';
+import {
+  createSessionStorage,
+  getSessionStorage,
+  useSessionStorage,
+} from 'helpers/useSessionStorage';
 import ApiUserInternship from 'pages/api/ApiUserInternship';
 import ApiUsers from 'pages/api/ApiUsers';
 import { useEffect, useState } from 'react';
@@ -6,24 +10,15 @@ import { useForm } from 'react-hook-form';
 import Swal from 'sweetalert2';
 
 function FormTiga({ setStepper }) {
-  const user = getLocalStorage('user');
+  const [user, setUser] = useState(null);
+  console.log(user);
   const [userIDHL, setUserIDHL] = useState(0);
   const [isLoading, setLoading] = useState(false);
-
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-
-  const lowongan1 = getLocalStorage('lowongan-1');
-  const lowongan2 = getLocalStorage('lowongan-2');
-  const lowongan3 = getLocalStorage('lowongan-3');
-  const [profile, setProfile] = useLocalStorage('null', 'profile');
-
-  console.log(lowongan1);
-  console.log(lowongan2);
-  console.log(lowongan3);
 
   const createUserInternships = async (data, lowongan) => {
     try {
@@ -37,9 +32,8 @@ function FormTiga({ setStepper }) {
         payload.user_id_hl = data.user_id_hl;
         payload.internship_id = lowongan.id;
         await ApiUserInternship.create(payload)
-          .then((res) => setLoading(false))
+          .then((res) => console.log('succes create internship'))
           .catch((err) => {
-            setLoading(false);
             console.log(err);
           });
       }
@@ -50,69 +44,85 @@ function FormTiga({ setStepper }) {
 
   const onSubmit = async (data) => {
     try {
-      Swal.fire({
-        title: 'Yakin data profil anda sudah benar?',
-        text: 'Setelah membuat profil, data tidak bisa di ubah kembali',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes!',
-      }).then(async (result) => {
-        if (result.isConfirmed) {
-          setLoading(true);
-          await ApiUsers.updateProfile(data)
-            .then((res) => {
-              const data = {
-                id: res.data.id,
-                user_id_hl: res.data.user_id_hl,
-              };
-              setProfile(data);
-              try {
-                createUserInternships(data, lowongan1);
-                createUserInternships(data, lowongan2);
-                createUserInternships(data, lowongan3);
-              } catch (error) {
-                console.log(error);
-              }
-              Swal.fire({
-                icon: 'success',
-                title: `${res.meta.status}`,
-                text: `${res.meta.message}`,
-              }).then(() => {
-                setStepper(4);
+      if (
+        user.lowongan1.id === 0 &&
+        user.lowongan2.id === 0 &&
+        user.lowongan3.id === 0
+      ) {
+        alert('silahkan pilih lowongan magang terlebih dahulu !');
+        setStepper(1);
+      } else {
+        Swal.fire({
+          title: 'Yakin data profil anda sudah benar?',
+          text: 'Setelah membuat profil, data tidak bisa di ubah kembali',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes!',
+        }).then(async (result) => {
+          if (result.isConfirmed) {
+            setLoading(true);
+            await ApiUsers.updateProfile(data)
+              .then((res) => {
+                const data = {
+                  id: res.data.id,
+                  user_id_hl: res.data.user_id_hl,
+                };
+                createSessionStorage('profile', data);
+                try {
+                  createUserInternships(data, user.lowongan1);
+                  createUserInternships(data, user.lowongan2);
+                  createUserInternships(data, user.lowongan3);
+                  Swal.fire({
+                    icon: 'success',
+                    title: `${res.meta.status}`,
+                    text: `${res.meta.message}`,
+                  }).then(() => {
+                    setStepper(4);
+                  });
+                } catch (error) {
+                  console.log(error);
+                }
+              })
+              .catch((err) => {
+                if (err.response) {
+                  Swal.fire({
+                    icon: 'error',
+                    title: `error`,
+                    text: `pastikan data yang anda input benar`,
+                  });
+                } else {
+                  console.log(err);
+                }
               });
-            })
-            .catch((err) => {
-              if (err.response) {
-                Swal.fire({
-                  icon: 'error',
-                  title: `error`,
-                  text: `pastikan data yang anda input benar`,
-                });
-              } else {
-                console.log(err);
-              }
-            });
-        }
-      });
+          }
+        });
+      }
     } catch (error) {
       console.log(error);
     }
   };
 
   useEffect(() => {
-    if (user === 'null') {
-      setStepper(2);
+    const user = getSessionStorage('user');
+    const profile = getSessionStorage('profile');
+    console.log(profile);
+    setUser(user);
+    setUserIDHL(user.user_id_hl);
+
+    if (user.user_id_hl > 1) {
+      if (profile.user_id_hl > 1) {
+        setStepper(4);
+      } else {
+        setStepper(3);
+      }
     }
-    if (profile !== 'null') {
-      setStepper(4);
-    }
-    setUserIDHL(user[0].id);
+
     window.scrollTo(0, 0);
 
     return () => {};
-  }, [profile, setStepper, user]);
+  }, [setStepper, setUser]);
 
   return (
     <>

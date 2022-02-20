@@ -1,4 +1,7 @@
-import { getLocalStorage, useLocalStorage } from 'helpers/useLocalStorage';
+import {
+  getSessionStorage,
+  useSessionStorage,
+} from 'helpers/useSessionStorage';
 import ApiSurvey from 'pages/api/ApiSurvey';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
@@ -6,9 +9,9 @@ import Swal from 'sweetalert2';
 
 const FormLima = ({ setStepper, data }) => {
   const { register, handleSubmit } = useForm({});
-  const kuisionerIsDone = getLocalStorage('kuisionerIsDone');
-  const profile = getLocalStorage('profile');
-  const [surveyIsDone, setSurveyIsDone] = useLocalStorage(
+  const kuisionerIsDone = getSessionStorage('kuisionerIsDone');
+  const profile = getSessionStorage('profile');
+  const [surveyIsDone, setSurveyIsDone] = useSessionStorage(
     'null',
     'surveyIsDone'
   );

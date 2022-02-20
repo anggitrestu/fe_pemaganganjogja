@@ -1,8 +1,9 @@
-import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
+import useLocalStorage from 'react-use-localstorage';
+
 import { encodeData, decodeData } from './local-storage/JsonWebToken';
 
-export function useLocalStorage(defaultValue, key) {
+export function useSessionStorage(defaultValue, key) {
   const [value, setValue] = useState(defaultValue);
   useEffect(() => {
     const stickyValue = Cookies.get(key);
@@ -14,30 +15,14 @@ export function useLocalStorage(defaultValue, key) {
 
   useEffect(() => {
     const encode = encodeData(value);
-    Cookies.set(key, encode);
+    Cookies.set(key, encode, { expires: 1, path: '/pendaftaran' });
   }, [key, value]);
 
   return [value, setValue];
 }
 
-export function getLocalStorage(key) {
+export function getSessionStorage(key) {
   const stickyValue = Cookies.get(key);
   const decode = decodeData(stickyValue);
   return decode;
-}
-
-export function deleteLocalStorage() {
-  try {
-    Cookies.remove('stepper');
-    Cookies.remove('kuisionerIsDone');
-    Cookies.remove('surveyIsDone');
-    Cookies.remove('lowongan-3');
-    Cookies.remove('lowongan-2');
-    Cookies.remove('lowongan-1');
-    Cookies.remove('profile');
-    Cookies.remove('user');
-    return true;
-  } catch (error) {
-    console.log(error);
-  }
 }
