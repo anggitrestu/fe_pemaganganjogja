@@ -42,6 +42,8 @@ export function deleteLocalStorage() {
     Cookies.remove('lowongan-1', { path: '/pendaftaran' });
     Cookies.remove('profile', { path: '/pendaftaran' });
     Cookies.remove('user', { path: '/pendaftaran' });
+    Cookies.remove('dataSurvey', { path: '/pendaftaran' });
+    Cookies.remove('dataKuisioner', { path: '/pendaftaran' });
     return true;
   } catch (error) {
     console.log(error);

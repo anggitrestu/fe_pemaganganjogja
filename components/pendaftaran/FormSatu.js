@@ -36,15 +36,20 @@ function FormSatu({ data, setStepper }) {
   );
 
   useEffect(() => {
-    const user = getSessionStorage('user');
     const dataLowongan = getSessionStorage('dataLowongan');
     if (dataLowongan !== false) {
-      if (user.user_id_hl > 0) {
-        setStepper(3);
-      }
-      setStepper(2);
+      setLowongan1(dataLowongan.lowongan1);
+      setLowongan2(dataLowongan.lowongan2);
+      setLowongan3(dataLowongan.lowongan3);
     }
-  }, [setStepper]);
+
+    // console.log(dataLowongan);
+    if (dataLowongan !== false) {
+      // setStepper(2);
+    }
+
+    window.scrollTo(0, 0);
+  }, [setLowongan1, setLowongan2, setLowongan3, setStepper]);
 
   const checkInput = (e) => {
     e.preventDefault();
@@ -59,18 +64,19 @@ function FormSatu({ data, setStepper }) {
     if (a.lowongan1.id === 0 && a.lowongan2.id === 0 && a.lowongan3.id === 0) {
       alertIsiLowongan();
     } else {
+      let timerInterval;
       Swal.fire({
-        title: 'Pastikan lowongan yang anda pilih benar?',
-        text: 'Setelah lanjut, anda tidak bisa mengubah data akun',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes!',
-      }).then((result) => {
-        if (result.isConfirmed) {
+        title: 'Loading...',
+        timer: 300,
+        timerProgressBar: true,
+        didOpen: async () => {
+          Swal.showLoading();
+          timerInterval = setInterval(() => {}, 100);
           setStepper(2);
-        }
+        },
+        willClose: () => {
+          clearInterval(timerInterval);
+        },
       });
     }
   };

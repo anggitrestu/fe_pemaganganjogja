@@ -1,46 +1,158 @@
 import {
+  createSessionStorage,
   getSessionStorage,
-  useSessionStorage,
 } from 'helpers/useSessionStorage';
+import ApiKuisioners from 'pages/api/ApiKuisioners';
 import ApiSurvey from 'pages/api/ApiSurvey';
-import { useEffect } from 'react';
+import ApiUserInternship from 'pages/api/ApiUserInternship';
+import ApiUsers from 'pages/api/ApiUsers';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Swal from 'sweetalert2';
 
 const FormLima = ({ setStepper, data }) => {
+  const [user, setUser] = useState(undefined);
+  const [profile, setProfile] = useState(undefined);
+  const [userInternships, setUserInternships] = useState(undefined);
+  const [userKuisioner, setUserKuisioner] = useState(undefined);
   const { register, handleSubmit } = useForm({});
-  const kuisionerIsDone = getSessionStorage('kuisionerIsDone');
-  const profile = getSessionStorage('profile');
-  const [surveyIsDone, setSurveyIsDone] = useSessionStorage(
-    'null',
-    'surveyIsDone'
-  );
+  const [survey, setSurvey] = useState(undefined);
 
-  const onSubmit = (data) => {
-    try {
-      data.answers.map((item, index) => {
-        {
-          if (Array.isArray(item.answer)) {
-            const answer = item.answer.toString();
-            item.answer = answer;
-            ApiSurvey.user_surcey(item).then((res) => {
-              console.log('success');
-            });
-          } else {
-            ApiSurvey.user_surcey(item).then((res) => {
-              console.log('success');
-            });
-          }
+  const registerUser = async (dataSurveiForm) => {
+    ApiUsers.register(user)
+      .then((resUser) => {
+        profile.user_id_hl = resUser[0].id;
+        ApiUsers.updateProfile(profile)
+          .then((resProfile) => {
+            const data = {
+              id: resProfile.data.id,
+              user_id_hl: resProfile.data.user_id_hl,
+            };
+            try {
+              createUserInternships(data, userInternships.lowongan1);
+              createUserInternships(data, userInternships.lowongan2);
+              createUserInternships(data, userInternships.lowongan3);
+
+              userKuisioner.answers.map(async (item, index) => {
+                {
+                  if (Array.isArray(item.answer)) {
+                    const answer = item.answer.toString();
+                    item.user_id = resProfile.data.id;
+                    item.user_id_hl = resProfile.data.user_id_hl;
+                    item.answer = answer;
+                    await ApiKuisioners.user_kuisioner(item)
+                      .then((res) => {})
+                      .catch((err) => {
+                        console.log(err);
+                      });
+                  } else {
+                    item.user_id = resProfile.data.id;
+                    item.user_id_hl = resProfile.data.user_id_hl;
+                    await ApiKuisioners.user_kuisioner(item)
+                      .then((res) => {})
+                      .catch((err) => {
+                        console.log(err);
+                      });
+                  }
+                }
+              });
+
+              dataSurveiForm.answers.map(async (item, index) => {
+                {
+                  if (Array.isArray(item.answer)) {
+                    const answer = item.answer.toString();
+                    item.user_id = resProfile.data.id;
+                    item.user_id_hl = resProfile.data.user_id_hl;
+                    item.answer = answer;
+                    await ApiSurvey.user_surcey(item)
+                      .then((res) => {})
+                      .catch((err) => {
+                        console.log(err);
+                      });
+                  } else {
+                    item.user_id = resProfile.data.id;
+                    item.user_id_hl = resProfile.data.user_id_hl;
+                    await ApiSurvey.user_surcey(item)
+                      .then((res) => {})
+                      .catch((err) => {
+                        console.log(err);
+                      });
+                  }
+                }
+              });
+
+              setStepper(6);
+            } catch (error) {
+              console.log(error);
+            }
+          })
+          .catch((err) => {
+            if (err.response) {
+              Swal.fire({
+                icon: 'error',
+                title: `error`,
+                text: `pastikan data yang anda input benar`,
+              });
+            } else {
+              console.log(err);
+            }
+          });
+      })
+      .catch((err) => {
+        if (err.response) {
+          Swal.fire({
+            icon: 'error',
+            title: `error`,
+            text: `${err.response.data.error.message}`,
+          });
+        } else {
+          console.log(err);
         }
+        setStepper(2);
       });
+  };
+
+  const createUserInternships = async (data, lowongan) => {
+    try {
+      const payload = {
+        user_id: 0,
+        user_id_hl: 0,
+        internship_id: 0,
+      };
+      if (lowongan.id !== 0) {
+        payload.user_id = data.id;
+        payload.user_id_hl = data.user_id_hl;
+        payload.internship_id = lowongan.id;
+        await ApiUserInternship.create(payload)
+          .then((res) => console.log('succes create internship'))
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const onSubmit = async (dataSurveiForm) => {
+    try {
+      createSessionStorage('dataSurvey', dataSurveiForm);
+      setSurvey(dataSurveiForm);
+      let timerInterval;
+
+      await registerUser(dataSurveiForm);
 
       Swal.fire({
-        icon: 'success',
-        title: `success`,
-        text: `Successfully answered the questionnaire `,
-      }).then(() => {
-        setSurveyIsDone(true);
-        setStepper(6);
+        title: 'Harap ditunggu, data anda sedang di proses!',
+        timer: 7000,
+        timerProgressBar: true,
+        didOpen: async () => {
+          Swal.showLoading();
+          timerInterval = setInterval(() => {}, 100);
+        },
+        willClose: () => {
+          clearInterval(timerInterval);
+        },
       });
     } catch (error) {
       console.log(error);
@@ -48,201 +160,263 @@ const FormLima = ({ setStepper, data }) => {
   };
 
   useEffect(() => {
-    if (surveyIsDone !== 'null') {
-      Swal.fire({
-        icon: 'success',
-        title: `success`,
-        text: `Successfully answered the survey `,
-      }).then(() => {
-        setStepper(6);
-      });
+    const surveySession = getSessionStorage('dataSurvey');
+    console.log(surveySession);
+    if (surveySession !== false) {
+      setSurvey(surveySession);
+    } else {
+      setSurvey(null);
     }
-    if (kuisionerIsDone === 'null') {
-      setStepper(4);
-    }
-    if (profile === 'null') {
-      setStepper(3);
-    }
+
+    const lowongan = getSessionStorage('dataLowongan');
+    const user = getSessionStorage('user');
+    const profile = getSessionStorage('profile');
+    const Kuisioner = getSessionStorage('dataKuisioner');
+
+    setUser(user);
+    setProfile(profile);
+    setUserInternships(lowongan);
+    setUserKuisioner(Kuisioner);
     window.scrollTo(0, 0);
 
     return () => {};
-  }, [kuisionerIsDone, profile, setStepper, surveyIsDone]);
+  }, [setStepper]);
 
   return (
-    <div className="w-full">
-      <h3 className="text-black font-semibold text-2xl mb-3">
-        Survey Literasi Digital
-      </h3>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        {data?.length > 0 ? (
-          data.map((item, index) => {
-            return (
-              <div className="flex mt-6" key={index}>
-                <div className="w-10">
-                  <p className="text-center text-bermuda bg-bermuda bg-opacity-10  rounded-full inline-block w-[25px] h-[25px]">
-                    {index + 1}
-                  </p>
-                </div>
-                <div className="form-control w-full  md:w-full lg:w-2/3 -mt-2">
-                  <label className="label">
-                    <span className="text-base font-normal">
-                      {item.question}
-                    </span>
-                  </label>
-                  {item.type === 'textarea' && (
-                    <>
-                      <input
-                        {...register(`answers.${index}.user_id`, {
-                          setValueAs: (v) => parseInt(v),
-                          required: true,
-                        })}
-                        value={profile.id}
-                        type="hidden"
-                      />
-                      <input
-                        {...register(`answers.${index}.user_id_hl`, {
-                          setValueAs: (v) => parseInt(v),
-                          required: true,
-                        })}
-                        value={profile.user_id_hl}
-                        type="hidden"
-                      />
-                      <input
-                        {...register(`answers.${index}.survey_id`, {
-                          setValueAs: (v) => parseInt(v),
-                          required: true,
-                        })}
-                        value={item.id}
-                        type="hidden"
-                      />
-                      <input
-                        {...register(`answers.${index}.answer`, {
-                          required: true,
-                        })}
-                        type="text"
-                        placeholder={item.question}
-                        className="input  bg-[#DFDFDF]"
-                      />
-                    </>
-                  )}
-
-                  {(item.type === 'radio-button' || item.type === 'select') && (
-                    <div className="flex items-center">
-                      <input
-                        {...register(`answers.${index}.user_id`, {
-                          setValueAs: (v) => parseInt(v),
-                          required: true,
-                        })}
-                        value={profile.id}
-                        type="hidden"
-                      />
-                      <input
-                        {...register(`answers.${index}.user_id_hl`, {
-                          setValueAs: (v) => parseInt(v),
-                          required: true,
-                        })}
-                        value={profile.user_id_hl}
-                        type="hidden"
-                      />
-                      <input
-                        {...register(`answers.${index}.survey_id`, {
-                          setValueAs: (v) => parseInt(v),
-                          required: true,
-                        })}
-                        value={item.id}
-                        type="hidden"
-                      />
-                      {item.answers.length > 0 ? (
-                        <>
-                          {item.answers.map((v, i) => {
-                            return (
-                              <div key={i} className="mr-3 flex items-center">
-                                <span className="mr-2">{v.answer}</span>
-                                <input
-                                  type="radio"
-                                  {...register(`answers.${index}.answer`, {
-                                    required: true,
-                                  })}
-                                  value={v.answer}
-                                  className="radio radio-sm radio-secondary"
-                                />
-                              </div>
-                            );
-                          })}
-                        </>
-                      ) : null}
+    <>
+      {survey === undefined ? (
+        <h1>Loading...</h1>
+      ) : (
+        <div className="w-full mx-auto">
+          <h3 className="text-black font-semibold text-2xl mb-3">Kuisioner</h3>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            {data?.length > 0 ? (
+              data.map((item, index) => {
+                return (
+                  <div className="flex mt-6" key={index}>
+                    <div className="w-10">
+                      <p className="text-center text-bermuda bg-bermuda bg-opacity-10  rounded-full inline-block w-[25px] h-[25px]">
+                        {index + 1}
+                      </p>
                     </div>
-                  )}
-                  {item.type === 'checkbox' && (
-                    <div>
-                      <input
-                        {...register(`answers.${index}.user_id`, {
-                          setValueAs: (v) => parseInt(v),
-                          required: true,
-                        })}
-                        value={profile.id}
-                        type="hidden"
-                      />
-                      <input
-                        {...register(`answers.${index}.user_id_hl`, {
-                          setValueAs: (v) => parseInt(v),
-                          required: true,
-                        })}
-                        value={profile.user_id_hl}
-                        type="hidden"
-                      />
-                      <input
-                        {...register(`answers.${index}.survey_id`, {
-                          setValueAs: (v) => parseInt(v),
-                          required: true,
-                        })}
-                        value={item.id}
-                        type="hidden"
-                      />
-                      {item.answers.length > 0 ? (
+                    <div className="form-control w-full  md:w-full -mt-2">
+                      <label className="label">
+                        <span className="text-base font-normal">
+                          {item.question}
+                        </span>
+                      </label>
+                      {item.type === 'textarea' && (
                         <>
-                          {item.answers.map((v, i) => {
-                            return (
-                              <div key={i} className="my-1">
-                                <label className="cursor-pointer flex items-center ">
-                                  <input
-                                    {...register(`answers.${index}.answer`, {
-                                      required: true,
-                                    })}
-                                    value={v.answer}
-                                    type="checkbox"
-                                    className="checkbox checkbox-sm checkbox-secondary"
-                                  />
-                                  <span className="label-text ml-2">
-                                    {v.answer}
-                                  </span>
-                                </label>
-                              </div>
-                            );
-                          })}
+                          <input
+                            {...register(`answers.${index}.user_id`, {
+                              setValueAs: (v) => parseInt(v),
+                              required: true,
+                            })}
+                            value={1}
+                            type="hidden"
+                          />
+                          <input
+                            {...register(`answers.${index}.user_id_hl`, {
+                              setValueAs: (v) => parseInt(v),
+                              required: true,
+                            })}
+                            value={1}
+                            type="hidden"
+                          />
+                          <input
+                            {...register(`answers.${index}.survey_id`, {
+                              setValueAs: (v) => parseInt(v),
+                              required: true,
+                            })}
+                            value={item.id}
+                            type="hidden"
+                          />
+                          <input
+                            {...register(`answers.${index}.answer`, {
+                              required: true,
+                            })}
+                            type="text"
+                            placeholder={item.question}
+                            defaultValue={survey?.answers[index]?.answer}
+                            className="input  bg-[#DFDFDF]"
+                          />
                         </>
-                      ) : null}
-                    </div>
-                  )}
-                </div>
-              </div>
-            );
-          })
-        ) : (
-          <h1>kosong</h1>
-        )}
+                      )}
+                      {item.type === 'date' && (
+                        <>
+                          <input
+                            {...register(`answers.${index}.user_id`, {
+                              setValueAs: (v) => parseInt(v),
+                              required: true,
+                            })}
+                            value={1}
+                            type="hidden"
+                          />
+                          <input
+                            {...register(`answers.${index}.user_id_hl`, {
+                              setValueAs: (v) => parseInt(v),
+                              required: true,
+                            })}
+                            value={1}
+                            type="hidden"
+                          />
+                          <input
+                            {...register(`answers.${index}.survey_id`, {
+                              setValueAs: (v) => parseInt(v),
+                              required: true,
+                            })}
+                            value={item.id}
+                            type="hidden"
+                          />
+                          <input
+                            {...register(`answers.${index}.answer`, {
+                              required: true,
+                            })}
+                            type="date"
+                            placeholder={item.question}
+                            defaultValue={survey?.answers[index]?.answer}
+                            className="input  bg-[#DFDFDF] w-full md:w-1/2"
+                          />
+                        </>
+                      )}
+                      {(item.type === 'radio-button' ||
+                        item.type === 'select') && (
+                        <div className="flex items-center">
+                          <input
+                            {...register(`answers.${index}.user_id`, {
+                              setValueAs: (v) => parseInt(v),
+                              required: true,
+                            })}
+                            value={1}
+                            type="hidden"
+                          />
+                          <input
+                            {...register(`answers.${index}.user_id_hl`, {
+                              setValueAs: (v) => parseInt(v),
+                              required: true,
+                            })}
+                            value={1}
+                            type="hidden"
+                          />
+                          <input
+                            {...register(`answers.${index}.survey_id`, {
+                              setValueAs: (v) => parseInt(v),
+                              required: true,
+                            })}
+                            value={item.id}
+                            type="hidden"
+                          />
 
-        <div className="flex flex-row justify-end">
-          <button
-            type="submit"
-            // onClick={() => setStepper(6)}
-            className="bg-bermuda hover:bg-[#c54933] transition-all text-sm text-white rounded-3xl px-5 py-3 "
-          >
-            Lanjut
-          </button>
+                          {item.answers.length > 0 ? (
+                            <>
+                              {item.answers.map((v, i) => {
+                                return (
+                                  <div
+                                    key={i}
+                                    className="mr-3 flex items-center"
+                                  >
+                                    <span className="mr-2">{v.answer}</span>
+                                    <input
+                                      type="radio"
+                                      {...register(`answers.${index}.answer`, {
+                                        required: true,
+                                      })}
+                                      defaultChecked={
+                                        survey?.answers[index]?.answer ===
+                                        v.answer
+                                          ? true
+                                          : false
+                                      }
+                                      value={v.answer}
+                                      className="radio radio-sm radio-secondary"
+                                    />
+                                  </div>
+                                );
+                              })}
+                            </>
+                          ) : null}
+                        </div>
+                      )}
+                      {item.type === 'checkbox' && (
+                        <div>
+                          <input
+                            {...register(`answers.${index}.user_id`, {
+                              setValueAs: (v) => parseInt(v),
+                              required: true,
+                            })}
+                            value={1}
+                            type="hidden"
+                          />
+                          <input
+                            {...register(`answers.${index}.user_id_hl`, {
+                              setValueAs: (v) => parseInt(v),
+                              required: true,
+                            })}
+                            value={1}
+                            type="hidden"
+                          />
+                          <input
+                            {...register(`answers.${index}.survey_id`, {
+                              setValueAs: (v) => parseInt(v),
+                              required: true,
+                            })}
+                            value={item.id}
+                            type="hidden"
+                          />
+                          {item.answers.length > 0 ? (
+                            <>
+                              {item.answers.map((v, i) => {
+                                return (
+                                  <div key={i} className="my-1">
+                                    <label className="cursor-pointer flex items-center ">
+                                      <input
+                                        {...register(
+                                          `answers.${index}.answer`,
+                                          {
+                                            required: true,
+                                          }
+                                        )}
+                                        defaultChecked={
+                                          survey?.answers[index]?.answer[i] ===
+                                          v.answer
+                                            ? true
+                                            : false
+                                        }
+                                        value={v.answer}
+                                        type="checkbox"
+                                        className="checkbox checkbox-sm checkbox-secondary"
+                                      />
+                                      <span className="label-text ml-2">
+                                        {v.answer}
+                                      </span>
+                                    </label>
+                                  </div>
+                                );
+                              })}
+                            </>
+                          ) : null}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                );
+              })
+            ) : (
+              <h1>kosong</h1>
+            )}
+
+            <div className="flex flex-row justify-end">
+              <button
+                type="submit"
+                className="bg-bermuda hover:bg-[#c54933] transition-all text-sm text-white rounded-3xl px-5 py-3 "
+              >
+                Lanjut
+              </button>
+            </div>
+          </form>
         </div>
-      </form>
-    </div>
+      )}
+    </>
   );
 };
 

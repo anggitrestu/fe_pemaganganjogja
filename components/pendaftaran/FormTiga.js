@@ -1,133 +1,61 @@
 import {
   createSessionStorage,
   getSessionStorage,
-  useSessionStorage,
 } from 'helpers/useSessionStorage';
-import ApiUserInternship from 'pages/api/ApiUserInternship';
-import ApiUsers from 'pages/api/ApiUsers';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Swal from 'sweetalert2';
 
 function FormTiga({ setStepper }) {
-  const [user, setUser] = useState(null);
-  console.log(user);
-  const [userIDHL, setUserIDHL] = useState(0);
   const [isLoading, setLoading] = useState(false);
+  const [profile, setProfile] = useState(undefined);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const createUserInternships = async (data, lowongan) => {
+  const onSubmit = (data) => {
     try {
-      const payload = {
-        user_id: 0,
-        user_id_hl: 0,
-        internship_id: 0,
-      };
-      if (lowongan.id !== 0) {
-        payload.user_id = data.id;
-        payload.user_id_hl = data.user_id_hl;
-        payload.internship_id = lowongan.id;
-        await ApiUserInternship.create(payload)
-          .then((res) => console.log('succes create internship'))
-          .catch((err) => {
-            console.log(err);
-          });
-      }
+      setLoading(true);
+      createSessionStorage('profile', data);
+      let timerInterval;
+      Swal.fire({
+        title: 'Loading...',
+        timer: 300,
+        timerProgressBar: true,
+        didOpen: async () => {
+          Swal.showLoading();
+          timerInterval = setInterval(() => {}, 100);
+          setLoading(false);
+          setStepper(4);
+        },
+        willClose: () => {
+          clearInterval(timerInterval);
+        },
+      });
     } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const onSubmit = async (data) => {
-    try {
-      if (
-        user.lowongan1.id === 0 &&
-        user.lowongan2.id === 0 &&
-        user.lowongan3.id === 0
-      ) {
-        alert('silahkan pilih lowongan magang terlebih dahulu !');
-        setStepper(1);
-      } else {
-        Swal.fire({
-          title: 'Yakin data profil anda sudah benar?',
-          text: 'Setelah membuat profil, data tidak bisa di ubah kembali',
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'Yes!',
-        }).then(async (result) => {
-          if (result.isConfirmed) {
-            setLoading(true);
-            await ApiUsers.updateProfile(data)
-              .then((res) => {
-                const data = {
-                  id: res.data.id,
-                  user_id_hl: res.data.user_id_hl,
-                };
-                createSessionStorage('profile', data);
-                try {
-                  createUserInternships(data, user.lowongan1);
-                  createUserInternships(data, user.lowongan2);
-                  createUserInternships(data, user.lowongan3);
-                  Swal.fire({
-                    icon: 'success',
-                    title: `${res.meta.status}`,
-                    text: `${res.meta.message}`,
-                  }).then(() => {
-                    setStepper(4);
-                  });
-                } catch (error) {
-                  console.log(error);
-                }
-              })
-              .catch((err) => {
-                if (err.response) {
-                  Swal.fire({
-                    icon: 'error',
-                    title: `error`,
-                    text: `pastikan data yang anda input benar`,
-                  });
-                } else {
-                  console.log(err);
-                }
-              });
-          }
-        });
-      }
-    } catch (error) {
-      console.log(error);
+      console.log(err);
     }
   };
 
   useEffect(() => {
-    const user = getSessionStorage('user');
-    const profile = getSessionStorage('profile');
-    console.log(profile);
-    setUser(user);
-    setUserIDHL(user.user_id_hl);
-
-    if (user.user_id_hl > 1) {
-      if (profile.user_id_hl > 1) {
-        setStepper(4);
-      } else {
-        setStepper(3);
-      }
+    const profileSession = getSessionStorage('profile');
+    if (profileSession !== false) {
+      setProfile(profileSession);
+    } else {
+      setProfile(null);
     }
-
     window.scrollTo(0, 0);
 
     return () => {};
-  }, [setStepper, setUser]);
+  }, [setStepper]);
 
   return (
     <>
-      {userIDHL === 0 ? (
-        <h1>Harap buat akun terlebih dahulu</h1>
+      {profile === undefined ? (
+        <h1>Loading</h1>
       ) : (
         <div>
           <h1 className="text-[#404040] font-semibold text-2xl mt-14">
@@ -147,7 +75,7 @@ function FormTiga({ setStepper }) {
                   required: true,
                   setValueAs: (v) => parseInt(v),
                 })}
-                value={userIDHL}
+                value={1}
                 placeholder="tambahkan nama perusahaan..."
                 className="input input-bordered h-[40px]"
               />
@@ -157,6 +85,7 @@ function FormTiga({ setStepper }) {
                 {...register('fullname', {
                   required: true,
                 })}
+                defaultValue={profile?.fullname}
                 placeholder="Nama Lengkap"
                 className="w-full border-[1px] bg-[#DFDFDF] cursor-pointer text-base text-[#8F8F8F] focus:text-bermuda focus:outline-none focus:border-bermuda rounded-3xl py-5 px-8"
               />
@@ -171,6 +100,7 @@ function FormTiga({ setStepper }) {
                   {...register('province', {
                     required: true,
                   })}
+                  defaultValue={profile?.province}
                   placeholder="Provinsi Domisili"
                   className=" md:w-[49%] border-[1px] bg-[#DFDFDF] cursor-pointer text-base text-[#8F8F8F] focus:text-bermuda focus:outline-none focus:border-bermuda rounded-3xl py-5 px-8"
                 />
@@ -184,6 +114,7 @@ function FormTiga({ setStepper }) {
                   {...register('city', {
                     required: true,
                   })}
+                  defaultValue={profile?.city}
                   placeholder="Kota Domisili"
                   className="mt-6 md:mt-0 md:w-[49%]  border-[1px] bg-[#DFDFDF] cursor-pointer text-base text-[#8F8F8F] focus:text-bermuda focus:outline-none focus:border-bermuda rounded-3xl py-5 px-8"
                 />
@@ -197,6 +128,7 @@ function FormTiga({ setStepper }) {
                 {...register('marital_status', {
                   required: true,
                 })}
+                defaultValue={profile?.marital_status}
                 className="w-full border-[1px] bg-[#DFDFDF] cursor-pointer appearance-none text-base text-[#8F8F8F] focus:text-bermuda focus:outline-none focus:border-bermuda rounded-3xl py-5 px-8 mb-6"
               >
                 <option hidden value={null}>
@@ -214,6 +146,7 @@ function FormTiga({ setStepper }) {
                 {...register('about_you', {
                   required: true,
                 })}
+                defaultValue={profile?.about_you}
                 placeholder="Tuliskan gambaran mengenai dirimu disini..."
                 className="w-full border-[1px] bg-[#DFDFDF] cursor-pointer appearance-none text-base text-[#8F8F8F] focus:text-bermuda focus:outline-none focus:border-bermuda rounded-3xl py-8 px-8"
                 rows="6"
@@ -234,6 +167,7 @@ function FormTiga({ setStepper }) {
                 {...register('name_edu', {
                   required: true,
                 })}
+                defaultValue={profile?.name_edu}
                 placeholder="Nama Sekolah/Universitas"
                 className="w-full border-[1px] bg-[#DFDFDF] cursor-pointer text-base text-[#8F8F8F] focus:text-bermuda focus:outline-none focus:border-bermuda rounded-3xl py-5 px-8 mb-6"
               />
@@ -246,6 +180,7 @@ function FormTiga({ setStepper }) {
                 {...register('level_edu', {
                   required: true,
                 })}
+                defaultValue={profile?.level_edu}
                 className="w-full border-[1px] bg-[#DFDFDF] cursor-pointer appearance-none text-base text-[#8F8F8F] focus:text-bermuda focus:outline-none focus:border-bermuda rounded-3xl py-5 px-8 mb-6"
               >
                 <option hidden>Derajat Sekolah</option>
@@ -258,6 +193,7 @@ function FormTiga({ setStepper }) {
                 {...register('major_edu', {
                   required: true,
                 })}
+                defaultValue={profile?.major_edu}
                 placeholder="Jurusan/Program Studi"
                 className="w-full border-[1px] bg-[#DFDFDF] cursor-pointer text-base text-[#8F8F8F] focus:text-bermuda focus:outline-none focus:border-bermuda rounded-3xl py-5 px-8 "
               />
@@ -270,6 +206,7 @@ function FormTiga({ setStepper }) {
                 {...register('educational_background', {
                   required: true,
                 })}
+                defaultValue={profile?.educational_background}
                 placeholder="Diskripsikan pendidikan kamu disini..."
                 className="w-full border-[1px] bg-[#DFDFDF] cursor-pointer appearance-none text-base text-[#8F8F8F] focus:text-bermuda focus:outline-none focus:border-bermuda rounded-3xl py-8 px-8 mt-6 mb-6"
                 rows="6"
@@ -281,12 +218,15 @@ function FormTiga({ setStepper }) {
               )}
               <textarea
                 {...register('work_experience', { required: true })}
+                defaultValue={profile?.work_experience}
                 placeholder="Deskripsikan pengalaman kerja jika ada..."
                 className="w-full border-[1px] bg-[#DFDFDF] cursor-pointer appearance-none text-base text-[#8F8F8F] focus:text-bermuda focus:outline-none focus:border-bermuda rounded-3xl py-8 px-8 mt-6 mb-6"
                 rows="6"
               ></textarea>
               {errors.work_experience && (
-                <p className="text-xs text-bermuda mt-1">*harap di isi </p>
+                <p className="text-xs text-bermuda mt-1">
+                  *isi - jika tidak ada{' '}
+                </p>
               )}
 
               {/* 
