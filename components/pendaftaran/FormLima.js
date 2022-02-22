@@ -102,8 +102,8 @@ const FormLima = ({ setStepper, data }) => {
         if (err.response) {
           Swal.fire({
             icon: 'error',
-            title: `error`,
-            text: `${err.response.data.error.message}`,
+            title: `invalid`,
+            text: `email atau nomor hp anda sudah terdaftar, registrasi dengan  data yang baru`,
           });
         } else {
           console.log(err);
