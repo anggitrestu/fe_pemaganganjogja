@@ -36,7 +36,7 @@ function FormDua({ setStepper }) {
   const onSubmit = (data) => {
     try {
       setLoading(true);
-      data.name = 'user pj';
+      data.name = 'user pemaganganjogja';
       data.password_confirmation = data.password;
       createSessionStorage('user', data);
       let timerInterval;
