@@ -19,7 +19,13 @@ const FormLima = ({ setStepper, data }) => {
   const [survey, setSurvey] = useState(undefined);
   const [isLoading, setLoading] = useState(false);
 
-  const registerUser = async (dataSurveiForm) => {
+  console.log(user);
+  console.log(profile);
+  console.log(userInternships);
+  console.log(userKuisioner);
+  console.log(survey);
+
+  const registerUser = (dataSurveiForm) => {
     ApiUsers.register(user)
       .then((resUser) => {
         profile.user_id_hl = resUser[0].id;
@@ -34,14 +40,14 @@ const FormLima = ({ setStepper, data }) => {
               createUserInternships(data, userInternships.lowongan2);
               createUserInternships(data, userInternships.lowongan3);
 
-              userKuisioner.answers.map(async (item, index) => {
+              userKuisioner.answers.map((item, index) => {
                 {
                   if (Array.isArray(item.answer)) {
                     const answer = item.answer.toString();
                     item.user_id = resProfile.data.id;
                     item.user_id_hl = resProfile.data.user_id_hl;
                     item.answer = answer;
-                    await ApiKuisioners.user_kuisioner(item)
+                    ApiKuisioners.user_kuisioner(item)
                       .then((res) => {})
                       .catch((err) => {
                         console.log(err);
@@ -49,7 +55,7 @@ const FormLima = ({ setStepper, data }) => {
                   } else {
                     item.user_id = resProfile.data.id;
                     item.user_id_hl = resProfile.data.user_id_hl;
-                    await ApiKuisioners.user_kuisioner(item)
+                    ApiKuisioners.user_kuisioner(item)
                       .then((res) => {})
                       .catch((err) => {
                         console.log(err);
@@ -58,14 +64,14 @@ const FormLima = ({ setStepper, data }) => {
                 }
               });
 
-              dataSurveiForm.answers.map(async (item, index) => {
+              dataSurveiForm.answers.map((item, index) => {
                 {
                   if (Array.isArray(item.answer)) {
                     const answer = item.answer.toString();
                     item.user_id = resProfile.data.id;
                     item.user_id_hl = resProfile.data.user_id_hl;
                     item.answer = answer;
-                    await ApiSurvey.user_surcey(item)
+                    ApiSurvey.user_surcey(item)
                       .then((res) => {})
                       .catch((err) => {
                         console.log(err);
@@ -73,7 +79,7 @@ const FormLima = ({ setStepper, data }) => {
                   } else {
                     item.user_id = resProfile.data.id;
                     item.user_id_hl = resProfile.data.user_id_hl;
-                    await ApiSurvey.user_surcey(item)
+                    ApiSurvey.user_surcey(item)
                       .then((res) => {})
                       .catch((err) => {
                         console.log(err);
@@ -112,7 +118,7 @@ const FormLima = ({ setStepper, data }) => {
       });
   };
 
-  const createUserInternships = async (data, lowongan) => {
+  const createUserInternships = (data, lowongan) => {
     try {
       const payload = {
         user_id: 0,
@@ -123,7 +129,7 @@ const FormLima = ({ setStepper, data }) => {
         payload.user_id = data.id;
         payload.user_id_hl = data.user_id_hl;
         payload.internship_id = lowongan.id;
-        await ApiUserInternship.create(payload)
+        ApiUserInternship.create(payload)
           .then((res) => console.log('succes create internship'))
           .catch((err) => {
             console.log(err);
@@ -134,14 +140,14 @@ const FormLima = ({ setStepper, data }) => {
     }
   };
 
-  const onSubmit = async (dataSurveiForm) => {
+  const onSubmit = (dataSurveiForm) => {
     try {
       setLoading(true);
       createSessionStorage('dataSurvey', dataSurveiForm);
       setSurvey(dataSurveiForm);
       let timerInterval;
 
-      await registerUser(dataSurveiForm);
+      registerUser(dataSurveiForm);
 
       Swal.fire({
         title: 'Harap ditunggu, data anda sedang di proses!',
@@ -149,7 +155,7 @@ const FormLima = ({ setStepper, data }) => {
         allowEscapeKey: false,
         allowOutsideClick: false,
         timerProgressBar: true,
-        didOpen: async () => {
+        didOpen: () => {
           Swal.showLoading();
           timerInterval = setInterval(() => {}, 100);
           setLoading(false);
@@ -159,37 +165,13 @@ const FormLima = ({ setStepper, data }) => {
           clearInterval(timerInterval);
         },
       });
-      // Swal({
-      //   title: 'Now loading',
-      //   allowEscapeKey: false,
-      //   allowOutsideClick: false,
-      //   timer: 2000,
-      //   onOpen: () => {
-      //     Swal.showLoading();
-      //   },
-      // }).then(
-      //   () => {},
-      //   (dismiss) => {
-      //     if (dismiss === 'timer') {
-      //       console.log('closed by timer!!!!');
-      //       swal({
-      //         title: 'Finished!',
-      //         type: 'success',
-      //         timer: 2000,
-      //         showConfirmButton: false,
-      //       });
-      //     }
-      //   }
-      // );
     } catch (error) {
       console.log(error);
     }
   };
-  const showLoading = function () {};
 
   useEffect(() => {
     const surveySession = getSessionStorage('dataSurvey');
-    console.log(surveySession);
     if (surveySession !== false) {
       setSurvey(surveySession);
     } else {

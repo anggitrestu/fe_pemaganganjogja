@@ -1,6 +1,5 @@
 /* eslint-disable jsx-a11y/alt-text */
 import Head from 'next/head';
-import Link from 'next/link';
 import Image from 'next/image';
 import Footer from 'components/Footer';
 import FormSatu from 'components/pendaftaran/FormSatu';
@@ -15,9 +14,6 @@ import ApiSurvey from './api/ApiSurvey';
 import { useSessionStorage } from 'helpers/useSessionStorage';
 import Swal from 'sweetalert2';
 import { useRouter } from 'next/router';
-import FormBuatAkun from 'components/pendaftaran/FormBuatAkun';
-import FormPilihLowongan from 'components/pendaftaran/FormPilihLowongan';
-import FormLengkapiProfile from 'components/pendaftaran/FormLengkapiProfile';
 
 function Pendaftaran({ data, kuisioner, survey }) {
   const [stepper, setStepper] = useSessionStorage(1, 'stepper');
@@ -135,8 +131,6 @@ function Pendaftaran({ data, kuisioner, survey }) {
             <FormSatu data={data} setStepper={setStepper}></FormSatu>
           )}
           {stepper === 2 && <FormDua setStepper={setStepper}></FormDua>}
-
-          {/* {stepper === 2 && <FormDua setStepper={setStepper}></FormDua>} */}
           {stepper === 3 && <FormTiga setStepper={setStepper}></FormTiga>}
           {stepper === 4 && (
             <FormEmpat setStepper={setStepper} data={kuisioner}></FormEmpat>

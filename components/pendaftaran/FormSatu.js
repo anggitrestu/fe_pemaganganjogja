@@ -2,16 +2,14 @@ import Modal from 'components/Modal';
 import {
   createSessionStorage,
   getSessionStorage,
-  useSessionStorage,
 } from 'helpers/useSessionStorage';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
-import { useWatch } from 'react-hook-form';
 import Swal from 'sweetalert2';
 import { alertIsiLowongan } from './alert';
 
 function FormSatu({ data, setStepper }) {
-  const [lowongan1, setLowongan1] = useSessionStorage(
+  const [lowongan1, setLowongan1] = useState(
     {
       id: 0,
       name_program: '',
@@ -19,7 +17,7 @@ function FormSatu({ data, setStepper }) {
     'lowongan-1'
   );
 
-  const [lowongan2, setLowongan2] = useSessionStorage(
+  const [lowongan2, setLowongan2] = useState(
     {
       id: 0,
       name_program: '',
@@ -27,7 +25,7 @@ function FormSatu({ data, setStepper }) {
     'lowongan-2'
   );
 
-  const [lowongan3, setLowongan3] = useSessionStorage(
+  const [lowongan3, setLowongan3] = useState(
     {
       id: 0,
       name_program: '',
