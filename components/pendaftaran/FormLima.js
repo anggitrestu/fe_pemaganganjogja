@@ -17,6 +17,7 @@ const FormLima = ({ setStepper, data }) => {
   const [userKuisioner, setUserKuisioner] = useState(undefined);
   const { register, handleSubmit } = useForm({});
   const [survey, setSurvey] = useState(undefined);
+  const [isLoading, setLoading] = useState(false);
 
   const registerUser = async (dataSurveiForm) => {
     ApiUsers.register(user)
@@ -80,7 +81,6 @@ const FormLima = ({ setStepper, data }) => {
                   }
                 }
               });
-
               setStepper(6);
             } catch (error) {
               console.log(error);
@@ -136,6 +136,7 @@ const FormLima = ({ setStepper, data }) => {
 
   const onSubmit = async (dataSurveiForm) => {
     try {
+      setLoading(true);
       createSessionStorage('dataSurvey', dataSurveiForm);
       setSurvey(dataSurveiForm);
       let timerInterval;
@@ -145,19 +146,46 @@ const FormLima = ({ setStepper, data }) => {
       Swal.fire({
         title: 'Harap ditunggu, data anda sedang di proses!',
         timer: 7000,
+        allowEscapeKey: false,
+        allowOutsideClick: false,
         timerProgressBar: true,
         didOpen: async () => {
           Swal.showLoading();
           timerInterval = setInterval(() => {}, 100);
+          setLoading(false);
         },
         willClose: () => {
+          setLoading(false);
           clearInterval(timerInterval);
         },
       });
+      // Swal({
+      //   title: 'Now loading',
+      //   allowEscapeKey: false,
+      //   allowOutsideClick: false,
+      //   timer: 2000,
+      //   onOpen: () => {
+      //     Swal.showLoading();
+      //   },
+      // }).then(
+      //   () => {},
+      //   (dismiss) => {
+      //     if (dismiss === 'timer') {
+      //       console.log('closed by timer!!!!');
+      //       swal({
+      //         title: 'Finished!',
+      //         type: 'success',
+      //         timer: 2000,
+      //         showConfirmButton: false,
+      //       });
+      //     }
+      //   }
+      // );
     } catch (error) {
       console.log(error);
     }
   };
+  const showLoading = function () {};
 
   useEffect(() => {
     const surveySession = getSessionStorage('dataSurvey');
@@ -404,11 +432,13 @@ const FormLima = ({ setStepper, data }) => {
             ) : (
               <h1>kosong</h1>
             )}
-
             <div className="flex flex-row justify-end">
               <button
+                disabled={isLoading}
                 type="submit"
-                className="bg-bermuda hover:bg-[#c54933] transition-all text-sm text-white rounded-3xl px-5 py-3 "
+                className={
+                  'bg-bermuda hover:bg-[#c54933] transition-all text-sm text-white rounded-3xl px-5 py-3  '
+                }
               >
                 Lanjut
               </button>
