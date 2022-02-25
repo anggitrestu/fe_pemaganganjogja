@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import useLocalStorage from 'react-use-localstorage';
 
 import { encodeData, decodeData } from './local-storage/JsonWebToken';
 

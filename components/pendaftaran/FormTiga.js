@@ -5,11 +5,13 @@ import {
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Swal from 'sweetalert2';
+import { alertBuatAkun, alertIsiLowongan } from './alert';
 
 function FormTiga({ setStepper }) {
   const [isLoading, setLoading] = useState(false);
   const [profile, setProfile] = useState(undefined);
-
+  const lowonganSession = getSessionStorage('dataLowongan');
+  const userSession = getSessionStorage('user');
   const {
     register,
     handleSubmit,
@@ -41,6 +43,16 @@ function FormTiga({ setStepper }) {
   };
 
   useEffect(() => {
+    if (!lowonganSession) {
+      alertIsiLowongan();
+      setStepper(1);
+    } else {
+      if (!userSession) {
+        alertBuatAkun();
+        setStepper(2);
+      }
+    }
+
     const profileSession = getSessionStorage('profile');
     if (profileSession !== false) {
       setProfile(profileSession);
