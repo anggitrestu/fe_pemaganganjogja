@@ -19,127 +19,41 @@ const FormLima = ({ setStepper, data }) => {
   const [survey, setSurvey] = useState(undefined);
   const [isLoading, setLoading] = useState(false);
 
-  const userSession = getSessionStorage('user');
-  const lowonganSession = getSessionStorage('dataLowongan');
-  const profileSession = getSessionStorage('profile');
-  const KuisionerSession = getSessionStorage('dataKuisioner');
-
-  const createUser = async (user) => {
-    await ApiUsers.register(user)
-      .then((res) => res)
-      .catch((err) => {
-        if (err.response) {
-          Swal.fire({
-            icon: 'error',
-            title: `invalid`,
-            text: `email atau nomor hp anda sudah terdaftar, registrasi dengan  data yang baru`,
-          });
-        } else {
-          console.log(err);
-        }
-        setStepper(2);
-      });
-  };
-
-  const createProfile = async (profile) => {
-    await ApiUsers.updateProfile(profile)
-      .then((res) => res)
-      .catch((err) => {
-        if (err.response) {
-          Swal.fire({
-            icon: 'error',
-            title: `invalid`,
-            text: `pastikan data yang anda input benar`,
-          });
-        } else {
-          console.log(err);
-        }
-        setStepper(3);
-      });
-  };
-
-  async function createInternships(user_id, user_id_hl, dataLowongan) {
-    let payload = {
-      user_id: user_id,
-      user_id_hl: user_id_hl,
-      internship_id: 0,
-    };
-
-    if (dataLowongan.lowongan1.id !== 0) {
-      payload.internship_id = dataLowongan.lowongan1.id;
-      await ApiUserInternship.create(payload);
-    }
-    if (dataLowongan.lowongan2.id !== 0) {
-      payload.internship_id = dataLowongan.lowongan2.id;
-      await ApiUserInternship.create(payload);
-    }
-    if (dataLowongan.lowongan3.id !== 0) {
-      payload.internship_id = dataLowongan.lowongan3.id;
-      await ApiUserInternship.create(payload);
-    }
-  }
-
-  async function createKuisioner(user_id, user_id_hl, kuisioner) {
-    kuisioner.answers.map(async (item) => {
-      {
-        if (Array.isArray(item.answer)) {
-          const answer = item.answer.toString();
-          item.user_id = user_id;
-          item.user_id_hl = user_id_hl;
-          item.answer = answer;
-          await ApiKuisioners.user_kuisioner(item);
-        } else {
-          item.user_id = user_id;
-          item.user_id_hl = user_id_hl;
-          await ApiKuisioners.user_kuisioner(item);
-        }
-      }
-    });
-  }
-
-  async function createSurvey(user_id, user_id_hl, survey) {
-    survey.answers.map(async (item) => {
-      {
-        if (Array.isArray(item.answer)) {
-          const answer = item.answer.toString();
-          item.user_id = user_id;
-          item.user_id_hl = user_id_hl;
-          item.answer = answer;
-          await ApiSurvey.user_surcey(item);
-        } else {
-          item.user_id = user_id;
-          item.user_id_hl = user_id_hl;
-          await ApiSurvey.user_surcey(item);
-        }
-      }
-    });
-  }
-
-  const onSubmit = async (dataSurveiForm) => {
+  const onSubmit = (dataSurveiForm) => {
     try {
       setLoading(true);
-      createSessionStorage('dataSurvey', dataSurveiForm);
-      setSurvey(dataSurveiForm);
-      let data = {
+      const data = {
         user: user,
         profile: profile,
         userInternships: userInternships,
         userKuisioner: userKuisioner,
         userSurvey: dataSurveiForm,
       };
-      // console.log(data);
+      if (data.userInternships) {
+      } else {
+        if (data.user) {
+        } else {
+          if (data.profile) {
+          } else {
+            if (data.userKuisioner) {
+            } else {
+              console.log('data tidak lengkap');
+              setStepper(4);
+            }
+            console.log('data tidak lengkap');
+            setStepper(3);
+          }
+          console.log('data tidak lengkap');
+          setStepper(2);
+        }
+        console.log('data tidak lengkap');
+        setStepper(1);
+      }
 
-      const userRes = await createUser(data.user);
-      data.profile.user_id_hl = userRes[0].id;
-      const profileRes = await createProfile(data.profile);
-      const user_id = profileRes.data.id;
-      const user_id_hl = profileRes.data.user_id_hl;
-      await createInternships(user_id, user_id_hl, data.userInternships);
-      await createKuisioner(user_id, user_id_hl, data.userKuisioner);
-      await createSurvey(user_id, user_id_hl, data.userSurvey);
-      setStepper(6);
-      console.log(data);
+      createSessionStorage('dataSurvey', dataSurveiForm);
+      setSurvey(dataSurveiForm);
       let timerInterval;
+
       Swal.fire({
         title: 'Harap ditunggu, data anda sedang di proses!',
         timer: 7000,
@@ -161,22 +75,172 @@ const FormLima = ({ setStepper, data }) => {
     }
   };
 
+  const registerUser = (datas) => {
+    console.log(datas);
+
+    ApiUsers.register(datas.user)
+      .then((resUser) => {
+        datas.profile.user_id_hl = resUser[0].id;
+        ApiUsers.updateProfile(datas.profile)
+          .then((resProfile) => {
+            const data = {
+              id: resProfile.data.id,
+              user_id_hl: resProfile.data.user_id_hl,
+            };
+            if (datas.userInternships.lowongan1.id > 0) {
+              createUserInternships(data, datas.userInternships.lowongan1);
+            }
+            if (datas.userInternships.lowongan2.id > 0) {
+              createUserInternships(data, datas.userInternships.lowongan2);
+            }
+            if (datas.userInternships.lowongan3.id > 0) {
+              createUserInternships(data, datas.userInternships.lowongan3);
+            }
+
+            datas.userKuisioner.answers.map((item) => {
+              {
+                if (Array.isArray(item.answer)) {
+                  const answer = item.answer.toString();
+                  item.user_id = resProfile.data.id;
+                  item.user_id_hl = resProfile.data.user_id_hl;
+                  item.answer = answer;
+                  ApiKuisioners.user_kuisioner(item)
+                    .then((res) => {})
+                    .catch((err) => {
+                      console.log(err);
+                    });
+                } else {
+                  item.user_id = resProfile.data.id;
+                  item.user_id_hl = resProfile.data.user_id_hl;
+                  ApiKuisioners.user_kuisioner(item)
+                    .then((res) => {})
+                    .catch((err) => {
+                      console.log(err);
+                    });
+                }
+              }
+            });
+
+            datas.dataSurveiForm.answers.map((item) => {
+              {
+                if (Array.isArray(item.answer)) {
+                  const answer = item.answer.toString();
+                  item.user_id = resProfile.data.id;
+                  item.user_id_hl = resProfile.data.user_id_hl;
+                  item.answer = answer;
+                  ApiSurvey.user_surcey(item)
+                    .then((res) => {})
+                    .catch((err) => {
+                      console.log(err);
+                    });
+                } else {
+                  item.user_id = resProfile.data.id;
+                  item.user_id_hl = resProfile.data.user_id_hl;
+                  ApiSurvey.user_surcey(item)
+                    .then((res) => {})
+                    .catch((err) => {
+                      console.log(err);
+                    });
+                }
+              }
+            });
+            setStepper(6);
+          })
+          .catch((err) => {
+            if (err.response) {
+              Swal.fire({
+                icon: 'error',
+                title: `error`,
+                text: `pastikan data yang anda input benar`,
+              });
+            } else {
+              console.log(err);
+            }
+            setStepper(3);
+          });
+      })
+      .catch((err) => {
+        if (err.response) {
+          Swal.fire({
+            icon: 'error',
+            title: `invalid`,
+            text: `email atau nomor hp anda sudah terdaftar, registrasi dengan  data yang baru`,
+          });
+        } else {
+          console.log(err);
+        }
+        setStepper(2);
+      });
+  };
+
+  const createUserInternships = (data, lowongan) => {
+    try {
+      const payload = {
+        user_id: 0,
+        user_id_hl: 0,
+        internship_id: 0,
+      };
+      if (lowongan.id !== 0) {
+        payload.user_id = data.id;
+        payload.user_id_hl = data.user_id_hl;
+        payload.internship_id = lowongan.id;
+        ApiUserInternship.create(payload)
+          .then((res) => console.log('succes create internship'))
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const surveySession = getSessionStorage('dataSurvey');
+  const userSession = getSessionStorage('user');
+  const lowonganSession = getSessionStorage('dataLowongan');
+  const profileSession = getSessionStorage('profile');
+  const KuisionerSession = getSessionStorage('dataKuisioner');
+
   useEffect(() => {
-    const surveySession = getSessionStorage('dataSurvey');
     if (surveySession !== false) {
       setSurvey(surveySession);
     } else {
       setSurvey(null);
     }
 
-    setUser(userSession);
-    setProfile(profileSession);
-    setUserInternships(lowonganSession);
-    setUserKuisioner(KuisionerSession);
-    window.scrollTo(0, 0);
-
-    return () => {};
-  }, [setStepper]);
+    if (lowonganSession) {
+    } else {
+      if (userSession) {
+      } else {
+        if (profileSession) {
+        } else {
+          if (KuisionerSession) {
+            setUser(userSession);
+            setProfile(profileSession);
+            setUserInternships(lowonganSession);
+            setUserKuisioner(KuisionerSession);
+            window.scrollTo(0, 0);
+          } else {
+            console.log('data tidak lengkap');
+            setStepper(4);
+          }
+          console.log('data tidak lengkap');
+          setStepper(3);
+        }
+        console.log('data tidak lengkap');
+        setStepper(2);
+      }
+      console.log('data tidak lengkap');
+      setStepper(1);
+    }
+  }, [
+    KuisionerSession,
+    lowonganSession,
+    profileSession,
+    surveySession,
+    userSession,
+    setStepper,
+  ]);
 
   return (
     <>

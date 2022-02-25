@@ -41,11 +41,6 @@ function FormSatu({ data, setStepper }) {
       setLowongan3(dataLowongan.lowongan3);
     }
 
-    // console.log(dataLowongan);
-    if (dataLowongan !== false) {
-      // setStepper(2);
-    }
-
     window.scrollTo(0, 0);
   }, [setLowongan1, setLowongan2, setLowongan3, setStepper]);
 

@@ -7,6 +7,8 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Swal from 'sweetalert2';
 import Error from 'utils/errorMessage/error';
+import { alertIsiLowongan } from './alert';
+import Checklowongan from './validasi/checkLowongan';
 
 function FormDua({ setStepper }) {
   const [isLoading, setLoading] = useState(false);
@@ -15,6 +17,7 @@ function FormDua({ setStepper }) {
     setShowPassword(!showPassword);
   };
   const [user, setUser] = useState(undefined);
+  const lowonganValid = Checklowongan();
 
   useEffect(() => {
     const userSession = getSessionStorage('user');
@@ -23,9 +26,16 @@ function FormDua({ setStepper }) {
     } else {
       setUser(null);
     }
+
+    console.log(lowonganValid);
+    if (!lowonganValid) {
+      alertIsiLowongan();
+      setStepper(1);
+    }
+
     window.scrollTo(0, 0);
     return () => {};
-  }, []);
+  }, [setStepper]);
 
   const {
     register,

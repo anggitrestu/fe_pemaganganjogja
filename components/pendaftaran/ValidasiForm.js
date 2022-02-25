@@ -1,5 +1,5 @@
 import { alertIsiLowongan, alertBuatAkun } from './alert';
-import CheckBuatAkun from './validasi/checkBuatAkun';
+import CheckBuatAkun from './validasi/checkUser';
 import CheckKuisioner from './validasi/checkKuisioner';
 import CheckLengkapiProfile from './validasi/checkLengkapiProfile';
 import Checklowongan from './validasi/checkLowongan';
