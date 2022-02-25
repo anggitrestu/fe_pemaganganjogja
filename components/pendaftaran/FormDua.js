@@ -7,16 +7,23 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Swal from 'sweetalert2';
 import Error from 'utils/errorMessage/error';
+import { alertIsiLowongan } from './alert';
 
 function FormDua({ setStepper }) {
   const [isLoading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const lowonganSession = getSessionStorage('dataLowongan');
   const handlePassowrd = () => {
     setShowPassword(!showPassword);
   };
   const [user, setUser] = useState(undefined);
 
   useEffect(() => {
+    if (!lowonganSession) {
+      alertIsiLowongan();
+      setStepper(1);
+    }
+
     const userSession = getSessionStorage('user');
     if (userSession !== false) {
       setUser(userSession);

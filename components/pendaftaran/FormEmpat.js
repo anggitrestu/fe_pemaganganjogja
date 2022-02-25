@@ -5,6 +5,8 @@ import {
   createSessionStorage,
   getSessionStorage,
 } from 'helpers/useSessionStorage';
+import { useRouter } from 'next/router';
+import { alertBuatAkun, alertIsiLowongan, alertLengkapiProfile } from './alert';
 
 const FormEmpat = ({ setStepper, data }) => {
   const {
@@ -13,9 +15,28 @@ const FormEmpat = ({ setStepper, data }) => {
     formState: { errors },
   } = useForm();
 
+  const lowonganSession = getSessionStorage('dataLowongan');
+  const userSession = getSessionStorage('user');
+  const profileSession = getSessionStorage('profile');
+
   const [kuisioner, setKuisioner] = useState(undefined);
 
   useEffect(() => {
+    if (!lowonganSession) {
+      alertIsiLowongan();
+      setStepper(1);
+    } else {
+      if (!userSession) {
+        alertBuatAkun();
+        setStepper(2);
+      } else {
+        if (!profileSession) {
+          alertLengkapiProfile();
+          setStepper(3);
+        }
+      }
+    }
+
     const kuisionerSession = getSessionStorage('dataKuisioner');
     if (kuisionerSession !== false) {
       setKuisioner(kuisionerSession);

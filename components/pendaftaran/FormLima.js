@@ -9,6 +9,12 @@ import ApiUsers from 'pages/api/ApiUsers';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Swal from 'sweetalert2';
+import {
+  alertBuatAkun,
+  alertIsiLowongan,
+  alertLengkapiProfile,
+  alertSurvei,
+} from './alert';
 
 const FormLima = ({ setStepper, data }) => {
   const [user, setUser] = useState(undefined);
@@ -19,11 +25,11 @@ const FormLima = ({ setStepper, data }) => {
   const [survey, setSurvey] = useState(undefined);
   const [isLoading, setLoading] = useState(false);
 
-  console.log(user);
-  console.log(profile);
-  console.log(userInternships);
-  console.log(userKuisioner);
-  console.log(survey);
+  const surveySession = getSessionStorage('dataSurvey');
+  const lowonganSession = getSessionStorage('dataLowongan');
+  const userSession = getSessionStorage('user');
+  const profileSession = getSessionStorage('profile');
+  const KuisionerSession = getSessionStorage('dataKuisioner');
 
   const registerUser = (dataSurveiForm) => {
     ApiUsers.register(user)
@@ -146,6 +152,7 @@ const FormLima = ({ setStepper, data }) => {
       createSessionStorage('dataSurvey', dataSurveiForm);
       setSurvey(dataSurveiForm);
       let timerInterval;
+      console.log(dataSurveiForm);
 
       registerUser(dataSurveiForm);
 
@@ -171,22 +178,45 @@ const FormLima = ({ setStepper, data }) => {
   };
 
   useEffect(() => {
-    const surveySession = getSessionStorage('dataSurvey');
     if (surveySession !== false) {
       setSurvey(surveySession);
     } else {
       setSurvey(null);
     }
+    const data = {
+      user: userSession,
+      profile: profileSession,
+      userInternships: lowonganSession,
+      userKuisioner: KuisionerSession,
+      userSurvey: surveySession,
+    };
 
-    const lowongan = getSessionStorage('dataLowongan');
-    const user = getSessionStorage('user');
-    const profile = getSessionStorage('profile');
-    const Kuisioner = getSessionStorage('dataKuisioner');
+    // console.log(data);
 
-    setUser(user);
-    setProfile(profile);
-    setUserInternships(lowongan);
-    setUserKuisioner(Kuisioner);
+    if (!lowonganSession) {
+      alertIsiLowongan();
+      setStepper(1);
+    } else {
+      if (!userSession) {
+        alertBuatAkun();
+        setStepper(2);
+      } else {
+        if (!profileSession) {
+          alertLengkapiProfile();
+          setStepper(3);
+        } else {
+          if (!KuisionerSession) {
+            alertSurvei();
+            setStepper(4);
+          }
+        }
+      }
+    }
+
+    setUser(userSession);
+    setProfile(profileSession);
+    setUserInternships(lowonganSession);
+    setUserKuisioner(KuisionerSession);
     window.scrollTo(0, 0);
 
     return () => {};
