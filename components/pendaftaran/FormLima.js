@@ -191,7 +191,7 @@ const FormLima = ({ setStepper, data }) => {
       userSurvey: surveySession,
     };
 
-    // console.log(data);
+    console.log(data);
 
     if (!lowonganSession) {
       alertIsiLowongan();
