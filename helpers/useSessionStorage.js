@@ -22,13 +22,21 @@ export function useSessionStorage(defaultValue, key) {
 
 export function createSessionStorage(key, value) {
   const encode = encodeData(value);
-  Cookies.set(key, encode, { expires: 1, path: '/pendaftaran' });
+  if (typeof window !== 'undefined') {
+    localStorage.setItem(key, encode);
+  }
+  // Cookies.set(key, encode, { expires: 1, path: '/pendaftaran' });
 }
 
 export function getSessionStorage(key) {
-  const stickyValue = Cookies.get(key);
-  const decode = decodeData(stickyValue);
-  return decode;
+  if (typeof window !== 'undefined') {
+    const stickyValue = localStorage.getItem(key);
+    const decode = decodeData(stickyValue);
+    return decode;
+  }
+  // const stickyValue = Cookies.get(key);
+  // const decode = decodeData(stickyValue);
+  // return decode;
 }
 
 export function deleteLocalStorage() {
@@ -41,6 +49,7 @@ export function deleteLocalStorage() {
     Cookies.remove('user', { path: '/pendaftaran' });
     Cookies.remove('dataSurvey', { path: '/pendaftaran' });
     Cookies.remove('dataKuisioner', { path: '/pendaftaran' });
+    localStorage.clear();
     return true;
   } catch (error) {
     console.log(error);
