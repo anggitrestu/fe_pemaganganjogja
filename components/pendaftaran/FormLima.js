@@ -153,7 +153,7 @@ const FormLima = ({ setStepper, data }) => {
       setSurvey(dataSurveiForm);
       let timerInterval;
       console.log(dataSurveiForm);
-
+      setStepper(6);
       registerUser(dataSurveiForm);
 
       Swal.fire({
