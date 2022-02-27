@@ -93,7 +93,10 @@ const FormLima = ({ setStepper, data }) => {
                   }
                 }
               });
-              setStepper(6);
+
+              Swal.fire('Ok!', 'Pendaftaran Berhasil', 'success').then(() => {
+                setStepper(6);
+              });
             } catch (error) {
               console.log(error);
             }
@@ -146,14 +149,16 @@ const FormLima = ({ setStepper, data }) => {
     }
   };
 
-  const onSubmit = (dataSurveiForm) => {
+  const onSubmit = (dataSurveiForm, e) => {
     try {
+      console.log(e);
+      e.preventDefault();
       setLoading(true);
       createSessionStorage('dataSurvey', dataSurveiForm);
       setSurvey(dataSurveiForm);
       let timerInterval;
-      console.log(dataSurveiForm);
-      setStepper(6);
+
+      // setStepper(6);
       registerUser(dataSurveiForm);
 
       Swal.fire({
@@ -172,6 +177,8 @@ const FormLima = ({ setStepper, data }) => {
           clearInterval(timerInterval);
         },
       });
+
+      setStepper(6);
     } catch (error) {
       console.log(error);
     }
@@ -190,8 +197,6 @@ const FormLima = ({ setStepper, data }) => {
       userKuisioner: KuisionerSession,
       userSurvey: surveySession,
     };
-
-    console.log(data);
 
     if (!lowonganSession) {
       alertIsiLowongan();
