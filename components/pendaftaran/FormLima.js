@@ -35,83 +35,86 @@ const FormLima = ({ setStepper, data }) => {
     ApiUsers.register(user)
       .then((resUser) => {
         profile.user_id_hl = resUser[0].id;
-        ApiUsers.updateProfile(profile)
-          .then((resProfile) => {
-            const data = {
-              id: resProfile.data.id,
-              user_id_hl: resProfile.data.user_id_hl,
-            };
-            try {
-              createUserInternships(data, userInternships.lowongan1);
-              createUserInternships(data, userInternships.lowongan2);
-              createUserInternships(data, userInternships.lowongan3);
+        if (resUser[0].id) {
+          profile.user_id_hl = resUser[0].id;
+          ApiUsers.updateProfile(profile)
+            .then((resProfile) => {
+              const data = {
+                id: resProfile.data.id,
+                user_id_hl: resProfile.data.user_id_hl,
+              };
+              try {
+                createUserInternships(data, userInternships.lowongan1);
+                createUserInternships(data, userInternships.lowongan2);
+                createUserInternships(data, userInternships.lowongan3);
 
-              userKuisioner.answers.map((item, index) => {
-                {
-                  if (Array.isArray(item.answer)) {
-                    const answer = item.answer.toString();
-                    item.user_id = resProfile.data.id;
-                    item.user_id_hl = resProfile.data.user_id_hl;
-                    item.answer = answer;
-                    ApiKuisioners.user_kuisioner(item)
-                      .then((res) => {})
-                      .catch((err) => {
-                        console.log(err);
-                      });
-                  } else {
-                    item.user_id = resProfile.data.id;
-                    item.user_id_hl = resProfile.data.user_id_hl;
-                    ApiKuisioners.user_kuisioner(item)
-                      .then((res) => {})
-                      .catch((err) => {
-                        console.log(err);
-                      });
+                userKuisioner.answers.map((item, index) => {
+                  {
+                    if (Array.isArray(item.answer)) {
+                      const answer = item.answer.toString();
+                      item.user_id = resProfile.data.id;
+                      item.user_id_hl = resProfile.data.user_id_hl;
+                      item.answer = answer;
+                      ApiKuisioners.user_kuisioner(item)
+                        .then((res) => {})
+                        .catch((err) => {
+                          console.log(err);
+                        });
+                    } else {
+                      item.user_id = resProfile.data.id;
+                      item.user_id_hl = resProfile.data.user_id_hl;
+                      ApiKuisioners.user_kuisioner(item)
+                        .then((res) => {})
+                        .catch((err) => {
+                          console.log(err);
+                        });
+                    }
                   }
-                }
-              });
+                });
 
-              dataSurveiForm.answers.map((item, index) => {
-                {
-                  if (Array.isArray(item.answer)) {
-                    const answer = item.answer.toString();
-                    item.user_id = resProfile.data.id;
-                    item.user_id_hl = resProfile.data.user_id_hl;
-                    item.answer = answer;
-                    ApiSurvey.user_surcey(item)
-                      .then((res) => {})
-                      .catch((err) => {
-                        console.log(err);
-                      });
-                  } else {
-                    item.user_id = resProfile.data.id;
-                    item.user_id_hl = resProfile.data.user_id_hl;
-                    ApiSurvey.user_surcey(item)
-                      .then((res) => {})
-                      .catch((err) => {
-                        console.log(err);
-                      });
+                dataSurveiForm.answers.map((item, index) => {
+                  {
+                    if (Array.isArray(item.answer)) {
+                      const answer = item.answer.toString();
+                      item.user_id = resProfile.data.id;
+                      item.user_id_hl = resProfile.data.user_id_hl;
+                      item.answer = answer;
+                      ApiSurvey.user_surcey(item)
+                        .then((res) => {})
+                        .catch((err) => {
+                          console.log(err);
+                        });
+                    } else {
+                      item.user_id = resProfile.data.id;
+                      item.user_id_hl = resProfile.data.user_id_hl;
+                      ApiSurvey.user_surcey(item)
+                        .then((res) => {})
+                        .catch((err) => {
+                          console.log(err);
+                        });
+                    }
                   }
-                }
-              });
+                });
 
-              Swal.fire('Ok!', 'Pendaftaran Berhasil', 'success').then(() => {
-                setStepper(6);
-              });
-            } catch (error) {
-              console.log(error);
-            }
-          })
-          .catch((err) => {
-            if (err.response) {
-              Swal.fire({
-                icon: 'error',
-                title: `error`,
-                text: `pastikan data yang anda input benar`,
-              });
-            } else {
-              console.log(err);
-            }
-          });
+                Swal.fire('Ok!', 'Pendaftaran Berhasil', 'success').then(() => {
+                  setStepper(6);
+                });
+              } catch (error) {
+                console.log(error);
+              }
+            })
+            .catch((err) => {
+              if (err.response) {
+                Swal.fire({
+                  icon: 'error',
+                  title: `error`,
+                  text: `pastikan data yang anda input benar`,
+                });
+              } else {
+                console.log(err);
+              }
+            });
+        }
       })
       .catch((err) => {
         if (err.response) {
@@ -151,34 +154,53 @@ const FormLima = ({ setStepper, data }) => {
 
   const onSubmit = (dataSurveiForm, e) => {
     try {
-      console.log(e);
-      e.preventDefault();
-      setLoading(true);
-      createSessionStorage('dataSurvey', dataSurveiForm);
-      setSurvey(dataSurveiForm);
-      let timerInterval;
+      if (!lowonganSession) {
+        alertIsiLowongan();
+        setStepper(1);
+      } else {
+        if (!userSession) {
+          alertBuatAkun();
+          setStepper(2);
+        } else {
+          if (!profileSession) {
+            alertLengkapiProfile();
+            setStepper(3);
+          } else {
+            if (!KuisionerSession) {
+              alertSurvei();
+              setStepper(4);
+            }
 
-      // setStepper(6);
-      registerUser(dataSurveiForm);
+            e.preventDefault();
+            setLoading(true);
+            createSessionStorage('dataSurvey', dataSurveiForm);
+            setSurvey(dataSurveiForm);
+            let timerInterval;
 
-      Swal.fire({
-        title: 'Harap ditunggu, data anda sedang di proses!',
-        timer: 7000,
-        allowEscapeKey: false,
-        allowOutsideClick: false,
-        timerProgressBar: true,
-        didOpen: () => {
-          Swal.showLoading();
-          timerInterval = setInterval(() => {}, 100);
-          setLoading(false);
-        },
-        willClose: () => {
-          setLoading(false);
-          clearInterval(timerInterval);
-        },
-      });
+            // setStepper(6);
+            registerUser(dataSurveiForm);
 
-      setStepper(6);
+            Swal.fire({
+              title: 'Harap ditunggu, data anda sedang di proses!',
+              timer: 7000,
+              allowEscapeKey: false,
+              allowOutsideClick: false,
+              timerProgressBar: true,
+              didOpen: () => {
+                Swal.showLoading();
+                timerInterval = setInterval(() => {}, 100);
+                setLoading(false);
+              },
+              willClose: () => {
+                setLoading(false);
+                clearInterval(timerInterval);
+              },
+            });
+
+            setStepper(6);
+          }
+        }
+      }
     } catch (error) {
       console.log(error);
     }
