@@ -31,24 +31,26 @@ const FormLima = ({ setStepper, data }) => {
   const profileSession = getSessionStorage('profile');
   const KuisionerSession = getSessionStorage('dataKuisioner');
 
-  const registerUser = (dataSurveiForm) => {
-    ApiUsers.register(user)
+  const registerUser = (datas) => {
+    ApiUsers.register(datas.user)
       .then((resUser) => {
-        profile.user_id_hl = resUser[0].id;
-        if (resUser[0].id) {
-          profile.user_id_hl = resUser[0].id;
-          ApiUsers.updateProfile(profile)
+        console.log(resUser);
+        if (resUser) {
+          datas.profile.user_id_hl = resUser[0].id;
+          ApiUsers.updateProfile(datas.profile)
             .then((resProfile) => {
-              const data = {
-                id: resProfile.data.id,
-                user_id_hl: resProfile.data.user_id_hl,
-              };
-              try {
-                createUserInternships(data, userInternships.lowongan1);
-                createUserInternships(data, userInternships.lowongan2);
-                createUserInternships(data, userInternships.lowongan3);
+              console.log(resProfile);
+              if (resProfile) {
+                const data = {
+                  id: resProfile.data.id,
+                  user_id_hl: resProfile.data.user_id_hl,
+                };
 
-                userKuisioner.answers.map((item, index) => {
+                createUserInternships(data, datas.userInternships.lowongan1);
+                createUserInternships(data, datas.userInternships.lowongan2);
+                createUserInternships(data, datas.userInternships.lowongan3);
+
+                datas.userKuisioner.answers.map((item, index) => {
                   {
                     if (Array.isArray(item.answer)) {
                       const answer = item.answer.toString();
@@ -72,7 +74,7 @@ const FormLima = ({ setStepper, data }) => {
                   }
                 });
 
-                dataSurveiForm.answers.map((item, index) => {
+                datas.userSurvey.answers.map((item, index) => {
                   {
                     if (Array.isArray(item.answer)) {
                       const answer = item.answer.toString();
@@ -95,13 +97,11 @@ const FormLima = ({ setStepper, data }) => {
                     }
                   }
                 });
-
-                Swal.fire('Ok!', 'Pendaftaran Berhasil', 'success').then(() => {
-                  setStepper(6);
-                });
-              } catch (error) {
-                console.log(error);
               }
+
+              Swal.fire('Ok!', 'Pendaftaran Berhasil', 'success').then(() => {
+                setStepper(6);
+              });
             })
             .catch((err) => {
               if (err.response) {
@@ -178,7 +178,16 @@ const FormLima = ({ setStepper, data }) => {
             let timerInterval;
 
             // setStepper(6);
-            registerUser(dataSurveiForm);
+
+            let data = {
+              user: userSession,
+              profile: profileSession,
+              userInternships: lowonganSession,
+              userKuisioner: KuisionerSession,
+              userSurvey: dataSurveiForm,
+            };
+
+            registerUser(data);
 
             Swal.fire({
               title: 'Harap ditunggu, data anda sedang di proses!',
@@ -212,13 +221,6 @@ const FormLima = ({ setStepper, data }) => {
     } else {
       setSurvey(null);
     }
-    const data = {
-      user: userSession,
-      profile: profileSession,
-      userInternships: lowonganSession,
-      userKuisioner: KuisionerSession,
-      userSurvey: surveySession,
-    };
 
     if (!lowonganSession) {
       alertIsiLowongan();

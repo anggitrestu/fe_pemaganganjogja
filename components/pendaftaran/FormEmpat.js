@@ -18,7 +18,7 @@ const FormEmpat = ({ setStepper, data }) => {
   const lowonganSession = getSessionStorage('dataLowongan');
   const userSession = getSessionStorage('user');
   const profileSession = getSessionStorage('profile');
-
+  console.log(profileSession);
   const [kuisioner, setKuisioner] = useState(undefined);
 
   useEffect(() => {
