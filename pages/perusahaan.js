@@ -30,7 +30,8 @@ function Perusahaan({ data }) {
   return (
     <>
       <Head>
-        <title>Pemagangan Jogja</title>
+        <title>Perusahaan | Pemagangan Jogja</title>
+        <link rel="shortcut icon" href="/icon.png" />
         <meta name="description" content="pemagangan jogja" />
       </Head>
 

@@ -27,10 +27,8 @@ const Lowongan = () => {
     setAuthorHeader(token);
     Swal.fire({
       title: `Yakin menghapus lowongan ${name_program} ini?`,
-      showDenyButton: true,
       showCancelButton: true,
       confirmButtonText: 'Delete',
-      denyButtonText: `Don't delete`,
     }).then((result) => {
       if (result.isConfirmed) {
         ApiInternship.delete(id).then((res) => {
@@ -109,8 +107,8 @@ const Lowongan = () => {
             <thead>
               <tr className="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b :border-gray-700 bg-gray-50 :text-gray-400 :bg-gray-800">
                 <th className="px-4 py-3">Lowongan</th>
-                <th className="px-4 py-3">Kuota</th>
-                <th className="px-4 py-3">Bidang Industri</th>
+                {/* <th className="px-4 py-3">Kuota</th> */}
+                {/* <th className="px-4 py-3">Bidang Industri</th> */}
                 <th className="px-4 py-3">Status</th>
                 <th className="px-4 py-3">Actions</th>
               </tr>
@@ -138,20 +136,14 @@ const Lowongan = () => {
                             </div>
                           </div>
                         </td>
-                        <td className="px-4 py-3 text-sm">{`${item.quota} Orang`}</td>
-                        <td className="px-4 py-3 text-xs">
+                        {/* <td className="px-4 py-3 text-sm">{`${item.quota} Orang`}</td> */}
+                        {/* <td className="px-4 py-3 text-xs">
                           {item.industrial_field}
-                        </td>
+                        </td> */}
                         <td className="px-4 py-3 text-sm">
-                          {item.regulation === null ? (
-                            <span className="px-2 py-1 font-semibold leading-tight text-red-700 bg-red-100 rounded-full :bg-bermuda :text-green-100">
-                              Not Compeleted
-                            </span>
-                          ) : (
-                            <span className="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full :bg-bermuda :text-green-100">
-                              Compeleted
-                            </span>
-                          )}
+                          <span className="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full :bg-bermuda :text-green-100">
+                            Compeleted
+                          </span>
                         </td>
                         <td>
                           <div className="px-4 py-3">

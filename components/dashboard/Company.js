@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 
 const Company = () => {
   const token = getToken();
+
   const {
     register,
     handleSubmit,
@@ -27,17 +28,6 @@ const Company = () => {
 
   const onSubmit = (data) => {
     try {
-      if (data.room_available === 'true') {
-        data.room_available = true;
-      } else {
-        data.room_available = false;
-      }
-      if (data.instructor_available === 'true') {
-        data.instructor_available = true;
-      } else {
-        data.instructor_available = false;
-      }
-
       if (company !== null) {
         setAuthorHeader(token);
         ApiCompanies.update(company.id, data)
@@ -121,6 +111,36 @@ const Company = () => {
               </div>
               <div className="form-control mt-2">
                 <label className="label">
+                  <span className="label-text text-xs font-medium">
+                    URL Foto Profil
+                  </span>
+                </label>
+                <input
+                  type="text"
+                  {...register('url_profile')}
+                  defaultValue={
+                    company?.url_profile ? company.url_profile : null
+                  }
+                  placeholder="tambahkan url foto informasi jika ada..."
+                  className="input input-bordered  h-[40px]"
+                />
+              </div>
+              <div className="form-control mt-2">
+                <label className="label">
+                  <span className="label-text text-xs font-medium">
+                    URL File Pendukung Informasi Perusahaan
+                  </span>
+                </label>
+                <input
+                  type="text"
+                  {...register('url_file')}
+                  defaultValue={company?.url_file ? company.url_file : null}
+                  placeholder="tambahkan url file pendukung informasi jika ada..."
+                  className="input input-bordered  h-[40px]"
+                />
+              </div>
+              <div className="form-control mt-2">
+                <label className="label">
                   <span className="label-text text-xs font-medium">Alamat</span>
                 </label>
                 <input
@@ -181,27 +201,7 @@ const Company = () => {
                   </p>
                 )}
               </div>
-              <div className="form-control mt-2">
-                <label className="label">
-                  <span className="label-text text-xs font-medium">
-                    Website
-                  </span>
-                </label>
-                <input
-                  type="text"
-                  defaultValue={company?.website ? company.website : null}
-                  {...register('website', {
-                    required: true,
-                  })}
-                  placeholder="tambahkan alamat website perusahaan..."
-                  className="input input-bordered "
-                />
-                {errors.number && (
-                  <p className="text-xs text-bermuda mt-1">
-                    *website perusahaan harus di isi
-                  </p>
-                )}
-              </div>
+
               <div className="form-control mt-2">
                 <label className="label">
                   <span className="label-text text-xs font-medium">
@@ -232,7 +232,7 @@ const Company = () => {
                   </span>
                 </label>
                 <input
-                  type="number"
+                  type="text"
                   defaultValue={
                     company?.number_of_employee
                       ? company.number_of_employee
@@ -240,7 +240,6 @@ const Company = () => {
                   }
                   {...register('number_of_employee', {
                     required: true,
-                    setValueAs: (v) => parseInt(v),
                   })}
                   placeholder="tambahkan jumlah karyawan perusahaan..."
                   className="input input-bordered "
@@ -248,88 +247,6 @@ const Company = () => {
                 {errors.number_of_employee && (
                   <p className="text-xs text-bermuda mt-1">
                     *jumlah karyawan harus di isi
-                  </p>
-                )}
-              </div>
-              <div className="form-control mt-2">
-                <label className="label">
-                  <span className="label-text text-xs font-medium">
-                    Apakah Perusahaan memiliki ruang untuk pelatihan?
-                  </span>
-                </label>
-                <div className="flex content-center">
-                  <span className="label-text text-xs font-medium">Iya</span>
-                  <input
-                    type="radio"
-                    {...register('room_available', {
-                      required: true,
-                    })}
-                    defaultChecked={
-                      company?.room_available === true ? true : null
-                    }
-                    value={true}
-                    name="room_available"
-                    className="radio radio-secondary ml-2"
-                  />
-                  <span className="label-text ml-5">Tidak</span>
-                  <input
-                    type="radio"
-                    {...register('room_available', {
-                      required: true,
-                    })}
-                    // defaultChecked={true}
-                    defaultChecked={
-                      company?.room_available === false ? true : null
-                    }
-                    value={false}
-                    name="room_available"
-                    className="radio radio-secondary ml-2"
-                  />
-                </div>
-                {errors.room_available && (
-                  <p className="text-xs text-bermuda mt-1">
-                    *ketersediaan ruangan harus di isi
-                  </p>
-                )}
-              </div>
-              <div className="form-control mt-2">
-                <label className="label">
-                  <span className="label-text text-xs font-medium">
-                    Apakah Perusahaan memiliki Instruktur yang bersertifikat
-                    metodologi pelatihan?
-                  </span>
-                </label>
-                <div className="flex content-center">
-                  <span className="label-text text-xs font-medium">Iya</span>
-                  <input
-                    type="radio"
-                    defaultChecked={
-                      company?.instructor_available === true ? true : null
-                    }
-                    {...register('instructor_available', {
-                      required: true,
-                    })}
-                    value={true}
-                    name="instructor_available"
-                    className="radio radio-secondary ml-2"
-                  />
-                  <span className="label-text ml-5">Tidak</span>
-                  <input
-                    type="radio"
-                    defaultChecked={
-                      company?.instructor_available === false ? true : null
-                    }
-                    {...register('instructor_available', {
-                      required: true,
-                    })}
-                    value={false}
-                    name="instructor_available"
-                    className="radio radio-secondary ml-2"
-                  />
-                </div>
-                {errors.instructor_available && (
-                  <p className="text-xs text-bermuda mt-1">
-                    *ketersediaan mentor harus di isi
                   </p>
                 )}
               </div>

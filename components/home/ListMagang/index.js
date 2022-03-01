@@ -15,22 +15,18 @@ const Index = ({ data, nameCompany }) => {
     if (params === 'null') {
       setDataMagang(data);
     } else {
-      const filter = await ApiInternship.all(query);
+      const filter = await ApiInternship.all(query, '');
       setDataMagang(filter.data);
     }
   };
-
-  console.log(dataMagang);
 
   function handleClick() {
     setPostNum((prevPostNum) => prevPostNum + 6); // 6 is the number of internships you want to load per click
   }
 
   function handleClickModal(item) {
-    ApiInternship.details(item.id).then((res) => {
-      setModalData(res.data);
-      setOnClickModal(true);
-    });
+    setModalData(item);
+    setOnClickModal(true);
   }
 
   useEffect(() => {
@@ -85,7 +81,7 @@ const Index = ({ data, nameCompany }) => {
         {dataMagang?.length > 0 ? (
           dataMagang.slice(0, postNum).map((item, index) => {
             return (
-              <Fade key={index} bottom delay={100 * index}>
+              <Fade key={index} bottom delay={15 * index}>
                 <div onClick={() => handleClickModal(item)}>
                   <Renderitem item={item}></Renderitem>
                 </div>

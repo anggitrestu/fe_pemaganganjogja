@@ -4,11 +4,12 @@ export default {
   details: (id) => axios.get(`/internship/${id}`).then((res) => res),
   create: (payload) => axios.post(`/internship`, payload).then((res) => res),
   delete: (id) => axios.delete(`/internship/${id}`).then((res) => res),
-  all: (query) =>
+  all: (query, name) =>
     axios
       .get(`/internship`, {
         params: {
           company: query,
+          name: name,
         },
       })
       .then((res) => res),

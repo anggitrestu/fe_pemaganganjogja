@@ -12,6 +12,7 @@ function Home({ data, nameCompany }) {
       <Head>
         <title>Pemagangan Jogja</title>
         <meta name="description" content="pemagangan jogja" />
+        <link rel="shortcut icon" href="/icon.png" />
       </Head>
 
       <main className="bg-[#F8F8F8]">

@@ -1,3 +1,4 @@
+import React from 'react';
 import ApiInternship from 'pages/api/ApiInternship';
 import { setAuthorHeader } from 'configs/axios';
 import { useForm } from 'react-hook-form';
@@ -5,16 +6,22 @@ import Swal from 'sweetalert2';
 import { getToken } from 'helpers/getToken';
 import { useState, useEffect } from 'react';
 import ApiCompanies from 'pages/api/ApiCompanies';
-import ApiRegulation from 'pages/api/ApiRegulation';
+import dynamic from 'next/dynamic';
+import 'react-quill/dist/quill.snow.css';
+import { useRouter } from 'next/router';
+
+const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
 const Create = () => {
   const token = getToken();
+  const [condition, setCondition] = useState('');
+  const [jobDesc, setJobDesc] = useState('');
+  const router = useRouter();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-
   const [companyID, setCompanyID] = useState(undefined);
   const fetchMyCompany = () => {
     setAuthorHeader(token);
@@ -22,32 +29,28 @@ const Create = () => {
       setCompanyID(res.data.id);
     });
   };
+
   useEffect(() => {
     fetchMyCompany();
-  });
+  }, []);
 
   const onSubmit = (data) => {
     try {
-      console.log(data);
       setAuthorHeader(token);
+      data.location = data.location.toString();
+      data.condition = condition;
+      data.job_desc = jobDesc;
+      if (data.disability === '') {
+        data.disability = 'tidak';
+      }
       ApiInternship.create(data)
         .then((res) => {
-          console.log(res);
-          data.internship_id = res.data.id;
-          data.gender = data.gender.toString();
           Swal.fire({
             icon: 'success',
             title: `${res.meta.status}`,
             text: `${res.meta.message}`,
-          });
-          setAuthorHeader(token);
-          ApiRegulation.create(data).then((res) => {
-            console.log(res);
-            Swal.fire({
-              icon: 'success',
-              title: `${res.meta.status}`,
-              text: `${res.meta.message}`,
-            });
+          }).then(() => {
+            router.push('/dashboard/lowongan');
           });
         })
         .catch((err) => {
@@ -61,7 +64,9 @@ const Create = () => {
             console.log(err);
           }
         });
-    } catch (error) {}
+    } catch (error) {
+      console.loh(error);
+    }
   };
 
   return (
@@ -74,6 +79,7 @@ const Create = () => {
             <h1 className="text-base font-semibold">
               Isi Data Lowongan Magang
             </h1>
+
             <hr />
             <div className="w-10/12 mx-auto">
               <div className="form-control mt-2">
@@ -106,144 +112,7 @@ const Create = () => {
                   </p>
                 )}
               </div>
-              <div className="form-control mt-2">
-                <label className="label">
-                  <span className="label-text text-xs font-medium">
-                    Bidang Industri
-                  </span>
-                </label>
-                <input
-                  type="text"
-                  {...register('industrial_field', {
-                    required: true,
-                  })}
-                  placeholder="tambahkan alamat perusahaan..."
-                  className="input input-bordered  h-[40px]"
-                />
-                {errors.industrial_field && (
-                  <p className="text-xs text-bermuda mt-1">
-                    *bidang industri harus di isi
-                  </p>
-                )}
-              </div>
 
-              <div className="form-control mt-2">
-                <label className="label">
-                  <span className="label-text text-xs font-medium">
-                    Kuota Penerimaan
-                  </span>
-                </label>
-                <input
-                  type="number"
-                  {...register('quota', {
-                    required: true,
-                    setValueAs: (v) => parseInt(v),
-                  })}
-                  placeholder="tambahkan jumlah karyawan perusahaan..."
-                  className="input input-bordered "
-                />
-                {errors.quota && (
-                  <p className="text-xs text-bermuda mt-1">
-                    *kuota penerimaan harus di isi
-                  </p>
-                )}
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-[#F8F8F8] rounded-xl px-10 py-10 mt-10">
-            <h1 className="text-base font-semibold">
-              Lengkapi Persyaratan Magang
-            </h1>
-            <hr />
-            <div className="w-10/12 mx-auto">
-              <div className="form-control mt-2">
-                <input
-                  type="hidden"
-                  {...register('internship_id', {
-                    required: true,
-                    setValueAs: (v) => parseInt(v),
-                  })}
-                  value={0}
-                />
-                <label className="label">
-                  <span className="label-text text-xs font-medium">
-                    Pendidikan Terakhir
-                  </span>
-                </label>
-                <input
-                  type="text"
-                  {...register('education', {
-                    required: true,
-                  })}
-                  placeholder="masukan nama program magang..."
-                  className="input input-bordered h-[40px]"
-                />
-                {errors.education && (
-                  <p className="text-xs text-bermuda mt-1">
-                    *data pendidikan terakhir harus di isi
-                  </p>
-                )}
-              </div>
-              <div className="form-control mt-2">
-                <label className="label">
-                  <span className="label-text text-xs font-medium">
-                    Umur Minimal
-                  </span>
-                </label>
-                <input
-                  type="number"
-                  {...register('age', {
-                    required: true,
-                    setValueAs: (v) => parseInt(v),
-                  })}
-                  placeholder="minimal umur pemagang..."
-                  className="input input-bordered "
-                />
-                {errors.age && (
-                  <p className="text-xs text-bermuda mt-1">
-                    *minimal umur pemagang harus di isi
-                  </p>
-                )}
-              </div>
-              <div className="form-control mt-2">
-                <label className="label">
-                  <span className="label-text text-xs font-medium">Gender</span>
-                </label>
-                <div className="flex flex-col w-[150px]">
-                  <label className="cursor-pointer label ">
-                    <span className="label-text text-xs font-normal mr-9">
-                      Pria
-                    </span>
-                    <input
-                      {...register('gender', {
-                        required: true,
-                      })}
-                      value={'pria'}
-                      type="checkbox"
-                      className="checkbox checkbox-xs  checkbox-secondary"
-                    />
-                  </label>
-                  <label className="cursor-pointer label ">
-                    <span className="label-text text-xs font-normal mr-4">
-                      Wanita
-                    </span>
-                    <input
-                      {...register('gender', {
-                        required: true,
-                      })}
-                      value={'wanita'}
-                      type="checkbox"
-                      className="checkbox checkbox-xs checkbox-secondary"
-                    />
-                  </label>
-                  {errors.gender && (
-                    <p className="text-xs text-bermuda mt-1">
-                      *gender harus di isi
-                    </p>
-                  )}
-                </div>
-              </div>
               <div className="form-control mt-2">
                 <label className="label">
                   <span className="label-text text-xs font-medium">
@@ -259,7 +128,7 @@ const Create = () => {
                       {...register('location', {
                         required: true,
                       })}
-                      value={'pria'}
+                      value={'Kota Jogja'}
                       type="checkbox"
                       className="checkbox checkbox-xs  checkbox-secondary"
                     />
@@ -272,7 +141,7 @@ const Create = () => {
                       {...register('location', {
                         required: true,
                       })}
-                      value={'wanita'}
+                      value={'Sleman'}
                       type="checkbox"
                       className="checkbox checkbox-xs checkbox-secondary"
                     />
@@ -285,7 +154,7 @@ const Create = () => {
                       {...register('location', {
                         required: true,
                       })}
-                      value={'wanita'}
+                      value={'Bantul'}
                       type="checkbox"
                       className="checkbox checkbox-xs checkbox-secondary"
                     />
@@ -298,7 +167,7 @@ const Create = () => {
                       {...register('location', {
                         required: true,
                       })}
-                      value={'wanita'}
+                      value={'Gunung Kidul'}
                       type="checkbox"
                       className="checkbox checkbox-xs checkbox-secondary"
                     />
@@ -311,7 +180,7 @@ const Create = () => {
                       {...register('location', {
                         required: true,
                       })}
-                      value={'wanita'}
+                      value={'Kulon Progo'}
                       type="checkbox"
                       className="checkbox checkbox-xs checkbox-secondary"
                     />
@@ -327,55 +196,75 @@ const Create = () => {
               <div className="form-control mt-2">
                 <label className="label">
                   <span className="label-text text-xs font-medium">
-                    Pengalaman Terkait
+                    Syarat Magang
                   </span>
                 </label>
-                <textarea
-                  {...register('experience', {
+
+                <ReactQuill
+                  theme="snow"
+                  value={condition}
+                  onChange={setCondition}
+                  placeholder="tambahkan deskripsi syarat magang..."
+                />
+
+                <input
+                  type="hidden"
+                  {...register('condition', {
                     required: true,
                   })}
-                  placeholder="tambahkan latar belakang pengalaman..."
-                  className="textarea h-12 textarea-bordered"
+                  defaultValue={'tidak ada'}
                 />
-                {errors.experience && (
+
+                {errors.condition && (
                   <p className="text-xs text-bermuda mt-1">
-                    *latar belakang pengalaman harus di isi
+                    *deskripsi syarat magang harus di isi
                   </p>
                 )}
               </div>
+
               <div className="form-control mt-2">
                 <label className="label">
                   <span className="label-text text-xs font-medium">
-                    Sertifikat Keterampilan
+                    Deskripsi Kegiatan Magang
                   </span>
                 </label>
-                <textarea
-                  {...register('certificate', {
+                <ReactQuill
+                  theme="snow"
+                  value={jobDesc}
+                  onChange={setJobDesc}
+                  placeholder="tambahkan deskripsi pekerjaan magang..."
+                />
+                <input
+                  type="hidden"
+                  {...register('job_desc', {
                     required: true,
                   })}
-                  placeholder="tambahkan latar belakang pengalaman..."
-                  className="textarea h-12 textarea-bordered"
+                  value={'job desc'}
                 />
-                {errors.certificate && (
+
+                {errors.job_desc && (
                   <p className="text-xs text-bermuda mt-1">
-                    *certificate harus di isi
+                    *deskripsi pekerjaan magang harus di isi
                   </p>
                 )}
               </div>
+
               <div className="form-control mt-2">
                 <label className="label">
                   <span className="label-text text-xs font-medium">
-                    Syarat Lainnya
+                    Terbuka untuk Penyandang Disabilitas?
                   </span>
                 </label>
-                <textarea
-                  {...register('other_condition')}
-                  placeholder="tambahkan latar belakang pengalaman..."
-                  className="textarea h-24 textarea-bordered"
+                <input
+                  type="text"
+                  {...register('disability')}
+                  placeholder="tambahkan jika ada..."
+                  className="input input-bordered "
                 />
               </div>
             </div>
           </div>
+
           <div>
             <div></div>
             <div className="flex flex-row justify-end mt-6">

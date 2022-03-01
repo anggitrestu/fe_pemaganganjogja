@@ -1,41 +1,31 @@
 import Modal from 'components/Modal';
+import {
+  createSessionStorage,
+  getSessionStorage,
+} from 'helpers/useSessionStorage';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
-
-function useFormSatu(defaultValue, key) {
-  const [value, setValue] = useState(defaultValue);
-
-  useEffect(() => {
-    const stickyValue = window.localStorage.getItem(key);
-
-    if (stickyValue !== null) {
-      setValue(JSON.parse(stickyValue));
-    }
-  }, [key]);
-
-  useEffect(() => {
-    window.localStorage.setItem(key, JSON.stringify(value));
-  }, [key, value]);
-
-  return [value, setValue];
-}
+import Swal from 'sweetalert2';
+import { alertIsiLowongan } from './alert';
 
 function FormSatu({ data, setStepper }) {
-  const [lowongan1, setLowongan1] = useFormSatu(
+  const [lowongan1, setLowongan1] = useState(
     {
       id: 0,
       name_program: '',
     },
     'lowongan-1'
   );
-  const [lowongan2, setLowongan2] = useFormSatu(
+
+  const [lowongan2, setLowongan2] = useState(
     {
       id: 0,
       name_program: '',
     },
     'lowongan-2'
   );
-  const [lowongan3, setLowongan3] = useFormSatu(
+
+  const [lowongan3, setLowongan3] = useState(
     {
       id: 0,
       name_program: '',
@@ -43,11 +33,49 @@ function FormSatu({ data, setStepper }) {
     'lowongan-3'
   );
 
-  const checkInput = () => {
-    if (lowongan1.id === 0 && lowongan2.id === 0 && lowongan3.id === 0) {
-      alert('silahkan pilih lowongan magang terlebih dahulu !');
+  useEffect(() => {
+    const dataLowongan = getSessionStorage('dataLowongan');
+    if (dataLowongan !== false) {
+      setLowongan1(dataLowongan.lowongan1);
+      setLowongan2(dataLowongan.lowongan2);
+      setLowongan3(dataLowongan.lowongan3);
+    }
+
+    // console.log(dataLowongan);
+    if (dataLowongan !== false) {
+      // setStepper(2);
+    }
+
+    window.scrollTo(0, 0);
+  }, [setLowongan1, setLowongan2, setLowongan3, setStepper]);
+
+  const checkInput = (e) => {
+    e.preventDefault();
+
+    const dataLow = {
+      lowongan1,
+      lowongan2,
+      lowongan3,
+    };
+    createSessionStorage('dataLowongan', dataLow);
+    const a = getSessionStorage('dataLowongan');
+    if (a.lowongan1.id === 0 && a.lowongan2.id === 0 && a.lowongan3.id === 0) {
+      alertIsiLowongan();
     } else {
-      setStepper(2);
+      let timerInterval;
+      Swal.fire({
+        title: 'Loading...',
+        timer: 300,
+        timerProgressBar: true,
+        didOpen: async () => {
+          Swal.showLoading();
+          timerInterval = setInterval(() => {}, 100);
+          setStepper(2);
+        },
+        willClose: () => {
+          clearInterval(timerInterval);
+        },
+      });
     }
   };
 
@@ -82,7 +110,7 @@ function FormSatu({ data, setStepper }) {
         <h1 className="text-[#404040] font-semibold text-2xl mt-14">
           Pilih Lowongan Magang
         </h1>
-        <p className="text-[#8F8F8F] w-[793px] font-normal text-base mt-2">
+        <p className="text-[#8F8F8F] font-normal text-base mt-2">
           Pilih minimal 1 lowongan dan maksimal 3 lowongan.
         </p>
         <form className="mt-8">
@@ -144,7 +172,7 @@ function FormSatu({ data, setStepper }) {
           </div>
           <div className="flex flex-row justify-end">
             <button
-              onClick={() => checkInput()}
+              onClick={(e) => checkInput(e)}
               className="bg-bermuda hover:bg-[#c54933] transition-all text-sm text-white rounded-3xl px-5 py-3"
             >
               Lanjut

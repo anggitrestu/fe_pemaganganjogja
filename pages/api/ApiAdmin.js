@@ -3,5 +3,6 @@ import axios from 'configs/axios';
 export default {
   login: (payload) => axios.post(`/admin/login`, payload).then((res) => res),
   details: (id) => axios.get(`/users/${id}`).then((res) => res),
-  register: (payload) => axios.post(`users`, payload).then((res) => res),
+  register: (payload) =>
+    axios.post(`/admin/register`, payload).then((res) => res),
 };

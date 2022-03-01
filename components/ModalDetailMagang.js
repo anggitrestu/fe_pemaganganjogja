@@ -1,8 +1,14 @@
 import Image from 'next/image';
-import { UsersIcon, BriefcaseIcon } from '@heroicons/react/solid';
+import {
+  LocationMarkerIcon,
+  BriefcaseIcon,
+  InformationCircleIcon,
+} from '@heroicons/react/solid';
 import { useEffect, useRef } from 'react';
+import Parser from 'html-react-parser';
 
 function ModalDetailMagang({ setOnClick, data }) {
+  console.log(data);
   const exitModal = (e) => {
     e.preventDefault();
     setOnClick(false);
@@ -56,90 +62,61 @@ function ModalDetailMagang({ setOnClick, data }) {
                 Informasi Program Magang
               </h3>
               <div className="flex flex-col lg:flex-row mt-6">
-                <div className="lg:w-1/2 mb-4 lg:mb-0">
-                  <h4 className="text-lg font-medium">
-                    Peserta Yang Dibutuhkan
-                  </h4>
-                  <div className="flex items-center mt-2">
-                    <span className="inline-block p-[6px] border-[1px] border-[#DFDFDF] rounded-full">
-                      <UsersIcon className="w-[15px] text-bermuda"></UsersIcon>
+                <div className="lg:w-1/2 lg:mb-0">
+                  <h4 className="text-lg font-medium">Lokasi Magang</h4>
+                  <div className="flex items mt-2">
+                    <span className="inline-block p-[6px] ">
+                      <LocationMarkerIcon className="w-[15px] text-bermuda"></LocationMarkerIcon>
+                      {/* Penempatan */}
                     </span>
-                    <p className="ml-2 text-sm lg:text-base">
-                      {data.quota} Orang
-                    </p>
+                    <p className="ml-2 text-sm lg:text-base">{data.location}</p>
+                  </div>
+
+                  <div className="mt-4 flex items-center">
+                    <h4 className="text-lg font-medium">Persyaratan Peserta</h4>
+                  </div>
+
+                  <div className="pl-4 mt-1 text-sm lg:text-base">
+                    {Parser(data?.condition)}
+                  </div>
+
+                  <div className="mt-4 flex items-center">
+                  <h4 className="text-lg font-medium">Deskripsi Magang</h4>
+                  </div>
+                  <div className="pl-4 mt-1 text-sm lg:text-base">
+                    {Parser(data?.job_desc)}
                   </div>
                 </div>
 
                 <div className="lg:w-1/2">
-                  <h4 className="text-lg font-medium">
-                    Bidang Kerja/Kerjuruan Yang Dimagangkan
-                  </h4>
-                  <div className="flex items-center mt-2">
-                    <span className="inline-block p-[6px] border-[1px] border-[#DFDFDF] rounded-full">
-                      <BriefcaseIcon className="w-[15px] text-bermuda"></BriefcaseIcon>
-                    </span>
-                    <p className="ml-2 text-sm lg:text-base">
-                      {data.industrial_field}
-                    </p>
+                  <div>
+                    <h4 className="text-lg font-medium">
+                      Bidang Kerja/Kerjuruan Yang Dimagangkan
+                    </h4>
+                    <div className="flex mt-2">
+                      <span className="inline-block p-[6px] ">
+                        <BriefcaseIcon className="w-[15px] text-bermuda"></BriefcaseIcon>
+                      </span>
+                      <p className="ml-2 text-sm lg:text-base">
+                        {data.company.type_of_business}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="mt-2">
+                    <h4 className="text-lg font-medium">
+                      Terbuka untuk Penyandang Disabilitas?
+                    </h4>
+                    <div className="flex mt-2">
+                      <span className="inline-block p-[6px] ">
+                        <InformationCircleIcon className="w-[15px] text-bermuda"></InformationCircleIcon>
+                      </span>
+                      <p className="ml-2 text-sm lg:text-base">
+                        {data?.disability}
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
-              <h4 className="text-lg font-medium mt-4">
-                Syarat Peserta Magang
-              </h4>
-              <div className="flex items-center mt-2">
-                <div className="w-2 h-2 mr-2 rounded-full bg-bermuda"></div>
-                <p className="font-medium text-sm lg:text-base">
-                  Pendidikan/kejuruan
-                </p>
-              </div>
-              <p className="pl-4 mt-1 text-sm lg:text-base">
-                {data?.regulation?.education}
-              </p>
-
-              <div className="flex items-center mt-2">
-                <div className="w-2 h-2 mr-2 rounded-full bg-bermuda"></div>
-                <p className="font-medium text-sm lg:text-base">Usia</p>
-              </div>
-              <p className="pl-4 mt-1 text-sm lg:text-base">
-                {data?.regulation?.age}
-              </p>
-
-              <div className="flex items-center mt-2">
-                <div className="w-2 h-2 mr-2 rounded-full bg-bermuda"></div>
-                <p className="font-medium text-sm lg:text-base">Kelamin</p>
-              </div>
-              <p className="pl-4 mt-1 text-sm lg:text-base">
-                {data?.regulation?.gender}
-              </p>
-
-              <div className="flex items-center mt-2">
-                <div className="w-2 h-2 mr-2 rounded-full bg-bermuda"></div>
-                <p className="font-medium text-sm lg:text-base">Pengalaman</p>
-              </div>
-              <p className="pl-4 mt-1 text-sm lg:text-base">
-                {data?.regulation?.experience}
-              </p>
-
-              <div className="flex items-center mt-2">
-                <div className="w-2 h-2 mr-2 rounded-full bg-bermuda"></div>
-                <p className="font-medium text-sm lg:text-base">
-                  Sertifikat Keterampilan
-                </p>
-              </div>
-              <p className="pl-4 mt-1 text-sm lg:text-base">
-                {data?.regulation?.certificate}
-              </p>
-
-              <div className="flex items-center mt-2 mb-2">
-                <div className="w-2 h-2 mr-2 rounded-full bg-bermuda"></div>
-                <p className="font-medium text-sm lg:text-base">
-                  Syarat Khusus/Lainnya
-                </p>
-              </div>
-              <p className="pl-4 mt-1 text-sm lg:text-base w-11/12">
-                {data?.regulation?.other_condition}
-              </p>
             </div>
           </div>
         </div>
