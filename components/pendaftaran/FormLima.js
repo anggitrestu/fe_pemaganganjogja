@@ -17,10 +17,6 @@ import {
 } from './alert';
 
 const FormLima = ({ setStepper, data }) => {
-  const [user, setUser] = useState(undefined);
-  const [profile, setProfile] = useState(undefined);
-  const [userInternships, setUserInternships] = useState(undefined);
-  const [userKuisioner, setUserKuisioner] = useState(undefined);
   const { register, handleSubmit } = useForm({});
   const [survey, setSurvey] = useState(undefined);
   const [isLoading, setLoading] = useState(false);
@@ -34,12 +30,12 @@ const FormLima = ({ setStepper, data }) => {
   const registerUser = (datas) => {
     ApiUsers.register(datas.user)
       .then((resUser) => {
-        console.log(resUser);
         if (resUser) {
           datas.profile.user_id_hl = resUser[0].id;
+          datas.profile.email = resUser[0].email;
+          datas.profile.phone_number = resUser[0].phone_number;
           ApiUsers.updateProfile(datas.profile)
             .then((resProfile) => {
-              console.log(resProfile);
               if (resProfile) {
                 const data = {
                   id: resProfile.data.id,
@@ -242,10 +238,6 @@ const FormLima = ({ setStepper, data }) => {
       }
     }
 
-    setUser(userSession);
-    setProfile(profileSession);
-    setUserInternships(lowonganSession);
-    setUserKuisioner(KuisionerSession);
     window.scrollTo(0, 0);
 
     return () => {};

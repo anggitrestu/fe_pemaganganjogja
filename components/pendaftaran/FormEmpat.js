@@ -5,8 +5,8 @@ import {
   createSessionStorage,
   getSessionStorage,
 } from 'helpers/useSessionStorage';
-import { useRouter } from 'next/router';
 import { alertBuatAkun, alertIsiLowongan, alertLengkapiProfile } from './alert';
+import Error from 'utils/errorMessage/error';
 
 const FormEmpat = ({ setStepper, data }) => {
   const {
@@ -18,7 +18,6 @@ const FormEmpat = ({ setStepper, data }) => {
   const lowonganSession = getSessionStorage('dataLowongan');
   const userSession = getSessionStorage('user');
   const profileSession = getSessionStorage('profile');
-  console.log(profileSession);
   const [kuisioner, setKuisioner] = useState(undefined);
 
   useEffect(() => {
@@ -81,6 +80,8 @@ const FormEmpat = ({ setStepper, data }) => {
           <form onSubmit={handleSubmit(onSubmit)}>
             {data?.length > 0 ? (
               data.map((item, index) => {
+                // console.log(errors ? errors.answers[0].answer : null);
+                // console.log(errors.answers.[0].answer);
                 return (
                   <div className="flex mt-6" key={index}>
                     <div className="w-10">
@@ -120,15 +121,33 @@ const FormEmpat = ({ setStepper, data }) => {
                             value={item.id}
                             type="hidden"
                           />
-                          <input
-                            {...register(`answers.${index}.answer`, {
-                              required: true,
-                            })}
-                            type="text"
-                            placeholder={item.question}
-                            defaultValue={kuisioner?.answers[index]?.answer}
-                            className="input  bg-[#DFDFDF]"
-                          />
+
+                          {item.question === 'NIK (Nomor KTP)' ? (
+                            <>
+                              <input
+                                {...register(`answers.${index}.answer`, {
+                                  required: true,
+                                  minLength: 16,
+                                })}
+                                type="number"
+                                placeholder={item.question}
+                                defaultValue={kuisioner?.answers[index]?.answer}
+                                className="input  bg-[#DFDFDF]"
+                              />
+                            </>
+                          ) : (
+                            <>
+                              <input
+                                {...register(`answers.${index}.answer`, {
+                                  required: true,
+                                })}
+                                type="text"
+                                placeholder={item.question}
+                                defaultValue={kuisioner?.answers[index]?.answer}
+                                className="input  bg-[#DFDFDF]"
+                              />
+                            </>
+                          )}
                         </>
                       )}
                       {item.type === 'date' && (
