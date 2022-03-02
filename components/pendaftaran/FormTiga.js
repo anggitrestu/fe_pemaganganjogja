@@ -91,6 +91,20 @@ function FormTiga({ setStepper }) {
                 placeholder="tambahkan nama perusahaan..."
                 className="input input-bordered h-[40px]"
               />
+              <input
+                type="hidden"
+                {...register('email', {
+                  required: true,
+                })}
+                value={'emailh@gmail.com'}
+              />
+              <input
+                type="hidden"
+                {...register('phone_number', {
+                  required: true,
+                })}
+                value={'00000000000'}
+              />
 
               <input
                 type="text"
