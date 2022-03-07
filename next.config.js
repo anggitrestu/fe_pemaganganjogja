@@ -22,6 +22,7 @@ module.exports = withPlugins(
       NEXT_PUBLIC_BASE_URL: process.env.NEXT_PUBLIC_BASE_URL,
       JWT_SECRET_KEY: process.env.JWT_SECRET_KEY,
       NEXT_PUBLIC_API_HACKLAB: process.env.NEXT_PUBLIC_API_HACKLAB,
+      NEXT_PUBLIC_GOOGLE_ANALYTICS: process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS,
     },
   }
 );
