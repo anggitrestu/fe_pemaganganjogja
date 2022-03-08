@@ -81,7 +81,7 @@ function ModalDetailMagang({ setOnClick, data }) {
                   </div>
 
                   <div className="mt-4 flex items-center">
-                  <h4 className="text-lg font-medium">Deskripsi Magang</h4>
+                    <h4 className="text-lg font-medium">Deskripsi Magang</h4>
                   </div>
                   <div className="pl-4 mt-1 text-sm lg:text-base">
                     {Parser(data?.job_desc)}

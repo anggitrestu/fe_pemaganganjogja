@@ -9,7 +9,14 @@ export default function middleware(req) {
   const valid = verifyToken(token);
 
   if (
-    valid !== false &&
+    valid?.data?.role === 'super-admin' &&
+    (url.includes('/login') || url.includes('/x/y/register'))
+  ) {
+    return NextResponse.redirect('/admin');
+  }
+
+  if (
+    valid?.data?.role === 'admin-company' &&
     (url.includes('/login') || url.includes('/x/y/register'))
   ) {
     return NextResponse.redirect('/dashboard');

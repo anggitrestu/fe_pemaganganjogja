@@ -19,3 +19,12 @@ export function decodeData(jwtToken) {
     return false;
   }
 }
+
+export function decodeToken(jwtToken) {
+  try {
+    const data = jwt.verify(jwtToken, SECRET_KEY);
+    return data;
+  } catch (e) {
+    return false;
+  }
+}

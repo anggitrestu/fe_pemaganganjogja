@@ -7,6 +7,15 @@ module.exports = {
     './components/**/*.{js,ts,jsx,tsx}',
   ],
   presets: [],
+  plugins: [require('daisyui')],
+  daisyui: {
+    themes: false,
+    styled: true,
+    base: true,
+    utils: true,
+    logs: true,
+    rtl: false,
+  },
   darkMode: 'media', // or 'class'
   theme: {
     screens: {
@@ -952,14 +961,4 @@ module.exports = {
     'active',
     'disabled',
   ],
-  // config (optional)
-  plugins: [require('daisyui')],
-  daisyui: {
-    themes: false,
-    styled: true,
-    base: true,
-    utils: true,
-    logs: true,
-    rtl: false,
-  },
 };
