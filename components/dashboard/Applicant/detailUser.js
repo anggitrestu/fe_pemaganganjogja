@@ -1,5 +1,6 @@
+import { useRouter } from 'next/router';
 const Detailuser = ({ data }) => {
-  console.log(data);
+  const router = useRouter();
   return (
     <>
       <div className="w-full bg-gray-100 px-20 py-10">
@@ -10,6 +11,21 @@ const Detailuser = ({ data }) => {
             {data !== null && (
               <div>
                 <div>
+                  <div className="text-sm breadcrumbs">
+                    <ul>
+                      <li>
+                        <a onClick={() => router.replace('/dashboard/report')}>
+                          Lowongan
+                        </a>
+                      </li>
+                      <li>
+                        <a onClick={() => router.back()}>List User</a>
+                      </li>
+                      <li>
+                        <a className="font-semibold">Informasi Peserta</a>
+                      </li>
+                    </ul>
+                  </div>
                   <h1 className="text-gray-900 font-semibold text-2xl mt-14">
                     Informasi Peserta
                   </h1>

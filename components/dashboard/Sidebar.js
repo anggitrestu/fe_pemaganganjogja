@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 
 const Sidebar = (props) => {
   const { pathname } = useRouter();
-  console.log(pathname);
+
   const admin = decodeToken().data;
 
   const handleLogout = (e) => {
@@ -70,7 +70,7 @@ const Sidebar = (props) => {
                         </svg>
                       </span>
                       <span className="ml-2 font-semibold text-sm tracking-wide truncate font-sans">
-                        Perusahaan
+                        Beranda
                       </span>
                     </a>
                   </Link>
@@ -138,9 +138,9 @@ const Sidebar = (props) => {
                     <a
                       className={
                         'relative flex flex-row items-center h-11  text-gray-500 hover:bg-gray-700  hover:text-gray-200 border-l-4 border-transparent hover:border-blue-500 pr-6' +
-                        (pathname.includes('/admin')
+                        (pathname === '/admin'
                           ? ' text-gray-200 border-l-4  border-blue-500 bg-gray-700 pr-6 focus:outline-none'
-                          : '')
+                          : 'text-gray-200 border-l-4  border-blue-500 bg-gray-700 pr-6 focus:outline-none')
                       }
                     >
                       <span className="inline-flex justify-center items-center ml-4">

@@ -1,14 +1,29 @@
 import Link from 'next/link';
 import { EyeIcon } from '@heroicons/react/solid';
+import { useRouter } from 'next/router';
 
 const ListUser = ({ data }) => {
+  const router = useRouter();
   return (
     <div className="w-full bg-gray-100 px-20 py-10">
+      <div className="text-sm breadcrumbs">
+        <ul>
+          <li>
+            <a onClick={() => router.back()}>Lowongan</a>
+          </li>
+          <li>
+            <a className="font-semibold">List User</a>
+          </li>
+        </ul>
+      </div>
       {/* With actions */}
-      <div className="flex justify-between my-10">
+      <div className="flex flex-col justify-between my-10">
         <h4 className=" text-lg font-semibold text-black">
           {data?.internships[0].name_program}
         </h4>
+        <p className="text-base font-normal text-gray-600">
+          List peserta yang mendaftar posisi {data?.internships[0].name_program}
+        </p>
       </div>
       <div className="w-full overflow-hidden rounded-lg shadow-xs">
         <div className="w-full overflow-x-auto">
