@@ -18,7 +18,7 @@ const Index = () => {
       })
       .catch((err) => console.log(err.response));
   }, []);
-  console.log(data);
+
   return (
     <>
       <Head>

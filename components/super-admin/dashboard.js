@@ -8,7 +8,6 @@ import {
 const Dashboard = ({ dataDashboard }) => {
   return dataDashboard !== undefined ? (
     <>
-      {' '}
       <div className="w-full bg-gray-100 px-20 py-10">
         <div className="grid grid-cols-12 gap-6">
           <div className="col-span-12 2xl:col-span-9">
@@ -107,7 +106,6 @@ const Dashboard = ({ dataDashboard }) => {
                     {dataDashboard.users.length > 0 ? (
                       <>
                         {dataDashboard.users.map((item, index) => {
-                          console.log(item.internships.length);
                           return item.internships.length > 1 ? (
                             <>
                               {item.internships.map((intern, ind) => {

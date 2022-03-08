@@ -39,6 +39,7 @@ const Index = () => {
   return (
     <div className="w-full bg-gray-100 px-20 py-10">
       {/* With actions */}
+
       <div className="flex justify-between my-10">
         <h4 className="mb-4 text-lg font-semibold text-black">
           Daftar Lowongan Magang
