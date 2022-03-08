@@ -67,7 +67,7 @@ const Lowongan = () => {
   }, []);
 
   return (
-    <div className="w-full bg-gray-300 px-20 py-10">
+    <div className="w-full bg-gray-100 px-20 py-10">
       <div>
         {showDetailMagang && (
           <ModalDetailMagang

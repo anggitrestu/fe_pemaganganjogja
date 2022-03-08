@@ -7,4 +7,6 @@ export default {
     axios_hacklab.post(`/auth/register`, payload).then((res) => res),
   updateProfile: (payload) =>
     axios_hacklab.post(`/auth/update`, payload).then((res) => res),
+  getAll: () => axios_hacklab.get(`/user`).then((res) => res),
+  getOne: (id) => axios_hacklab.get(`/user/${id}`).then((res) => res),
 };

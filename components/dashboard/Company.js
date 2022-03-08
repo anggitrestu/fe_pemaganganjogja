@@ -7,7 +7,6 @@ import Swal from 'sweetalert2';
 
 const Company = () => {
   const token = getToken();
-
   const {
     register,
     handleSubmit,
@@ -79,7 +78,7 @@ const Company = () => {
   };
 
   return (
-    <div className="w-full bg-gray-300 px-20 py-10">
+    <div className="w-full bg-gray-100 px-20 py-10">
       {company === undefined ? (
         <h1>loading...</h1>
       ) : (

@@ -7,4 +7,6 @@ export default {
   update: (id, payload) =>
     axios.put(`/company/${id}`, payload).then((res) => res),
   getByAdminID: () => axios.get(`/company/my/admin`).then((res) => res),
+  listlApplicantInternship: (internship_id) =>
+    axios.get(`/company/my/admin/${internship_id}`).then((res) => res),
 };
