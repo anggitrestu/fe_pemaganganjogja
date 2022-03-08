@@ -8,7 +8,7 @@ const Index = ({ data, nameCompany }) => {
   const [onClickModal, setOnClickModal] = useState(false);
   const [modalData, setModalData] = useState({});
   const [params, setParams] = useState(null);
-  const [postNum, setPostNum] = useState(15); // Default number of posts dislplayed
+  const [postNum, setPostNum] = useState(21); // Default number of posts dislplayed
   const [dataMagang, setDataMagang] = useState(data);
 
   const fetchInterhips = async (query) => {
@@ -21,7 +21,7 @@ const Index = ({ data, nameCompany }) => {
   };
 
   function handleClick() {
-    setPostNum((prevPostNum) => prevPostNum + 6); // 6 is the number of internships you want to load per click
+    setPostNum((prevPostNum) => prevPostNum + 9); // 6 is the number of internships you want to load per click
   }
 
   function handleClickModal(item) {

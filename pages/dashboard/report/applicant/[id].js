@@ -5,6 +5,8 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Sidebar from 'components/dashboard/Sidebar';
 import ListUser from 'components/dashboard/Applicant/listUser';
+import Head from 'next/head';
+
 const Applicant = () => {
   const router = useRouter();
   const [data, setdata] = useState(undefined);
@@ -23,14 +25,21 @@ const Applicant = () => {
   }, [id]);
 
   return (
-    <div className="flex flex-row md:min-h-screen w-full">
-      {/* sidebar */}
-      <Sidebar></Sidebar>
-      {/* sidebar */}
-      {/* content */}
-      <ListUser data={data}></ListUser>
-      {/* content */}
-    </div>
+    <>
+      <Head>
+        <title>Pemagangan Jogja</title>
+        <meta name="description" content="pemagangan jogja" />
+        <link rel="shortcut icon" href="/icon.png" />
+      </Head>
+      <div className="flex flex-row md:min-h-screen w-full">
+        {/* sidebar */}
+        <Sidebar></Sidebar>
+        {/* sidebar */}
+        {/* content */}
+        <ListUser data={data}></ListUser>
+        {/* content */}
+      </div>
+    </>
   );
 };
 

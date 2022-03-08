@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import Sidebar from 'components/dashboard/Sidebar';
 import Detailuser from 'components/dashboard/Applicant/detailUser';
 import ApiUsers from 'pages/api/ApiUsers';
+import Head from 'next/head';
 
 const User = () => {
   const router = useRouter();
@@ -23,14 +24,22 @@ const User = () => {
   }, [id]);
 
   return (
-    <div className="flex flex-row md:min-h-screen w-full">
-      {/* sidebar */}
-      <Sidebar></Sidebar>
-      {/* sidebar */}
-      {/* content */}
-      <Detailuser data={data}></Detailuser>
-      {/* content */}
-    </div>
+    <>
+      <Head>
+        <title>Pemagangan Jogja</title>
+        <meta name="description" content="pemagangan jogja" />
+        <link rel="shortcut icon" href="/icon.png" />
+      </Head>
+
+      <div className="flex flex-row md:min-h-screen w-full">
+        {/* sidebar */}
+        <Sidebar></Sidebar>
+        {/* sidebar */}
+        {/* content */}
+        <Detailuser data={data}></Detailuser>
+        {/* content */}
+      </div>
+    </>
   );
 };
 
