@@ -123,7 +123,7 @@ const Sidebar = (props) => {
                         </i>
                       </span>
                       <span className="ml-2 font-semibold text-sm tracking-wide truncate font-sans ">
-                        Laporan
+                        Pelamar
                       </span>
                     </a>
                   </Link>

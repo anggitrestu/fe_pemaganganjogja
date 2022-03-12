@@ -34,7 +34,7 @@ const ListUser = ({ data }) => {
                 <th className="px-4 py-3 w-[250px]">Nama</th>
                 {/* <th className="px-4 py-3">Kuota</th> */}
                 {/* <th className="px-4 py-3">Bidang Industri</th> */}
-                <th className="px-4 py-3 w-[150px]">No HP</th>
+                <th className="px-4 py-3 w-[200px]">No HP</th>
                 <th className="px-4 py-3 w-[350px]">Email</th>
                 <th className="px-4 py-3 w-[100px]">Action</th>
               </tr>
@@ -65,7 +65,7 @@ const ListUser = ({ data }) => {
                           </div>
                         </div>
                       </td>
-                      <td className="px-4 py-3 text-sm truncate w-[150px]">
+                      <td className="px-4 py-3 text-sm  min-w-[200px]">
                         <span className="px-2 py-1 font-medium leading-tight  rounded-full :bg-bermuda :text-green-100">
                           {item?.user?.phone_number}
                         </span>
