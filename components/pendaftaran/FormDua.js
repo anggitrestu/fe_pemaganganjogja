@@ -10,6 +10,7 @@ import Error from 'utils/errorMessage/error';
 import { alertIsiLowongan } from './alert';
 
 function FormDua({ setStepper }) {
+  
   const [isLoading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const lowonganSession = getSessionStorage('dataLowongan');

@@ -2,21 +2,13 @@
 import Head from 'next/head';
 import Image from 'next/image';
 import Footer from 'components/Footer';
-import FormSatu from 'components/pendaftaran/FormSatu';
-import FormDua from 'components/pendaftaran/FormDua';
-import FormTiga from 'components/pendaftaran/FormTiga';
 import ApiInternship from './api/ApiInternship';
-import FormEmpat from 'components/pendaftaran/FormEmpat';
-import FormLima from 'components/pendaftaran/FormLima';
-import FormEnam from 'components/pendaftaran/FormEnam';
 import ApiKuisioners from './api/ApiKuisioners';
 import ApiSurvey from './api/ApiSurvey';
-import { useSessionStorage } from 'helpers/useSessionStorage';
 import Swal from 'sweetalert2';
 import { useRouter } from 'next/router';
 
 function Pendaftaran({ data, kuisioner, survey }) {
-  const [stepper, setStepper] = useSessionStorage(1, 'stepper');
   const router = useRouter();
 
   const handleBeranda = () => {
@@ -57,89 +49,46 @@ function Pendaftaran({ data, kuisioner, survey }) {
             <h1 className="text-white font-semibold text-4xl mt-14">
               Pendaftaran Pemagangan 2022
             </h1>
+            {/* 
             <p className="text-[#C5C5C5] font-normal text-base mt-2">
               Selesaikan pendaftaran agar kamu dapat bergabung dengan program
               magang ini.
             </p>
-          </div>
-        </section>
-        <section className="">
-          <div className="container mx-auto px-8 md:px-20 py-10">
-            {stepper === 6 ? null : (
-              <ul className="w-full steps">
-                <li
-                  {...(stepper <= 1 ? null : { onClick: () => setStepper(1) })}
-                  className={
-                    'step cursor-pointer ' +
-                    (stepper >= 1 ? 'step-error text-bermuda' : '')
-                  }
-                >
-                  Pilih Lowongan
-                </li>
-                <li
-                  {...(stepper <= 2 ? {} : { onClick: () => setStepper(2) })}
-                  className={
-                    'step cursor-pointer ' +
-                    (stepper >= 2 ? 'step-error text-bermuda' : '')
-                  }
-                >
-                  Buat Akun
-                </li>
-                <li
-                  {...(stepper <= 3 ? {} : { onClick: () => setStepper(3) })}
-                  className={
-                    'step cursor-pointer ' +
-                    (stepper >= 3 ? 'step-error text-bermuda' : '')
-                  }
-                >
-                  Lengkapi Profil
-                </li>
-                <li
-                  {...(stepper <= 4 ? {} : { onClick: () => setStepper(4) })}
-                  className={
-                    'step cursor-pointer ' +
-                    (stepper >= 4 ? 'step-error text-bermuda' : '')
-                  }
-                >
-                  Kuisioner
-                </li>
-                <li
-                  {...(stepper <= 5 ? {} : { onClick: () => setStepper(5) })}
-                  className={
-                    'step cursor-pointer ' +
-                    (stepper >= 5 ? 'step-error text-bermuda' : '')
-                  }
-                >
-                  Survey Digital
-                </li>
-                <li
-                  {...(stepper <= 6 ? {} : { onClick: () => setStepper(6) })}
-                  className={
-                    'step cursor-pointer ' +
-                    (stepper >= 6 ? 'step-error text-bermuda' : '')
-                  }
-                >
-                  Selesai
-                </li>
-              </ul>
-            )}
+            */}
           </div>
         </section>
 
-        <section className="container mx-auto px-8 md:px-20">
-          {stepper === 1 && (
-            <FormSatu data={data} setStepper={setStepper}></FormSatu>
-          )}
-          {stepper === 2 && <FormDua setStepper={setStepper}></FormDua>}
-          {stepper === 3 && <FormTiga setStepper={setStepper}></FormTiga>}
-          {stepper === 4 && (
-            <FormEmpat setStepper={setStepper} data={kuisioner}></FormEmpat>
-          )}
-          {stepper === 5 && (
-            <FormLima setStepper={setStepper} data={survey}></FormLima>
-          )}
-          {stepper === 6 && <FormEnam setStepper={setStepper}></FormEnam>}
+        <section className="mt-10">
+          <div className="flex justify-center ">
+            <Image
+              src="/images/finish.jpg"
+              alt="image"
+              width={230}
+              height={230}
+              className="inline-block"
+            />
+          </div>
+          <div className="flex justify-center mt-8 mb-4">
+            <div className="flex flex-col justify-center text-center">
+              <h1 className="inline-block text-bermuda font-semibold text-3xl lg:text-5xl w-full mb-6">
+                Pendaftaran Telah Ditutup
+              </h1>
+              <p className="text-black text-sm lg:text-base font-normal w-full leading-6 md:w-[635px] mb-8">
+                Terima Kasih telah menjadi bagian dari program magang ini,
+                sampai bertemu lagi di kesempatan berikutnya....😉 <br />
+              </p>
+            </div>
+          </div>
+
+          <div className=" flex justify-center mt-6">
+            <button onClick={() => router.push('/')}>
+              <a className=" px-4 py-3 rounded-3xl text-bermuda border-2 border-bermuda hover:bg-bermuda hover:text-white transition-all">
+                Kembali Ke Beranda
+              </a>
+            </button>
+          </div>
         </section>
+
         <footer className="mt-24 bg-black mx-auto py-12 px-8 md:px-20">
           <Footer></Footer>
         </footer>
